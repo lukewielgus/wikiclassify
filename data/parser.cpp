@@ -607,10 +607,13 @@ void read_file(std::string filename, std::vector<wikiPage> &input){
 
 int main(){
 	wikiPage page;
-	std::string title = "Zebra";
+	std::cout<<"Enter the article you are looking for: ";
+	std::string title;
+	std::cin>>title;
 	std::string filename = "enwiki-20160113-pages-articles.xml";
+	std::cout<<"Searching...\n";
 	if(titleSearch(filename, title, page)){
-		std::cout<<"Found the article... loading"<<std::endl;
+		std::cout<<"Found the article"<<std::endl;
 		std::cout<<"-->[1] View the article"<<std::endl;
 		std::cout<<"-->[2] View the timeStamp"<<std::endl;
 		std::cout<<"-->[3] Exit"<<std::endl;
