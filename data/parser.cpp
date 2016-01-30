@@ -8,11 +8,11 @@ class wikiPage{
 public:
 	std::string timeStamp;
 	bool featuredArticle;
+	bool goodArticle;
 	std::vector<std::string> category;
 	std::string title;
 	std::vector<std::string> body;
 };
-
 
 bool isTitle(char temp[100000]){
 	int size = strlen(temp);
@@ -31,7 +31,6 @@ bool isTitle(char temp[100000]){
 	}
 	return false;
 }
-
 
 std::string fixTitle(char temp[100000]){
 	int size = strlen(temp);
@@ -61,7 +60,6 @@ std::string fixTitle(char temp[100000]){
 	return newTemp;
 }
 
-
 bool isRedirect(char temp[100000]){
 	int size = strlen(temp);
 	for(int i=0; i<size; i++){
@@ -82,27 +80,18 @@ bool isRedirect(char temp[100000]){
 	return false;
 }
 
-
 bool isFeatured(char temp[100000]){
 	int size = strlen(temp);
-	for(int i=0; i<size; i++){
-		if(temp[i]=='{'){
-			if(temp[i+1]=='{'){
-				if(temp[i+2]=='f'){
-					if(temp[i+3]=='e'){
-						if(temp[i+4]=='a'){
-							if(temp[i+5]=='t'){
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
+	std::string newTemp = temp;
+	std::string target = "{{featured article}}";
+	std::size_t found = newTemp.find(target);
+	if(found!=std::string::npos){
+		return true;
 	}
-	return false;
+	else{
+		return false;
+	}
 }
-
 
 bool isCategory(char temp[100000]){
 	int size = strlen(temp);
@@ -465,6 +454,18 @@ std::string getTimeStamp(char temp[100000]){
 	return newTemp;
 }
 
+bool isGood(char temp[100000]){
+	std::string newTemp = temp;
+	std::string target = "{{good article}}";
+	std::size_t found = newTemp.find(target);
+	if(found!=std::string::npos){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
 bool titleSearch(std::string filename, std::string target, wikiPage &inputPage){
 	bool condition = true;
 	std::ifstream dataDump(filename);
@@ -499,7 +500,12 @@ bool titleSearch(std::string filename, std::string target, wikiPage &inputPage){
 										inputPage.timeStamp = timeStamp;
 									}
 									else{
-										inputPage.body.push_back(tempTwo);
+										if(isGood(tempTwo)){
+											inputPage.goodArticle=true;
+										}
+										else{
+											inputPage.body.push_back(tempTwo);
+										}
 									}
 								}
 							}
@@ -518,7 +524,6 @@ bool titleSearch(std::string filename, std::string target, wikiPage &inputPage){
 		return false;
 	}
 }
-
 
 void read_file(std::string filename, std::vector<wikiPage> &input){
   char temp[100000];
@@ -542,6 +547,7 @@ void read_file(std::string filename, std::vector<wikiPage> &input){
   	bool featured = false;
   	bool categories = false;
   	bool gotTimeStamp = false;
+  	bool good = false;
   	std::vector<std::string> body;
   	std::vector<std::string> category;
   	std::string timeStamp;
@@ -576,7 +582,12 @@ void read_file(std::string filename, std::vector<wikiPage> &input){
   								gotTimeStamp = true;
   							}
   							else{
-  								body.push_back(temp);
+  								if(isGood(temp)){
+  									good = true;
+  								}
+  								else{
+  									body.push_back(temp);
+  								}
   							}
   						}
   					}
@@ -597,6 +608,9 @@ void read_file(std::string filename, std::vector<wikiPage> &input){
   		if(categories){
   			tempPage.category=category;
   		}
+  		if(good){
+  			tempPage.goodArticle=true;
+  		}
   		input.push_back(tempPage);
   		validPageCount++;
   		std::cout<<validPageCount<<"\n";
@@ -604,13 +618,21 @@ void read_file(std::string filename, std::vector<wikiPage> &input){
   }
 }
 
-
 int main(){
 	wikiPage page;
-	std::string title = "Zebra";
+	std::cout<<"Enter the article you are looking for: ";
+	std::string title;
+	std::cin>>title;
 	std::string filename = "enwiki-20160113-pages-articles.xml";
+	std::cout<<"Searching...\n";
 	if(titleSearch(filename, title, page)){
-		std::cout<<"Found the article... loading"<<std::endl;
+		std::cout<<"Found the article"<<std::endl;
+		if(page.featuredArticle){
+			std::cout<<"This article is featured!\n";
+		}
+		if(page.goodArticle){
+			std::cout<<"This article is good!\n";
+		}
 		std::cout<<"-->[1] View the article"<<std::endl;
 		std::cout<<"-->[2] View the timeStamp"<<std::endl;
 		std::cout<<"-->[3] Exit"<<std::endl;
@@ -633,49 +655,7 @@ int main(){
 		std::cout<<"Article not found"<<std::endl;
 	}
 }
-/*
-int main(){
-	std::string filename = "enwiki-20160113-pages-articles.xml";
-	std::vector<wikiPage> pages;
-	read_file(filename, pages);
-	std::cout<<"-------------------------------------------\n";
-	bool condition=true;
-	while(condition){
-		std::cout<<"-------------------------------------------\n";
-		for(int i=0; i<pages.size(); i++){
-			std::cout<<"-->["<<i<<"] "<<pages[i].title<<"\n";
-		}
-		std::cout<<"Enter your article choice: ";
-		int input;
-		std::cin>>input;
-		for(int i=0; i<pages.size(); i++){
-			if(i==input){
-				if(pages[i].featuredArticle){
-					std::cout<<"This article is featured!\n";
-				}
-			}
-		}
-		std::cout<<"-->[1] View body\n-->[2] View categories\n-->[3] View time stamp\n";
-		std::cout<<"Enter you action choice: ";
-		int inputTwo;
-		std::cin>>inputTwo;
-		switch(inputTwo){
-			case 1:
-			for(int i=0; i<pages[input].body.size(); i++){
-				std::cout<<pages[input].body[i]<<"\n";
-			}
-			break;
-			case 2:
-			for(int i=0; i<pages[input].category.size(); i++){
-				std::cout<<pages[input].category[i]<<"\n";
-			}
-			break;
-			case 3:
-			std::cout<<pages[input].timeStamp<<"\n";
-		}
-	}
-}
-*/
+
 
 
 
