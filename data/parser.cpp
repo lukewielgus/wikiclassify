@@ -14,7 +14,7 @@ public:
 	std::vector<std::string> body;
 };
 
-bool isTitle(char temp[100000]){
+bool isTitle(char temp[500000]){
 	int size = strlen(temp);
 	for(int i=0; i<size; i++){
 		if(temp[i]=='<'){
@@ -32,9 +32,21 @@ bool isTitle(char temp[100000]){
 	return false;
 }
 
-std::string fixTitle(char temp[100000]){
+bool isEnd(char temp[500000]){
+	std::string newTemp = temp;
+	std::string target = "</page>";
+	std::size_t found = newTemp.find(target);
+	if(found!=std::string::npos){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+std::string fixTitle(char temp[500000]){
 	int size = strlen(temp);
-	int index=0;
+	unsigned long index=0;
 	bool condition=true;
 	while(condition){
 		if(temp[index]=='<'){
@@ -46,7 +58,7 @@ std::string fixTitle(char temp[100000]){
 	}
 	char newTemp[1000];
 	index = index+7;
-	int newIndex=0;
+	unsigned long newIndex=0;
 	condition=true;
 	while(condition){
 		newTemp[newIndex]=temp[index];
@@ -60,7 +72,7 @@ std::string fixTitle(char temp[100000]){
 	return newTemp;
 }
 
-bool isRedirect(char temp[100000]){
+bool isRedirect(char temp[500000]){
 	int size = strlen(temp);
 	for(int i=0; i<size; i++){
 		if(temp[i]=='<'){
@@ -80,8 +92,7 @@ bool isRedirect(char temp[100000]){
 	return false;
 }
 
-bool isFeatured(char temp[100000]){
-	int size = strlen(temp);
+bool isFeatured(char temp[500000]){
 	std::string newTemp = temp;
 	std::string target = "{{featured article}}";
 	std::size_t found = newTemp.find(target);
@@ -93,7 +104,7 @@ bool isFeatured(char temp[100000]){
 	}
 }
 
-bool isCategory(char temp[100000]){
+bool isCategory(char temp[500000]){
 	int size = strlen(temp);
 	for(int i=0; i<size; i++){
 		if(temp[i]=='['){
@@ -111,10 +122,10 @@ bool isCategory(char temp[100000]){
 	return false;
 }
 
-std::string getCategory(char temp[100000]){
+std::string getCategory(char temp[500000]){
 	int size = strlen(temp);
 	bool condition = true;
-	int index=0;
+	unsigned long index=0;
 	while(condition){
 		if(temp[index]=='['){
 			condition=false;
@@ -126,7 +137,7 @@ std::string getCategory(char temp[100000]){
 	index = index+11;
 	condition=true;
 	char newTemp[1000];
-	int newIndex=0;
+	unsigned long newIndex=0;
 	while(condition){
 		newTemp[newIndex]=temp[index];
 		newIndex++;
@@ -142,7 +153,7 @@ std::string getCategory(char temp[100000]){
 	return newTemp;
 }
 
-bool isUseless(char temp[100000]){
+bool isUseless(char temp[500000]){
 	int size = strlen(temp);
 	for(int i=0; i<size; i++){
 		if(temp[i]=='<'){
@@ -398,7 +409,7 @@ bool isUseless(char temp[100000]){
 	return false;
 }
 
-bool isTimeStamp(char temp[100000]){
+bool isTimeStamp(char temp[500000]){
 	int size = strlen(temp);
 	for(int i=0; i<size; i++){
 		if(temp[i]=='<'){
@@ -426,10 +437,10 @@ bool isTimeStamp(char temp[100000]){
 	return false;
 }
 
-std::string getTimeStamp(char temp[100000]){
+std::string getTimeStamp(char temp[500000]){
 	int size = strlen(temp);
 	bool condition = true;
-	int index=0;
+	unsigned long index=0;
 	while(condition){
 		if(temp[index]=='<'){
 			condition=false;
@@ -441,7 +452,7 @@ std::string getTimeStamp(char temp[100000]){
 	index = index+11;
 	condition=true;
 	char newTemp[1000];
-	int newIndex=0;
+	unsigned long newIndex=0;
 	while(condition){
 		newTemp[newIndex]=temp[index];
 		newIndex++;
@@ -454,7 +465,7 @@ std::string getTimeStamp(char temp[100000]){
 	return newTemp;
 }
 
-bool isGood(char temp[100000]){
+bool isGood(char temp[500000]){
 	std::string newTemp = temp;
 	std::string target = "{{good article}}";
 	std::size_t found = newTemp.find(target);
@@ -469,19 +480,28 @@ bool isGood(char temp[100000]){
 bool titleSearch(std::string filename, std::string target, wikiPage &inputPage){
 	bool condition = true;
 	std::ifstream dataDump(filename);
-	char temp[100000];
+	char temp[500000];
 	bool found = false;
+	unsigned long counter=0;
+	unsigned long counterTwo=0;
 	while(condition){
-		dataDump.getline(temp, 100000);
+		dataDump.getline(temp, 500000);
+		if(dataDump.eof()){
+			return false;
+		}
 		if(isTitle(temp)){
+			counter++;
+			std::cout<<"Article Number: "<<counter<<std::endl;
 			if(!isRedirect(temp)){
 				std::string title = fixTitle(temp);
 				if(title==target){
 					found = true;
 					inputPage.title = title;
-					char tempTwo[100000];
+					char tempTwo[500000];
 					while(condition){
-						dataDump.getline(tempTwo, 100000);
+						counterTwo++;
+						std::cout<<"Article Line: "<<counterTwo<<std::endl;
+						dataDump.getline(tempTwo, 500000);
 						if(isTitle(tempTwo)){
 							condition=false;
 						}
@@ -518,9 +538,11 @@ bool titleSearch(std::string filename, std::string target, wikiPage &inputPage){
 		}
 	}
 	if(found){
+		std::cout<<"Searched "<<counter<<" articles\n";
 		return true;
 	}
 	else{
+		std::cout<<"Searched "<<counter<<" articles\n";
 		return false;
 	}
 }
@@ -617,6 +639,8 @@ void read_file(std::string filename, std::vector<wikiPage> &input){
   	}
   }
 }
+
+
 
 int main(){
 	wikiPage page;
