@@ -45,7 +45,7 @@ int parseTags(vector<string> &result, string &str, string tag1, string tag2) {
 class wikiPage {
 public:
 	string         title;        // Page title
-	string          ns;          // Page namespace
+	string         ns;           // Page namespace
 	string         text;         // Page wikimarkup
 	vector<string> categories;   // Page categories
 	string         contrib;      // Revision contributor
@@ -107,7 +107,7 @@ int main() {
 	for (string i : raw_pages) {
 		wikiPage x(i);
 		if (x.ns == "0") {
-			cout<<x.contrib<<endl;
+			cout<<"\nTitle:\t\t"<<x.title<<"\nNamespace:\t"<<x.ns<<"\nArticle size:\t"<<x.text.size()<<"\nContributor:\t"<<x.contrib<<"\nTimestamp:\t"<<x.timestamp<<endl;
 			pages.push_back(x);
 		}
 	}
