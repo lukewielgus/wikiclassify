@@ -34,7 +34,7 @@ int parseTags(vector<string> &result, string &str, string tag1, string tag2) {
 		size_t p2 = str.find(tag2, p1);
   		if (p1 != string::npos and p2 != string::npos) {    // If new match, push it back
   			pos = p2+tag2.size();
-  			string parse = str.substr(p1+tag1.size(), p2-p1-tag2.size()+1);
+  			string parse = str.substr(p1+tag1.size(), p2-p1-tag1.size());
   			result.push_back(parse);
   		}
 		else {break;}                                       // Break otherwise
@@ -96,13 +96,22 @@ int main() {
 	string filename = "enwiki-20151201-pages-articles.xml";
 	
 	// Get vector of raw page strings
-	vector<string> raw_pages = getPages(filename, 10000);
+	cout<<"Getting raw page strings..."<<endl;
+	vector<string> raw_pages = getPages(filename, 1000);
 	
 	// Vector of wikipage objects
 	vector<wikiPage> pages;
 	
+	// Populate pages with initialized wikiPages
+	cout<<"Parsing raw page strings..."<<endl;
 	for (string i : raw_pages) {
 		wikiPage x(i);
-		pages.push_back(x);
+		if (x.ns == "0") {
+			cout<<x.contrib<<endl;
+			pages.push_back(x);
+		}
 	}
+	
+	cout<<pages.size()<<endl;
+	
 }
