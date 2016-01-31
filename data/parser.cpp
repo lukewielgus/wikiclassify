@@ -1,6 +1,7 @@
 #include <iostream>
 using std::cout;
 using std::endl;
+using std::ostream;
 
 #include <fstream>
 using std::ifstream;
@@ -64,6 +65,7 @@ public:
 	string         timestamp;    // Revision timestamp
 	
 	wikiPage(string pagestr);    // Constructor
+	friend ostream& operator<<(ostream& os, wikiPage& wp);
 };
 
 // wikipage constructor
@@ -88,6 +90,12 @@ wikiPage::wikiPage(string pagestr) {
 	if (isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")) {
 		quality = 1;
 	}
+}
+
+ostream& operator<<(ostream& os, wikiPage& wp)
+{
+    os <<"\nTitle:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp;
+    return os;
 }
 
 vector<string> getPages(string &filename, int numpages) {
