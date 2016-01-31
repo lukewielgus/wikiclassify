@@ -59,7 +59,7 @@ public:
 	string         text;         // Page wikimarkup
 	vector<string> categories;   // Page categories
 	bool           isRedirect;   // Page redirect status
-	char           quality;      // Page quality (0: stub, 1: other, 2: good/featured)
+	int            quality;      // Page quality (0: stub, 1: other, 2: good/featured)
 	string         contrib;      // Revision contributor
 	string         timestamp;    // Revision timestamp
 	
@@ -77,14 +77,9 @@ wikiPage::wikiPage(string pagestr) {
 	
 	// Categorize based on text
 	isRedirect = isWithin(text, "#REDIRECT");
-	quality = 1;
+	quality = 0;
 	if (isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")) {
-		cout<<"GOOD ARTICLE FOUND: "<<title<<endl;
-		quality = 2;
-	}
-	else if (isWithin(text, "stub}}")) {
-		cout<<"STUB ARTICLE FOUND: "<<title<<endl;
-		quality = 0;
+		quality = 1;
 	}
 	
 }
@@ -135,7 +130,7 @@ int main(int argc, char** argv) {
 	for (string i : raw_pages) {
 		wikiPage x(i);
 		if (not x.ns) {
-			//cout<<"\nTitle:\t\t"<<x.title<<"\nNamespace:\t"<<x.ns<<"\nArticle size:\t"<<x.text.size()<<"\nRedirect:\t"<<x.isRedirect<<"\nContributor:\t"<<x.contrib<<"\nTimestamp:\t"<<x.timestamp<<endl;
+			cout<<"\nTitle:\t\t"<<x.title<<"\nNamespace:\t"<<x.ns<<"\nArticle size:\t"<<x.text.size()<<"\nRedirect:\t"<<x.isRedirect<<"\nQuality:\t"<<x.quality<<"\nContributor:\t"<<x.contrib<<"\nTimestamp:\t"<<x.timestamp<<endl;
 			pages.push_back(x);
 		}
 	}
