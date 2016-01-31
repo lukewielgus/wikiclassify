@@ -12,9 +12,19 @@ using std::vector;
 using std::string;
 using std::getline;
 using std::size_t;
+using std::stoi;
+
+bool isWithin(string &str, string tag1) {
+	if (str.find(tag1) != string::npos) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
 
 // Parse the contents between a pair of tags
-string parseTag(string &str, string tag1, string tag2) {
+string parse(string &str, string tag1, string tag2) {
 	size_t p1 = str.find(tag1);
 	size_t p2 = str.find(tag2, p1);
   	if (p1 != string::npos and p2 != string::npos) {
@@ -27,15 +37,15 @@ string parseTag(string &str, string tag1, string tag2) {
 
 // Populate the given vector with all matches, in given string, between given tags
 // Returns the index immediately after last match (for purposes of block shifting)
-int parseTags(vector<string> &result, string &str, string tag1, string tag2) {
+int parse(string &str, string tag1, string tag2, vector<string> &result) {
 	int pos = 0;                                            // Current position in string
 	while(true) {
 		size_t p1 = str.find(tag1, pos);
 		size_t p2 = str.find(tag2, p1);
   		if (p1 != string::npos and p2 != string::npos) {    // If new match, push it back
   			pos = p2+tag2.size();
-  			string parse = str.substr(p1+tag1.size(), p2-p1-tag1.size());
-  			result.push_back(parse);
+  			string parsed = str.substr(p1+tag1.size(), p2-p1-tag1.size());
+  			result.push_back(parsed);
   		}
 		else {break;}                                       // Break otherwise
 	}
@@ -45,9 +55,10 @@ int parseTags(vector<string> &result, string &str, string tag1, string tag2) {
 class wikiPage {
 public:
 	string         title;        // Page title
-	string         ns;           // Page namespace
+	short          ns;           // Page namespace
 	string         text;         // Page wikimarkup
 	vector<string> categories;   // Page categories
+	bool           isRedirect;   // Page redirect status
 	string         contrib;      // Revision contributor
 	string         timestamp;    // Revision timestamp
 	
@@ -56,12 +67,13 @@ public:
 
 // wikipage constructor
 wikiPage::wikiPage(string pagestr) {
-	title = parseTag(pagestr, "<title>", "</title>");
-	ns = parseTag(pagestr, "<ns>", "</ns>");
-	text = parseTag(pagestr, "<text xml:space=\"preserve\">", "</text>");
-	parseTags(categories, pagestr, "[[Category:", "]]");
-	contrib = parseTag(pagestr, "<username>", "</username>");
-	timestamp = parseTag(pagestr, "<timestamp>", "</timestamp>");
+	title = parse(pagestr, "<title>", "</title>");
+	ns = stoi(parse(pagestr, "<ns>", "</ns>"));
+	text = parse(pagestr, "<text xml:space=\"preserve\">", "</text>");
+	parse(pagestr, "[[Category:", "]]", categories);
+	isRedirect = isWithin(pagestr, "#REDIRECT");
+	contrib = parse(pagestr, "<username>", "</username>");
+	timestamp = parse(pagestr, "<timestamp>", "</timestamp>");
 }
 
 vector<string> getPages(string &filename, int numpages) {
@@ -84,7 +96,7 @@ vector<string> getPages(string &filename, int numpages) {
 			block.append(buffer, sizeof(buffer));
 		}
 	
-		fpos += parseTags(pages, block, "<page>", "</page>");
+		fpos += parse(block, "<page>", "</page>", pages);
 		
 	}
 	return pages;
@@ -99,7 +111,7 @@ int main(int argc, char** argv) {
 	cout<<"Getting raw page strings..."<<endl;
 	
 	// WARNING -- RAM size requirements is about 1 GB per 30,000 articles
-	int npages = 30000;
+	int npages = 3;
 	vector<string> raw_pages = getPages(filename, npages);
 	
 	// Vector of wikipage objects
@@ -109,12 +121,12 @@ int main(int argc, char** argv) {
 	cout<<"Parsing raw page strings..."<<endl;
 	for (string i : raw_pages) {
 		wikiPage x(i);
-		if (x.ns == "0") {
-			cout<<"\nTitle:\t\t"<<x.title<<"\nNamespace:\t"<<x.ns<<"\nArticle size:\t"<<x.text.size()<<"\nContributor:\t"<<x.contrib<<"\nTimestamp:\t"<<x.timestamp<<endl;
+		if (not x.ns) {
+			cout<<"\nTitle:\t\t"<<x.title<<"\nNamespace:\t"<<x.ns<<"\nArticle size:\t"<<x.text.size()<<"\nRedirect:\t"<<x.isRedirect<<"\nContributor:\t"<<x.contrib<<"\nTimestamp:\t"<<x.timestamp<<endl;
 			pages.push_back(x);
 		}
 	}
 	
-	cout<<pages.size()<<endl;
 	return 0;
+	
 }
