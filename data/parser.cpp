@@ -125,12 +125,9 @@ int main(int argc, char** argv) {
 	for (string i : raw_pages) {
 		wikiPage x(i);
 		if (not x.ns and not x.isRedirect) {
-			cout<<"\n\n\nArticle:\n"<<x.text<<endl;
 			pages.push_back(x);
 		}
 	}
-	
-	cout<<pages.size()<<endl;
 	
 	return 0;
 	
