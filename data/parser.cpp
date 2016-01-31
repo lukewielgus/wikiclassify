@@ -15,12 +15,7 @@ using std::size_t;
 using std::stoi;
 
 bool isWithin(string &str, string tag1) {
-	if (str.find(tag1) != string::npos) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	return (str.find(tag1) != string::npos);
 }
 
 // Parse the contents between a pair of tags
@@ -28,7 +23,7 @@ string parse(string &str, string tag1, string tag2) {
 	size_t p1 = str.find(tag1);
 	size_t p2 = str.find(tag2, p1);
   	if (p1 != string::npos and p2 != string::npos) {
-  		return str.substr(p1+tag1.size(), p2-p1-tag2.size()+1);
+  		return str.substr(p1+tag1.size(), p2-p1-tag1.size());
   	}
   	else {
   		return "";
@@ -129,11 +124,13 @@ int main(int argc, char** argv) {
 	cout<<"Parsing raw page strings..."<<endl;
 	for (string i : raw_pages) {
 		wikiPage x(i);
-		if (not x.ns) {
-			cout<<"\nTitle:\t\t"<<x.title<<"\nNamespace:\t"<<x.ns<<"\nArticle size:\t"<<x.text.size()<<"\nRedirect:\t"<<x.isRedirect<<"\nQuality:\t"<<x.quality<<"\nContributor:\t"<<x.contrib<<"\nTimestamp:\t"<<x.timestamp<<endl;
+		if (not x.ns and not x.isRedirect) {
+			cout<<"\n\n\nArticle:\n"<<x.text<<endl;
 			pages.push_back(x);
 		}
 	}
+	
+	cout<<pages.size()<<endl;
 	
 	return 0;
 	
