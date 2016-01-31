@@ -108,7 +108,7 @@ vector<string> getPages(string &filename, int numpages) {
 int main(int argc, char** argv) {
 
 	// Dump filename
-	string filename = "enwiki-20151201-pages-articles.xml";
+	string filename = "enwiki-20160113-pages-articles.xml";
 	
 	// Get vector of raw page strings
 	cout<<"Getting raw page strings..."<<endl;
