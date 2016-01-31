@@ -90,7 +90,7 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
-int main() {
+int main(int argc, char** argv) {
 
 	// Dump filename
 	string filename = "enwiki-20151201-pages-articles.xml";
@@ -113,5 +113,5 @@ int main() {
 	}
 	
 	cout<<pages.size()<<endl;
-	
+	return 0;
 }
