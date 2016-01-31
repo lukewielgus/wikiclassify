@@ -1,6 +1,7 @@
 #include <iostream>
 using std::cout;
 using std::endl;
+using std::ostream;
 
 #include <fstream>
 using std::ifstream;
@@ -64,6 +65,7 @@ public:
 	string         timestamp;    // Revision timestamp
 	
 	wikiPage(string pagestr);    // Constructor
+	friend ostream& operator<<(ostream& os, wikiPage& wp);
 };
 
 // wikipage constructor
@@ -88,6 +90,12 @@ wikiPage::wikiPage(string pagestr) {
 	if (isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")) {
 		quality = 1;
 	}
+}
+
+ostream& operator<<(ostream& os, wikiPage& wp)
+{
+    os <<"\nTitle:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp;
+    return os;
 }
 
 vector<string> getPages(string &filename, int numpages) {
@@ -119,8 +127,7 @@ vector<string> getPages(string &filename, int numpages) {
 int main(int argc, char** argv) {
 
 	// Dump filename
-	string filename = "enwiki-20151201-pages-articles.xml";
-	string bfaurefilename = "enwiki-20160113-pages-articles.xml";
+	string filename = "enwiki-20160113-pages-articles.xml";
 	
 	// Get vector of raw page strings
 	cout<<"Getting raw page strings..."<<endl;
@@ -130,7 +137,7 @@ int main(int argc, char** argv) {
 
 	//Start timer for raw page grab
 	time_t beforeRaw = clock();
-	vector<string> raw_pages = getPages(bfaurefilename, npages);
+	vector<string> raw_pages = getPages(filename, npages);
 	//End timer for raw page grab
 	time_t afterRaw = clock();
 	//Calculate elapsed time
