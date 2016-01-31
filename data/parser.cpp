@@ -14,6 +14,11 @@ using std::getline;
 using std::size_t;
 using std::stoi;
 
+
+//Add the timer function using time.h
+#include <time.h>
+
+//Check if string "tag1" is within string "str"
 bool isWithin(string &str, string tag1) {
 	return (str.find(tag1) != string::npos);
 }
@@ -63,20 +68,26 @@ public:
 
 // wikipage constructor
 wikiPage::wikiPage(string pagestr) {
+	//Set the title of the page
 	title = parse(pagestr, "<title>", "</title>");
+	//Set the namespace
 	ns = stoi(parse(pagestr, "<ns>", "</ns>"));
+	//Grab the text portion of the page
 	text = parse(pagestr, "<text xml:space=\"preserve\">", "</text>");
+	//Grab the categories for the page
 	parse(pagestr, "[[Category:", "]]", categories);
+	//Grab the contributor for latest edit
 	contrib = parse(pagestr, "<username>", "</username>");
+	//Grab the latest timestamp on the page
 	timestamp = parse(pagestr, "<timestamp>", "</timestamp>");
 	
 	// Categorize based on text
 	isRedirect = isWithin(text, "#REDIRECT");
 	quality = 0;
+	//Set the quality if a featured or good article
 	if (isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")) {
 		quality = 1;
 	}
-	
 }
 
 vector<string> getPages(string &filename, int numpages) {
@@ -109,18 +120,29 @@ int main(int argc, char** argv) {
 
 	// Dump filename
 	string filename = "enwiki-20151201-pages-articles.xml";
+	string bfaurefilename = "enwiki-20160113-pages-articles.xml";
 	
 	// Get vector of raw page strings
 	cout<<"Getting raw page strings..."<<endl;
 	
 	// WARNING -- RAM size requirements is about 1 GB per 30,000 articles
 	int npages = 30000;
-	vector<string> raw_pages = getPages(filename, npages);
+
+	//Start timer for raw page grab
+	time_t beforeRaw = clock();
+	vector<string> raw_pages = getPages(bfaurefilename, npages);
+	//End timer for raw page grab
+	time_t afterRaw = clock();
+	//Calculate elapsed time
+	double secondsForRaw = double(afterRaw-beforeRaw)/CLOCKS_PER_SEC;
+	cout<<"Time for raw page grab: "<<secondsForRaw<<" Seconds\n";
+	cout<<"                        "<<secondsForRaw/npages<<" Seconds per Page\n";
 	
 	// Vector of wikipage objects
 	vector<wikiPage> pages;
 	
 	// Populate pages with initialized wikiPages
+	time_t beforeParse = clock();
 	cout<<"Parsing raw page strings..."<<endl;
 	for (string i : raw_pages) {
 		wikiPage x(i);
@@ -128,7 +150,25 @@ int main(int argc, char** argv) {
 			pages.push_back(x);
 		}
 	}
-	
+	time_t afterParse = clock();
+	double secondsForParse = double(afterParse-beforeParse)/CLOCKS_PER_SEC;
+	cout<<"Time for parsing: "<<secondsForParse<<" Seconds\n";
+	cout<<"                  "<<secondsForParse/npages<<" Seconds per Page\n";
 	return 0;
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
