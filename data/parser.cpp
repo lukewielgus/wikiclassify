@@ -97,7 +97,10 @@ int main(int argc, char** argv) {
 	
 	// Get vector of raw page strings
 	cout<<"Getting raw page strings..."<<endl;
-	vector<string> raw_pages = getPages(filename, 1000);
+	
+	// WARNING -- RAM size requirements is about 1 GB per 30,000 articles
+	int npages = 30000;
+	vector<string> raw_pages = getPages(filename, npages);
 	
 	// Vector of wikipage objects
 	vector<wikiPage> pages;
