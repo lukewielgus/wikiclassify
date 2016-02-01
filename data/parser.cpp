@@ -155,6 +155,7 @@ int main(int argc, char** argv) {
 		wikiPage x(i);
 		if (not x.ns and not x.isRedirect) {
 			pages.push_back(x);
+			cout<<x<<endl;
 		}
 	}
 	time_t afterParse = clock();
