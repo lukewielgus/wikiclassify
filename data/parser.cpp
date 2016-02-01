@@ -75,7 +75,7 @@ void timeit::stop() {
 class wikiPage {
 public:
 	string         title;        // Page title
-	short          ns;           // Page namespace
+	string         ns;           // Page namespace
 	string         text;         // Page wikimarkup
 	vector<string> categories;   // Page categories
 	bool           isRedirect;   // Page redirect status
@@ -92,7 +92,7 @@ wikiPage::wikiPage(string pagestr) {
 	//Set the title of the page
 	title = parse(pagestr, "<title>", "</title>");
 	//Set the namespace
-	ns = stoi(parse(pagestr, "<ns>", "</ns>"));
+	ns = parse(pagestr, "<ns>", "</ns>");
 	//Grab the text portion of the page
 	text = parse(pagestr, "<text xml:space=\"preserve\">", "</text>");
 	//Grab the categories for the page
@@ -169,7 +169,8 @@ int main(int argc, char** argv) {
 	cout<<"Parsing raw page strings..."<<endl;
 	for (string i : raw_pages) {
 		wikiPage x(i);
-		if (not x.ns and not x.isRedirect) {
+		if (x.ns == "0" and not x.isRedirect) {
+			cout<<x.title<<endl;
 			pages.push_back(x);
 		}
 	}
@@ -180,19 +181,3 @@ int main(int argc, char** argv) {
 	
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
