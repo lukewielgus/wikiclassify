@@ -15,8 +15,6 @@ using std::getline;
 using std::size_t;
 using std::stoi;
 
-
-//Add the timer function using time.h
 #include <time.h>
 
 //Check if string "tag1" is within string "str"
@@ -177,11 +175,8 @@ int main(int argc, char** argv) {
 	}
 	timer.stop();
 	
-	cout<<"Time for raw page grab: "<<timer.times[0]<<" Seconds\n";
-	cout<<"                        "<<timer.times[0]/npages<<" Seconds per Page\n";
-	
-	cout<<"Time for parsing: "<<timer.times[1]<<" Seconds\n";
-	cout<<"                  "<<timer.times[1]/npages<<" Seconds per Page\n";
+	cout<<"Parsing time: "<<timer.times[0]<<" Seconds per Page\n";
+	cout<<"wikiPage time: "<<timer.times[1]<<" Seconds per Page\n";
 	
 	return 0;
 }
