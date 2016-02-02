@@ -100,7 +100,7 @@ public:
 	short          pic;          // Total picture count
 	
 	wikiPage(string pagestr);    // Constructor
-	void save(string filename);
+	void save(ofstream &file);
 	friend ostream& operator<<(ostream& os, wikiPage& wp);
 };
 
@@ -131,9 +131,10 @@ wikiPage::wikiPage(string pagestr) {
 }
 
 //Save function (save to file)
-void wikiPage::save(string filename){
-	ofstream file(filename);
+void wikiPage::save(ofstream &file){
+	file<<"////// --> SAVE VERSION 1.0 <-- //////\n";
 	file<<(*this);
+	file<<text<<"\n";
 }
 
 ostream& operator<<(ostream& os, wikiPage& wp)
@@ -209,8 +210,45 @@ int main(){
 			pages.push_back(x);
 		}
 	}
-	string saveFile = "test.txt";
-	pages[10].save(saveFile);
+	ofstream file(saveFile);
+	pages[10].save(file);
+	pages[11].save(file);
+}
+
+/*
+int main(int argc, char** argv) {
+
+	string filename = "enwiki-20160113-pages-articles.xml";
+	
+	// Get vector of raw page strings
+	cout<<"Getting raw page strings..."<<endl;
+	
+	// WARNING -- RAM size requirements is about 1 GB per 30,000 articles
+	int npages = 30000;
+
+	//Start timer for raw page grab
+	timeit timer;
+	
+	timer.start();
+	vector<string> raw_pages = getPages(filename, npages);
+	timer.stop();
+	
+	// Vector of wikipage objects
+	vector<wikiPage> pages;
+	
+	// Populate pages with initialized wikiPages
+	timer.start();
+	cout<<"Parsing raw page strings..."<<endl;
+	for (string i : raw_pages) {
+		wikiPage x(i);
+		if (x.ns == "0" and not x.isRedirect) {
+			pages.push_back(x);
+		}
+	}
+	timer.stop();
+	
+	cout<<"Parsing time: "<<timer.times[0]<<" Seconds per Page\n";
+	cout<<"wikiPage time: "<<timer.times[1]<<" Seconds per Page\n";
 	
 	return 0;
 }
