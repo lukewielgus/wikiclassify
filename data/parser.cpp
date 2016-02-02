@@ -196,14 +196,10 @@ int main(){
 	vector<wikiPage> pages;
 	for(int i=0; i<raw_pages.size(); i++){
 		wikiPage x(raw_pages[i]);
-		if(not x.ns and not x.isRedirect){
+		if(x.ns == "0" and not x.isRedirect){
 			pages.push_back(x);
 		}
 	}
-	std::cout<<pages[10];
-	std::cout<<pages[10].text<<"\n";
-	removeJunk(pages[10]);
-	std::cout<<pages[10].text<<"\n";
 }
 
 /*
