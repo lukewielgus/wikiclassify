@@ -13,7 +13,6 @@ using std::vector;
 using std::string;
 using std::getline;
 using std::size_t;
-using std::stoi;
 
 #include <time.h>
 
@@ -77,7 +76,7 @@ void timeit::stop() {
 class wikiPage {
 public:
 	string         title;        // Page title
-	short          ns;           // Page namespace
+	string         ns;           // Page namespace
 	string         text;         // Page wikimarkup
 	vector<string> categories;   // Page categories
 	bool           isRedirect;   // Page redirect status
@@ -171,9 +170,8 @@ int main(int argc, char** argv) {
 	cout<<"Parsing raw page strings..."<<endl;
 	for (string i : raw_pages) {
 		wikiPage x(i);
-		if (not x.ns and not x.isRedirect) {
+		if (x.ns == "0" and not x.isRedirect) {
 			pages.push_back(x);
-			cout<<x<<endl;
 		}
 	}
 	timer.stop();
