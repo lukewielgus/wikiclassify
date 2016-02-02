@@ -53,6 +53,25 @@ int parse(string &str, string tag1, string tag2, vector<string> &result) {
 	return pos;
 }
 
+short picCount(string &article){
+	short count=0;
+	bool condition=true;
+	string pic = ".jpg";
+	size_t location = 0;
+	while(condition){
+		location = article.find(pic, location);
+		if(location!=string::npos){
+			count++;
+			location += pic.size();
+		}
+		else{
+			condition=false;
+		}
+	}
+	return count;
+}
+
+
 class wikiPage {
 public:
 	string         title;        // Page title
@@ -63,6 +82,7 @@ public:
 	int            quality;      // Page quality (0: stub, 1: other, 2: good/featured)
 	string         contrib;      // Revision contributor
 	string         timestamp;    // Revision timestamp
+	short          pic;          // Total picture count
 	
 	wikiPage(string pagestr);    // Constructor
 	friend ostream& operator<<(ostream& os, wikiPage& wp);
@@ -90,11 +110,12 @@ wikiPage::wikiPage(string pagestr) {
 	if (isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")) {
 		quality = 1;
 	}
+	pic = picCount(pagestr);
 }
 
 ostream& operator<<(ostream& os, wikiPage& wp)
 {
-    os <<"\nTitle:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp;
+    os <<"\nTitle:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp<<"\nPic Count:\t"<<wp.pic<<"\n";
     return os;
 }
 
@@ -124,6 +145,54 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
+void removeJunk(wikiPage &input){
+	string temp = input.text;
+	//Searching for triple apostrophe formatting
+	bool condition=true;
+	string tripleAp = "'''";
+	while(condition){
+		size_t location = temp.find(tripleAp);
+		if(location!=string::npos){
+			temp.erase(location, tripleAp.size());
+		}
+		else{
+			condition=false;
+		}
+	}
+	//Searching for &lt text
+	condition=true;
+	string target = "&lt";
+	while(condition){
+		size_t location = temp.find(target);
+		if(location!=string::npos){
+			temp.erase(location, target.size());
+		}
+		else{
+			condition=false;
+		}
+	}
+	input.text = temp;
+	return;
+}
+
+
+int main(){
+	string filename = "enwiki-20160113-pages-articles.xml";
+	vector<string> raw_pages = getPages(filename, 100);
+	vector<wikiPage> pages;
+	for(int i=0; i<raw_pages.size(); i++){
+		wikiPage x(raw_pages[i]);
+		if(not x.ns and not x.isRedirect){
+			pages.push_back(x);
+		}
+	}
+	std::cout<<pages[10];
+	std::cout<<pages[10].text<<"\n";
+	removeJunk(pages[10]);
+	std::cout<<pages[10].text<<"\n";
+}
+
+/*
 int main(int argc, char** argv) {
 
 	// Dump filename
@@ -165,7 +234,7 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
-
+*/
 
 
 
