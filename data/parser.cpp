@@ -168,7 +168,7 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
-void removeJunk(wikiPage &input){
+void removeJunk(wikiPage &input) {
 	string temp = input.text;
 	//Searching for triple apostrophe formatting
 	bool condition=true;
@@ -201,67 +201,16 @@ void removeJunk(wikiPage &input){
 int main(){
 	string filename = "enwiki-20160113-pages-articles.xml";
 	vector<string> raw_pages = getPages(filename, 100);
+	
 	vector<wikiPage> pages;
-	for(int i=0; i<raw_pages.size(); i++){
-		wikiPage x(raw_pages[i]);
+	for(string i : raw_pages){
+		wikiPage x(i);
 		if(x.ns == "0" and not x.isRedirect){
 			pages.push_back(x);
 		}
 	}
 	string saveFile = "test.txt";
 	pages[10].save(saveFile);
-}
-
-/*
-int main(int argc, char** argv) {
-
-	string filename = "enwiki-20160113-pages-articles.xml";
-	
-	// Get vector of raw page strings
-	cout<<"Getting raw page strings..."<<endl;
-	
-	// WARNING -- RAM size requirements is about 1 GB per 30,000 articles
-	int npages = 30000;
-
-	//Start timer for raw page grab
-	timeit timer;
-	
-	timer.start();
-	vector<string> raw_pages = getPages(filename, npages);
-	timer.stop();
-	
-	// Vector of wikipage objects
-	vector<wikiPage> pages;
-	
-	// Populate pages with initialized wikiPages
-	timer.start();
-	cout<<"Parsing raw page strings..."<<endl;
-	for (string i : raw_pages) {
-		wikiPage x(i);
-		if (x.ns == "0" and not x.isRedirect) {
-			pages.push_back(x);
-		}
-	}
-	timer.stop();
-	
-	cout<<"Parsing time: "<<timer.times[0]<<" Seconds per Page\n";
-	cout<<"wikiPage time: "<<timer.times[1]<<" Seconds per Page\n";
 	
 	return 0;
 }
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
