@@ -17,6 +17,8 @@ using std::stoi;
 
 #include <time.h>
 
+// test
+
 //Check if string "tag1" is within string "str"
 bool isWithin(string &str, string tag1) {
 	return (str.find(tag1) != string::npos);
@@ -172,6 +174,7 @@ int main(int argc, char** argv) {
 		if (x.ns == "0" and not x.isRedirect) {
 			cout<<x.title<<endl;
 			pages.push_back(x);
+			cout<<x<<endl;
 		}
 	}
 	timer.stop();
