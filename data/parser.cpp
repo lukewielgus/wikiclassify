@@ -100,7 +100,7 @@ public:
 	short          pic;          // Total picture count
 	
 	wikiPage(string pagestr);    // Constructor
-	void save(string filename);
+	void save(ofstream &file);
 	friend ostream& operator<<(ostream& os, wikiPage& wp);
 };
 
@@ -131,8 +131,7 @@ wikiPage::wikiPage(string pagestr) {
 }
 
 //Save function (save to file)
-void wikiPage::save(string filename){
-	ofstream file(filename);
+void wikiPage::save(ofstream &file){
 	file<<(*this);
 }
 
@@ -209,7 +208,9 @@ int main(){
 		}
 	}
 	string saveFile = "test.txt";
-	pages[10].save(saveFile);
+	ofstream file(saveFile);
+	pages[10].save(file);
+	pages[11].save(file);
 }
 
 /*
