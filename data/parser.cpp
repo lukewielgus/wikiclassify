@@ -16,8 +16,6 @@ using std::size_t;
 
 #include <time.h>
 
-// test
-
 //Check if string "tag1" is within string "str"
 bool isWithin(string &str, string tag1) {
 	return (str.find(tag1) != string::npos);
@@ -93,7 +91,7 @@ wikiPage::wikiPage(string pagestr) {
 	//Set the title of the page
 	title = parse(pagestr, "<title>", "</title>");
 	//Set the namespace
-	ns = stoi(parse(pagestr, "<ns>", "</ns>"));
+	ns = parse(pagestr, "<ns>", "</ns>");
 	//Grab the text portion of the page
 	text = parse(pagestr, "<text xml:space=\"preserve\">", "</text>");
 	//Grab the categories for the page
