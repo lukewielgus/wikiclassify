@@ -13,10 +13,7 @@ using std::vector;
 using std::string;
 using std::getline;
 using std::size_t;
-using std::stoi;
 
-
-//Add the timer function using time.h
 #include <time.h>
 
 //Check if string "tag1" is within string "str"
@@ -71,11 +68,28 @@ short picCount(string &article){
 	return count;
 }
 
+// Small timer class
+class timeit {
+public:
+	void start();
+	void stop();
+	vector<float> times;
+private:
+	time_t tclock;
+};
+
+void timeit::start() {
+	tclock = clock();
+}
+
+void timeit::stop() {
+	times.push_back(float(clock()-tclock)/CLOCKS_PER_SEC);
+}
 
 class wikiPage {
 public:
 	string         title;        // Page title
-	short          ns;           // Page namespace
+	string         ns;           // Page namespace
 	string         text;         // Page wikimarkup
 	vector<string> categories;   // Page categories
 	bool           isRedirect;   // Page redirect status
@@ -93,7 +107,7 @@ wikiPage::wikiPage(string pagestr) {
 	//Set the title of the page
 	title = parse(pagestr, "<title>", "</title>");
 	//Set the namespace
-	ns = stoi(parse(pagestr, "<ns>", "</ns>"));
+	ns = parse(pagestr, "<ns>", "</ns>");
 	//Grab the text portion of the page
 	text = parse(pagestr, "<text xml:space=\"preserve\">", "</text>");
 	//Grab the categories for the page
@@ -182,22 +196,16 @@ int main(){
 	vector<wikiPage> pages;
 	for(int i=0; i<raw_pages.size(); i++){
 		wikiPage x(raw_pages[i]);
-		if(not x.ns and not x.isRedirect){
+		if(x.ns == "0" and not x.isRedirect){
 			pages.push_back(x);
 		}
 	}
-	std::cout<<pages[10];
-	std::cout<<pages[10].text<<"\n";
-	removeJunk(pages[10]);
-	std::cout<<pages[10].text<<"\n";
 }
 
 /*
 int main(int argc, char** argv) {
 
-	// Dump filename
-	string filename = "enwiki-20151201-pages-articles.xml";
-	string bfaurefilename = "enwiki-20160113-pages-articles.xml";
+	string filename = "enwiki-20160113-pages-articles.xml";
 	
 	// Get vector of raw page strings
 	cout<<"Getting raw page strings..."<<endl;
@@ -206,31 +214,29 @@ int main(int argc, char** argv) {
 	int npages = 30000;
 
 	//Start timer for raw page grab
-	time_t beforeRaw = clock();
-	vector<string> raw_pages = getPages(bfaurefilename, npages);
-	//End timer for raw page grab
-	time_t afterRaw = clock();
-	//Calculate elapsed time
-	double secondsForRaw = double(afterRaw-beforeRaw)/CLOCKS_PER_SEC;
-	cout<<"Time for raw page grab: "<<secondsForRaw<<" Seconds\n";
-	cout<<"                        "<<secondsForRaw/npages<<" Seconds per Page\n";
+	timeit timer;
+	
+	timer.start();
+	vector<string> raw_pages = getPages(filename, npages);
+	timer.stop();
 	
 	// Vector of wikipage objects
 	vector<wikiPage> pages;
 	
 	// Populate pages with initialized wikiPages
-	time_t beforeParse = clock();
+	timer.start();
 	cout<<"Parsing raw page strings..."<<endl;
 	for (string i : raw_pages) {
 		wikiPage x(i);
-		if (not x.ns and not x.isRedirect) {
+		if (x.ns == "0" and not x.isRedirect) {
 			pages.push_back(x);
 		}
 	}
-	time_t afterParse = clock();
-	double secondsForParse = double(afterParse-beforeParse)/CLOCKS_PER_SEC;
-	cout<<"Time for parsing: "<<secondsForParse<<" Seconds\n";
-	cout<<"                  "<<secondsForParse/npages<<" Seconds per Page\n";
+	timer.stop();
+	
+	cout<<"Parsing time: "<<timer.times[0]<<" Seconds per Page\n";
+	cout<<"wikiPage time: "<<timer.times[1]<<" Seconds per Page\n";
+	
 	return 0;
 }
 
