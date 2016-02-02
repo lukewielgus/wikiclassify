@@ -5,6 +5,7 @@ using std::ostream;
 
 #include <fstream>
 using std::ifstream;
+using std::ofstream;
 
 #include <vector>
 using std::vector;
@@ -99,6 +100,7 @@ public:
 	short          pic;          // Total picture count
 	
 	wikiPage(string pagestr);    // Constructor
+	void save(string filename);
 	friend ostream& operator<<(ostream& os, wikiPage& wp);
 };
 
@@ -124,12 +126,19 @@ wikiPage::wikiPage(string pagestr) {
 	if (isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")) {
 		quality = 1;
 	}
+	//Count number of pictures present in article
 	pic = picCount(pagestr);
+}
+
+//Save function (save to file)
+void wikiPage::save(string filename){
+	ofstream file(filename);
+	file<<(*this);
 }
 
 ostream& operator<<(ostream& os, wikiPage& wp)
 {
-    os <<"\nTitle:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp<<"\nPic Count:\t"<<wp.pic<<"\n";
+    os <<"Title:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp<<"\nPic Count:\t"<<wp.pic<<"\n";
     return os;
 }
 
@@ -189,7 +198,6 @@ void removeJunk(wikiPage &input){
 	return;
 }
 
-
 int main(){
 	string filename = "enwiki-20160113-pages-articles.xml";
 	vector<string> raw_pages = getPages(filename, 100);
@@ -200,6 +208,8 @@ int main(){
 			pages.push_back(x);
 		}
 	}
+	string saveFile = "test.txt";
+	pages[10].save(saveFile);
 }
 
 /*
