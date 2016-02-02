@@ -132,7 +132,7 @@ wikiPage::wikiPage(string pagestr) {
 
 //Save function (save to file)
 void wikiPage::save(ofstream &file){
-	file<<"////// SAVE VERSION 1.0 //////\n";
+	file<<"////// --> SAVE VERSION 1.0 <-- //////\n";
 	file<<(*this);
 	file<<text<<"\n";
 }
