@@ -1,681 +1,259 @@
 #include <iostream>
+using std::cout;
+using std::endl;
+using std::ostream;
+
 #include <fstream>
+using std::ifstream;
+using std::ofstream;
+
 #include <vector>
+using std::vector;
+
 #include <string>
+using std::string;
+using std::getline;
+using std::size_t;
 
+#include <time.h>
 
-class wikiPage{
+//Check if string "tag1" is within string "str"
+bool isWithin(string &str, string tag1) {
+	return (str.find(tag1) != string::npos);
+}
+
+// Parse the contents between a pair of tags
+string parse(string &str, string tag1, string tag2) {
+	size_t p1 = str.find(tag1);
+	size_t p2 = str.find(tag2, p1);
+  	if (p1 != string::npos and p2 != string::npos) {
+  		return str.substr(p1+tag1.size(), p2-p1-tag1.size());
+  	}
+  	else {
+  		return "";
+  	}
+}
+
+// Populate the given vector with all matches, in given string, between given tags
+// Returns the index immediately after last match (for purposes of block shifting)
+int parse(string &str, string tag1, string tag2, vector<string> &result) {
+	int pos = 0;                                            // Current position in string
+	while(true) {
+		size_t p1 = str.find(tag1, pos);
+		size_t p2 = str.find(tag2, p1);
+  		if (p1 != string::npos and p2 != string::npos) {    // If new match, push it back
+  			pos = p2+tag2.size();
+  			string parsed = str.substr(p1+tag1.size(), p2-p1-tag1.size());
+  			result.push_back(parsed);
+  		}
+		else {break;}                                       // Break otherwise
+	}
+	return pos;
+}
+
+short picCount(string &article){
+	short count=0;
+	bool condition=true;
+	string pic = ".jpg";
+	size_t location = 0;
+	while(condition){
+		location = article.find(pic, location);
+		if(location!=string::npos){
+			count++;
+			location += pic.size();
+		}
+		else{
+			condition=false;
+		}
+	}
+	return count;
+}
+
+// Small timer class
+class timeit {
 public:
-	std::string timeStamp;
-	bool featuredArticle;
-	std::vector<std::string> category;
-	std::string title;
-	std::vector<std::string> body;
+	void start();
+	void stop();
+	vector<float> times;
+private:
+	time_t tclock;
 };
 
-
-bool isTitle(char temp[100000]){
-	int size = strlen(temp);
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='t'){
-				if(temp[i+2]=='i'){
-					if(temp[i+3]=='t'){
-						if(temp[i+4]=='l'){
-							return true;
-						}
-					}
-				}
-			}
-		}
-	}
-	return false;
+void timeit::start() {
+	tclock = clock();
 }
 
+void timeit::stop() {
+	times.push_back(float(clock()-tclock)/CLOCKS_PER_SEC);
+}
 
-std::string fixTitle(char temp[100000]){
-	int size = strlen(temp);
-	int index=0;
+class wikiPage {
+public:
+	string         title;        // Page title
+	string         ns;           // Page namespace
+	string         text;         // Page wikimarkup
+	vector<string> categories;   // Page categories
+	bool           isRedirect;   // Page redirect status
+	int            quality;      // Page quality (0: stub, 1: other, 2: good/featured)
+	string         contrib;      // Revision contributor
+	string         timestamp;    // Revision timestamp
+	short          pic;          // Total picture count
+	
+	wikiPage(string pagestr);    // Constructor
+	void save(string filename);
+	friend ostream& operator<<(ostream& os, wikiPage& wp);
+};
+
+// wikipage constructor
+wikiPage::wikiPage(string pagestr) {
+	//Set the title of the page
+	title = parse(pagestr, "<title>", "</title>");
+	//Set the namespace
+	ns = parse(pagestr, "<ns>", "</ns>");
+	//Grab the text portion of the page
+	text = parse(pagestr, "<text xml:space=\"preserve\">", "</text>");
+	//Grab the categories for the page
+	parse(pagestr, "[[Category:", "]]", categories);
+	//Grab the contributor for latest edit
+	contrib = parse(pagestr, "<username>", "</username>");
+	//Grab the latest timestamp on the page
+	timestamp = parse(pagestr, "<timestamp>", "</timestamp>");
+	
+	// Categorize based on text
+	isRedirect = isWithin(text, "#REDIRECT");
+	quality = 0;
+	//Set the quality if a featured or good article
+	if (isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")) {
+		quality = 1;
+	}
+	//Count number of pictures present in article
+	pic = picCount(pagestr);
+}
+
+//Save function (save to file)
+void wikiPage::save(string filename){
+	ofstream file(filename);
+	file<<(*this);
+}
+
+ostream& operator<<(ostream& os, wikiPage& wp)
+{
+    os <<"Title:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp<<"\nPic Count:\t"<<wp.pic<<"\n";
+    return os;
+}
+
+vector<string> getPages(string &filename, int numpages) {
+	/* Gets a vector of page strings */
+
+	ifstream dataDump(filename);                    // Create filestream
+	
+	unsigned short buffersize = 4096;               // Number of characters buffered at a time
+	unsigned blocksize = 1000000;                   // Size of string searched at a time; larger than largest article (apprx 800000)
+	string block; char buffer[buffersize];          // String objects for buffering
+	
+	vector<string> pages;                           // Initialize return value
+	unsigned long long fpos = 0;                    // Position in file
+	while(pages.size() < numpages) {                // While pages is below the specified size
+		// Load buffer into string
+		block = "";                                 // New string being searched
+		dataDump.seekg(fpos);                       // Seek to current file position (position after last match)
+		while (block.size() < blocksize) {          // While string size is less than the block size
+			dataDump.read(buffer, sizeof(buffer));
+			block.append(buffer, sizeof(buffer));
+		}
+	
+		fpos += parse(block, "<page>", "</page>", pages);
+		
+	}
+	return pages;
+}
+
+void removeJunk(wikiPage &input){
+	string temp = input.text;
+	//Searching for triple apostrophe formatting
 	bool condition=true;
+	string tripleAp = "'''";
 	while(condition){
-		if(temp[index]=='<'){
-			condition=false;
+		size_t location = temp.find(tripleAp);
+		if(location!=string::npos){
+			temp.erase(location, tripleAp.size());
 		}
 		else{
-			index++;
+			condition=false;
 		}
 	}
-	char newTemp[1000];
-	index = index+7;
-	int newIndex=0;
+	//Searching for &lt text
 	condition=true;
+	string target = "&lt";
 	while(condition){
-		newTemp[newIndex]=temp[index];
-		newIndex++;
-		index++;
-		if(temp[index]=='<'){
-			newTemp[newIndex]='\0';
-			condition=false;
-		}
-	}
-	return newTemp;
-}
-
-
-bool isRedirect(char temp[100000]){
-	int size = strlen(temp);
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='r'){
-				if(temp[i+2]=='e'){
-					if(temp[i+3]=='d'){
-						if(temp[i+4]=='i'){
-							if(temp[i=5]=='r'){
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return false;
-}
-
-
-bool isFeatured(char temp[100000]){
-	int size = strlen(temp);
-	for(int i=0; i<size; i++){
-		if(temp[i]=='{'){
-			if(temp[i+1]=='{'){
-				if(temp[i+2]=='f'){
-					if(temp[i+3]=='e'){
-						if(temp[i+4]=='a'){
-							if(temp[i+5]=='t'){
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return false;
-}
-
-
-bool isCategory(char temp[100000]){
-	int size = strlen(temp);
-	for(int i=0; i<size; i++){
-		if(temp[i]=='['){
-			if(temp[i+1]=='['){
-				if(temp[i+2]=='C'){
-					if(temp[i+3]=='a'){
-						if(temp[i+4]=='t'){
-							return true;
-						}
-					}
-				}
-			}
-		}
-	}
-	return false;
-}
-
-std::string getCategory(char temp[100000]){
-	int size = strlen(temp);
-	bool condition = true;
-	int index=0;
-	while(condition){
-		if(temp[index]=='['){
-			condition=false;
+		size_t location = temp.find(target);
+		if(location!=string::npos){
+			temp.erase(location, target.size());
 		}
 		else{
-			index++;
-		}
-	}
-	index = index+11;
-	condition=true;
-	char newTemp[1000];
-	int newIndex=0;
-	while(condition){
-		newTemp[newIndex]=temp[index];
-		newIndex++;
-		index++;
-		if(temp[index]==']'){
-			condition=false;
-		}
-		if(temp[index]=='|'){
 			condition=false;
 		}
 	}
-	newTemp[newIndex]='\0';
-	return newTemp;
+	input.text = temp;
+	return;
 }
-
-bool isUseless(char temp[100000]){
-	int size = strlen(temp);
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='n'){
-				if(temp[i+2]=='s'){
-					return true;
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='f'){
-				if(temp[i+2]=='o'){
-					if(temp[i+3]=='r'){
-						if(temp[i+4]=='m'){
-							if(temp[i+5]=='a'){
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='p'){
-				if(temp[i+2]=='a'){
-					if(temp[i+3]=='g'){
-						if(temp[i+4]=='e'){
-							if(temp[i+5]=='>'){
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='/'){
-				if(temp[i+2]=='p'){
-					if(temp[i+3]=='a'){
-						if(temp[i+4]=='g'){
-							return true;
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='{'){
-			if(temp[i+1]=='{'){
-				if(temp[i+2]=='D'){
-					if(temp[i+3]=='E'){
-						if(temp[i+4]=='F'){
-							if(temp[i+5]=='A'){
-								if(temp[i+6]=='U'){
-									return true;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='s'){
-				if(temp[i+2]=='h'){
-					if(temp[i+3]=='a'){
-						if(temp[i+4]=='1'){
-							return true;
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='r'){
-				if(temp[i+2]=='e'){
-					if(temp[i+3]=='v'){
-						if(temp[i+4]=='i'){
-							if(temp[i+5]=='s'){
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='/'){
-				if(temp[i+2]=='r'){
-					if(temp[i+3]=='e'){
-						if(temp[i+4]=='v'){
-							if(temp[i+5]=='i'){
-								if(temp[i+6]=='s'){
-									return true;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='m'){
-				if(temp[i+2]=='o'){
-					if(temp[i+3]=='d'){
-						if(temp[i+4]=='e'){
-							if(temp[i+5]=='l'){
-								if(temp[i+6]=='>'){
-									return true;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='i'){
-				if(temp[i+2]=='d'){
-					if(temp[i+3]=='>'){
-						return true;
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='p'){
-				if(temp[i+2]=='a'){
-					if(temp[i+3]=='r'){
-						if(temp[i+4]=='e'){
-							if(temp[i+5]=='n'){
-								if(temp[i+6]=='t'){
-									if(temp[i+7]=='i'){
-										if(temp[i+8]=='d'){
-											return true;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='c'){
-				if(temp[i+2]=='o'){
-					if(temp[i+3]=='n'){
-						if(temp[i+4]=='t'){
-							if(temp[i+5]=='r'){
-								if(temp[i+6]=='i'){
-									if(temp[i+7]=='b'){
-										if(temp[i+8]=='u'){
-											if(temp[i+9]=='t'){
-												return true;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='c'){
-				if(temp[i+2]=='o'){
-					if(temp[i+3]=='m'){
-						if(temp[i+4]=='m'){
-							if(temp[i+5]=='e'){
-								if(temp[i+6]=='n'){
-									if(temp[i+7]=='t'){
-										return true;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='/'){
-				if(temp[i+2]=='c'){
-					if(temp[i+3]=='o'){
-						if(temp[i+4]=='n'){
-							if(temp[i+5]=='t'){
-								if(temp[i+6]=='r'){
-									if(temp[i+7]=='i'){
-										if(temp[i+8]=='b'){
-											if(temp[i+9]=='u'){
-												return true;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='u'){
-				if(temp[i+2]=='s'){
-					if(temp[i+3]=='e'){
-						if(temp[i+4]=='r'){
-							if(temp[i+5]=='n'){
-								if(temp[i+6]=='a'){
-									if(temp[i+7]=='m'){
-										if(temp[i+8]=='e'){
-											if(temp[i+9]=='>'){
-												return true;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return false;
-}
-
-bool isTimeStamp(char temp[100000]){
-	int size = strlen(temp);
-	for(int i=0; i<size; i++){
-		if(temp[i]=='<'){
-			if(temp[i+1]=='t'){
-				if(temp[i+2]=='i'){
-					if(temp[i+3]=='m'){
-						if(temp[i+4]=='e'){
-							if(temp[i+5]=='s'){
-								if(temp[i+6]=='t'){
-									if(temp[i+7]=='a'){
-										if(temp[i+8]=='m'){
-											if(temp[i+9]=='p'){
-												return true;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return false;
-}
-
-std::string getTimeStamp(char temp[100000]){
-	int size = strlen(temp);
-	bool condition = true;
-	int index=0;
-	while(condition){
-		if(temp[index]=='<'){
-			condition=false;
-		}
-		else{
-			index++;
-		}
-	}
-	index = index+11;
-	condition=true;
-	char newTemp[1000];
-	int newIndex=0;
-	while(condition){
-		newTemp[newIndex]=temp[index];
-		newIndex++;
-		index++;
-		if(temp[index]=='Z'){
-			newTemp[newIndex]='\0';
-			condition=false;
-		}
-	}
-	return newTemp;
-}
-
-bool titleSearch(std::string filename, std::string target, wikiPage &inputPage){
-	bool condition = true;
-	std::ifstream dataDump(filename);
-	char temp[100000];
-	bool found = false;
-	while(condition){
-		dataDump.getline(temp, 100000);
-		if(isTitle(temp)){
-			if(!isRedirect(temp)){
-				std::string title = fixTitle(temp);
-				if(title==target){
-					found = true;
-					inputPage.title = title;
-					char tempTwo[100000];
-					while(condition){
-						dataDump.getline(tempTwo, 100000);
-						if(isTitle(tempTwo)){
-							condition=false;
-						}
-						else{
-							if(isFeatured(tempTwo)){
-								inputPage.featuredArticle=true;
-							}
-							else{
-								if(isCategory(tempTwo)){
-									std::string cat = getCategory(tempTwo);
-									inputPage.category.push_back(cat);
-								}
-								else{
-									if(isTimeStamp(tempTwo)){
-										std::string timeStamp = getTimeStamp(tempTwo);
-										inputPage.timeStamp = timeStamp;
-									}
-									else{
-										inputPage.body.push_back(tempTwo);
-									}
-								}
-							}
-						}
-
-					}
-
-				}
-			}
-		}
-	}
-	if(found){
-		return true;
-	}
-	else{
-		return false;
-	}
-}
-
-
-void read_file(std::string filename, std::vector<wikiPage> &input){
-  char temp[100000];
-  std::ifstream dataDump(filename);
-  bool condition=true;
-  std::string title;
-  while(condition){
-  	dataDump.getline(temp,100000);
-  	if(isTitle(temp)){
-  		title = fixTitle(temp);
-  		condition=false;
-  	}
-  }
-  int pageCount=0;
-  int validPageCount=0;
-  std::vector<std::string> titles;
-  titles.push_back(title);
-  while(validPageCount<1000000){
-  	bool condition = true;
-  	bool redirect = false;
-  	bool featured = false;
-  	bool categories = false;
-  	bool gotTimeStamp = false;
-  	std::vector<std::string> body;
-  	std::vector<std::string> category;
-  	std::string timeStamp;
-  	while(condition){
-  		dataDump.getline(temp, 100000);
-  		if(isTitle(temp)){
-  			std::string newTitle = fixTitle(temp);
-  			titles.push_back(newTitle);
-  			pageCount++;
-  			condition=false;
-  		}	
-  		else{
-  			if(isRedirect(temp)){
-  				redirect=true;
-  			}
-  			else{
-  				if(isFeatured(temp)){
-  					featured=true;
-  				}
-  				else{
-  					if(isCategory(temp)){
-  						std::string cat = getCategory(temp);
-  						category.push_back(cat);
-  						categories=true;
-  					}
-  					else{
-  						if(isUseless(temp)){
-  						}
-  						else{
-  							if(isTimeStamp(temp)){
-  								timeStamp = getTimeStamp(temp);
-  								gotTimeStamp = true;
-  							}
-  							else{
-  								body.push_back(temp);
-  							}
-  						}
-  					}
-  				}
-  			}
-  		}
-  	}
-  	wikiPage tempPage;
-  	tempPage.title = titles[pageCount-1];
-  	tempPage.body = body;
-  	if(!redirect){
-  		if(gotTimeStamp){
-  			tempPage.timeStamp = timeStamp;
-  		}
-  		if(featured){
-  			tempPage.featuredArticle=true;
-  		}
-  		if(categories){
-  			tempPage.category=category;
-  		}
-  		input.push_back(tempPage);
-  		validPageCount++;
-  		std::cout<<validPageCount<<"\n";
-  	}
-  }
-}
-
 
 int main(){
-	wikiPage page;
-	std::string title = "Zebra";
-	std::string filename = "enwiki-20160113-pages-articles.xml";
-	if(titleSearch(filename, title, page)){
-		std::cout<<"Found the article... loading"<<std::endl;
-		std::cout<<"-->[1] View the article"<<std::endl;
-		std::cout<<"-->[2] View the timeStamp"<<std::endl;
-		std::cout<<"-->[3] Exit"<<std::endl;
-		int input;
-		std::cin>>input;
-		switch(input){
-			case 1:
-			for(int i=0; i<page.body.size(); i++){
-				std::cout<<page.body[i]<<std::endl;
-			}
-			break;
-			case 2:
-			std::cout<<page.timeStamp<<std::endl;
-			break;
-			case 3:
-			return 1;
+	string filename = "enwiki-20160113-pages-articles.xml";
+	vector<string> raw_pages = getPages(filename, 100);
+	vector<wikiPage> pages;
+	for(int i=0; i<raw_pages.size(); i++){
+		wikiPage x(raw_pages[i]);
+		if(x.ns == "0" and not x.isRedirect){
+			pages.push_back(x);
 		}
 	}
-	else{
-		std::cout<<"Article not found"<<std::endl;
-	}
+	string saveFile = "test.txt";
+	pages[10].save(saveFile);
 }
+
 /*
-int main(){
-	std::string filename = "enwiki-20160113-pages-articles.xml";
-	std::vector<wikiPage> pages;
-	read_file(filename, pages);
-	std::cout<<"-------------------------------------------\n";
-	bool condition=true;
-	while(condition){
-		std::cout<<"-------------------------------------------\n";
-		for(int i=0; i<pages.size(); i++){
-			std::cout<<"-->["<<i<<"] "<<pages[i].title<<"\n";
-		}
-		std::cout<<"Enter your article choice: ";
-		int input;
-		std::cin>>input;
-		for(int i=0; i<pages.size(); i++){
-			if(i==input){
-				if(pages[i].featuredArticle){
-					std::cout<<"This article is featured!\n";
-				}
-			}
-		}
-		std::cout<<"-->[1] View body\n-->[2] View categories\n-->[3] View time stamp\n";
-		std::cout<<"Enter you action choice: ";
-		int inputTwo;
-		std::cin>>inputTwo;
-		switch(inputTwo){
-			case 1:
-			for(int i=0; i<pages[input].body.size(); i++){
-				std::cout<<pages[input].body[i]<<"\n";
-			}
-			break;
-			case 2:
-			for(int i=0; i<pages[input].category.size(); i++){
-				std::cout<<pages[input].category[i]<<"\n";
-			}
-			break;
-			case 3:
-			std::cout<<pages[input].timeStamp<<"\n";
+int main(int argc, char** argv) {
+
+	string filename = "enwiki-20160113-pages-articles.xml";
+	
+	// Get vector of raw page strings
+	cout<<"Getting raw page strings..."<<endl;
+	
+	// WARNING -- RAM size requirements is about 1 GB per 30,000 articles
+	int npages = 30000;
+
+	//Start timer for raw page grab
+	timeit timer;
+	
+	timer.start();
+	vector<string> raw_pages = getPages(filename, npages);
+	timer.stop();
+	
+	// Vector of wikipage objects
+	vector<wikiPage> pages;
+	
+	// Populate pages with initialized wikiPages
+	timer.start();
+	cout<<"Parsing raw page strings..."<<endl;
+	for (string i : raw_pages) {
+		wikiPage x(i);
+		if (x.ns == "0" and not x.isRedirect) {
+			pages.push_back(x);
 		}
 	}
+	timer.stop();
+	
+	cout<<"Parsing time: "<<timer.times[0]<<" Seconds per Page\n";
+	cout<<"wikiPage time: "<<timer.times[1]<<" Seconds per Page\n";
+	
+	return 0;
 }
+
 */
+
+
+
 
 
 
