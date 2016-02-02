@@ -15,8 +15,6 @@ using std::getline;
 using std::size_t;
 using std::stoi;
 
-
-//Add the timer function using time.h
 #include <time.h>
 
 // test
@@ -55,6 +53,27 @@ int parse(string &str, string tag1, string tag2, vector<string> &result) {
 	return pos;
 }
 
+
+// Small timer class
+class timeit {
+public:
+	void start();
+	void stop();
+	vector<float> times;
+private:
+	time_t tclock;
+};
+
+void timeit::start() {
+	tclock = clock();
+}
+
+void timeit::stop() {
+	times.push_back(float(clock()-tclock)/CLOCKS_PER_SEC);
+}
+
+
+// Wikipage class
 class wikiPage {
 public:
 	string         title;        // Page title
@@ -138,20 +157,17 @@ int main(int argc, char** argv) {
 	int npages = 30000;
 
 	//Start timer for raw page grab
-	time_t beforeRaw = clock();
+	timeit timer;
+	
+	timer.start();
 	vector<string> raw_pages = getPages(filename, npages);
-	//End timer for raw page grab
-	time_t afterRaw = clock();
-	//Calculate elapsed time
-	double secondsForRaw = double(afterRaw-beforeRaw)/CLOCKS_PER_SEC;
-	cout<<"Time for raw page grab: "<<secondsForRaw<<" Seconds\n";
-	cout<<"                        "<<secondsForRaw/npages<<" Seconds per Page\n";
+	timer.stop();
 	
 	// Vector of wikipage objects
 	vector<wikiPage> pages;
 	
 	// Populate pages with initialized wikiPages
-	time_t beforeParse = clock();
+	timer.start();
 	cout<<"Parsing raw page strings..."<<endl;
 	for (string i : raw_pages) {
 		wikiPage x(i);
@@ -159,10 +175,11 @@ int main(int argc, char** argv) {
 			pages.push_back(x);
 		}
 	}
-	time_t afterParse = clock();
-	double secondsForParse = double(afterParse-beforeParse)/CLOCKS_PER_SEC;
-	cout<<"Time for parsing: "<<secondsForParse<<" Seconds\n";
-	cout<<"                  "<<secondsForParse/npages<<" Seconds per Page\n";
+	timer.stop();
+	
+	cout<<"Parsing time: "<<timer.times[0]<<" Seconds per Page\n";
+	cout<<"wikiPage time: "<<timer.times[1]<<" Seconds per Page\n";
+	
 	return 0;
 }
 
