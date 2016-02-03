@@ -2,5 +2,5 @@
 *.bz2
 
 docs/*
-!docs/wikiclassify.pdf
-!docs/wikiclassify.tex
+!docs/*.pdf
+!docs/*.tex
