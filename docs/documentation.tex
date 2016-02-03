@@ -6,6 +6,7 @@
 \usetikzlibrary{arrows}
 \tikzset{>=latex}
 \usepackage{amsmath,amsfonts,amssymb}
+\usepackage[hidelinks,colorlinks,linkcolor={blue!50!black},urlcolor={blue!80!black}]{hyperref}
 \renewcommand{\baselinestretch}{1.4}
 \setlength\parindent{0pt}
 \everymath{\displaystyle}
@@ -36,26 +37,29 @@
 \begin{document}
 \clearpage\maketitle
 \thispagestyle{empty}
-
 \newpage
 \setcounter{page}{1}
-\section*{Project Description}
-\subsection*{Problem Domain}
-\hspace*{28pt}Wikipedia is a crowdsourced online encyclopedia founded in 2001. With the goal of centralizing all of human knowledge, it attempts to be a neutral, global, and uncensored source of free information. As of 2016, Wikipedia is ranked number seven on the world’s most popular websites, holds a top priority on search engines, and h as been estimated to be worth hundreds of billions of dollars. Furthermore, articles on Wikipedia h ave been cited in hundreds of court cases. Reliable or not, Wikipedia is heavily used as a result of its high­quality content across a broad range of subjects.\\
-\hspace*{28pt}Anyone can edit Wikipedia, which is the primary reason why it is one of the largest online encyclopedias in the world. However, this has numerous tradeoffs. Destructive editing is a common problem that can go unnoticed for extended periods of time. In addition, articles are frequently cited with unreliable sources, or not cited at all. Furthermore, Wikipedia has editor bias; 90\% of Wikipedians are male, 40\% of the world’s population has access to the internet (Wikipedia can only be edited from a selection of 40\% of the world’s population), editors are often from white collar backgrounds, have stronger technical abilities, are more frequently from the Northern Hemisphere, and common languages and Western culture are more heavily represented. With such an editor bias, there is a larger probability of the content being misrepresented or not being of acceptable quality.\\
+\tableofcontents
+\section{Definitions}
+\centerline{\includegraphics[scale=0.5]{markup.png}}
+\subsection*{Wiki Markup}
+\href{https://en.wikipedia.org/wiki/Help:Wiki_markup}{Wiki Markup} is a simple markup language. It is the format in which all Wikipedia pages are stored. While being very similar in syntax, Wiki Markup serves as a simpler, templated interface to HTML.
+\section{Project Description}
+\subsection{Problem Domain}
+\hspace*{28pt}Wikipedia is a crowdsourced online encyclopedia founded in 2001. With the goal of centralizing all of human knowledge, it attempts to be a neutral, global, and uncensored source of free information. As of 2016, Wikipedia is ranked number seven on the world’s most popular websites, holds a top priority on search engines, and has been estimated to be worth hundreds of billions of dollars. Furthermore, articles on Wikipedia have been cited in hundreds of court cases. Reliable or not, Wikipedia is heavily used as a result of its high quality content across a broad range of subjects.\\
+\hspace*{28pt}Anyone can edit Wikipedia, which is the primary reason why it is one of the largest online encyclopedias in the world. However, this has numerous trade-offs. Destructive editing is a common problem that can go unnoticed for extended periods of time. In addition, articles are frequently cited with unreliable sources, or not cited at all. Furthermore, Wikipedia has editor bias; 90\% of Wikipedians are male, 40\% of the world's population has access to the internet (Wikipedia can only be edited from a selection of 40\% of the world's population), editors are often from white collar backgrounds, have stronger technical abilities, are more frequently from the Northern Hemisphere, and common languages and Western culture are more heavily represented. With such an editor bias, there is a larger probability of the content being misrepresented or not being of acceptable quality.\\
 \hspace*{28pt}Thus, despite being one of the most popular and heavily accessed online encyclopedias, the biggest issue with Wikipedia is that not all of its content may be of satisfactory quality.
-\subsection*{Specific Problems}
-\hspace*{28pt}Wikipedia's quality is not consistent. It is too large for a human to proofread and too hard for a computer to edit. Therefore, a text classifier is desired so that content needing the most attention can be found. If there was to be some sort of software or system in place that could rate Wikipedia’s quality autonomously, a user could easily determine which Wikipedia articles have satisfactory quality for viewing. Thus, if this solution was successfully implemented, any user who would like to access Wikipedia can get high quality content. Furthermore, besides typical everyday Wikipedia viewers, Wikipedia itself could benefit from such a system, as they would have an easy solution to determining whether or not articles are of acceptable quality.
-\subsection*{Problem Summary}
+\subsection{Specific Problems}
+\hspace*{28pt}Wikipedia's quality is not consistent. It is too large for a human to proofread and too hard for a computer to edit. Therefore, a text classifier is desired so that content needing the most attention can be found. If there was to be some sort of software or system in place that could rate Wikipedia's quality autonomously, a user could easily determine which Wikipedia articles have satisfactory quality for viewing. Thus, if this solution was successfully implemented, any user who would like to access Wikipedia can get high quality content. Furthermore, besides typical everyday Wikipedia viewers, Wikipedia itself could benefit from such a system, as they would have an easy solution to determining whether or not articles are of acceptable quality.
+\subsection{Problem Summary}
 \begin{itemize}
-\item Input text and receive output parameters that classify the text based on our machine learning algorithm (classifiers here******).
+\item Input text and receive output parameters that classify the text based on our machine learning algorithm.
 \item Uncover biases hidden in Wikipedia rating schema.
 \item Compare accuracy of multiple input text articles.
-\item Create procedurally generated articles on the fly.
 \item Check text for historical accuracy/bias.
 \item Compare different portions of Wikipedia based on article quality.
 \end{itemize}
-\section*{Plan of work}
+\section{Plan of work}
 \centerline{\fbox{\begin{tikzpicture}[->,auto,align=center]
 \tikzstyle{obj} = [font=\footnotesize,rectangle,draw,align=center, text width=4em, minimum height = 3em,rounded corners=3pt]
 \node at (-5.5, 7) {\Huge Data Pipeline};
