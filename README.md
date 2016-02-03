@@ -1,2 +1,2 @@
 # wikiclassify
-A python-based program that classifies Wikipedia markup text using techniques in machine learning.
+A text-sequence classifier that uses machine learning techniques, backtested on Wikipedia markup.
