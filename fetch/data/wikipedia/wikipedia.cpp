@@ -101,6 +101,7 @@ public:
 	
 	wikiPage(string pagestr);    // Constructor
 	void save(ofstream &file);
+	void removeJunk();
 	friend ostream& operator<<(ostream& os, wikiPage& wp);
 };
 
@@ -112,6 +113,7 @@ wikiPage::wikiPage(string pagestr) {
 	ns = parse(pagestr, "<ns>", "</ns>");
 	//Grab the text portion of the page
 	text = parse(pagestr, "<text xml:space=\"preserve\">", "</text>");
+
 	//Grab the categories for the page
 	parse(pagestr, "[[Category:", "]]", categories);
 	//Grab the contributor for latest edit
@@ -128,6 +130,39 @@ wikiPage::wikiPage(string pagestr) {
 	}
 	//Count number of pictures present in article
 	pic = picCount(pagestr);
+
+	//Remove Junk from text
+	removeJunk();
+}
+
+void wikiPage::removeJunk() {
+	string temp = text;
+	//Searching for triple apostrophe formatting
+	bool condition=true;
+	string tripleAp = "'''";
+	while(condition){
+		size_t location = temp.find(tripleAp);
+		if(location!=string::npos){
+			temp.erase(location, tripleAp.size());
+		}
+		else{
+			condition=false;
+		}
+	}
+	//Searching for &lt text
+	condition=true;
+	string target = "&lt";
+	while(condition){
+		size_t location = temp.find(target);
+		if(location!=string::npos){
+			temp.erase(location, target.size());
+		}
+		else{
+			condition=false;
+		}
+	}
+	text = temp;
+	return;
 }
 
 //Save function (save to file)
@@ -169,36 +204,6 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
-void removeJunk(wikiPage &input) {
-	string temp = input.text;
-	//Searching for triple apostrophe formatting
-	bool condition=true;
-	string tripleAp = "'''";
-	while(condition){
-		size_t location = temp.find(tripleAp);
-		if(location!=string::npos){
-			temp.erase(location, tripleAp.size());
-		}
-		else{
-			condition=false;
-		}
-	}
-	//Searching for &lt text
-	condition=true;
-	string target = "&lt";
-	while(condition){
-		size_t location = temp.find(target);
-		if(location!=string::npos){
-			temp.erase(location, target.size());
-		}
-		else{
-			condition=false;
-		}
-	}
-	input.text = temp;
-	return;
-}
-
 int main(){
 	string filename = "enwiki-20160113-pages-articles.xml";
 	vector<string> raw_pages = getPages(filename, 100);
@@ -210,6 +215,8 @@ int main(){
 			pages.push_back(x);
 		}
 	}
+
+	string saveFile = "test.txt";
 	ofstream file(saveFile);
 	pages[10].save(file);
 	pages[11].save(file);
@@ -252,3 +259,4 @@ int main(int argc, char** argv) {
 	
 	return 0;
 }
+*/
