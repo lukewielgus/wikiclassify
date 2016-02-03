@@ -169,7 +169,7 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
-void removeJunk(wikiPage &input){
+void removeJunk(wikiPage &input) {
 	string temp = input.text;
 	//Searching for triple apostrophe formatting
 	bool condition=true;
@@ -202,14 +202,14 @@ void removeJunk(wikiPage &input){
 int main(){
 	string filename = "enwiki-20160113-pages-articles.xml";
 	vector<string> raw_pages = getPages(filename, 100);
+	
 	vector<wikiPage> pages;
-	for(int i=0; i<raw_pages.size(); i++){
-		wikiPage x(raw_pages[i]);
+	for(string i : raw_pages){
+		wikiPage x(i);
 		if(x.ns == "0" and not x.isRedirect){
 			pages.push_back(x);
 		}
 	}
-	string saveFile = "test.txt";
 	ofstream file(saveFile);
 	pages[10].save(file);
 	pages[11].save(file);
@@ -252,19 +252,3 @@ int main(int argc, char** argv) {
 	
 	return 0;
 }
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
