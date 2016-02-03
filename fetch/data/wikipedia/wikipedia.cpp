@@ -161,15 +161,31 @@ void wikiPage::removeJunk() {
 			condition=false;
 		}
 	}
+	//Searching for categories not yet removed
+	condition=true;
+	target = "[[Category:";
+	string endtarget = "]]";
+	while(condition){
+		size_t location = temp.find(target);
+		if(location!=string::npos){
+			size_t endlocation = temp.find(endtarget, target.size());
+			temp.erase(location, endlocation+endtarget.size());
+		}
+		else{
+			condition=false;
+		}
+	}
+	
 	text = temp;
 	return;
 }
 
 //Save function (save to file)
 void wikiPage::save(ofstream &file){
-	file<<"////// --> SAVE VERSION 1.0 <-- //////\n";
+	file<<"------> SAVE VERSION 1.0 <------\n";
 	file<<(*this);
 	file<<text<<"\n";
+	file<<"-----------------------------------------------\n";
 }
 
 ostream& operator<<(ostream& os, wikiPage& wp)
