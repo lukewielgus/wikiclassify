@@ -7,3 +7,5 @@ docs/*
 fetch/data/wikipedia/test.txt
 
 fetch/data/wikipedia/test_run
+
+model/word_frequency/test
