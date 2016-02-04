@@ -84,6 +84,7 @@ bool checkFormat(string &input){
 
 bool haveIt(vector<word> &words, string &input){
 	std::transform(input.begin(), input.end(), input.begin(), ::tolower);
+
 	for(int i=0; i<words.size(); i++){
 		if(words[i].name==input){
 			words[i].count++;
@@ -113,7 +114,9 @@ void sortWords(vector<word> &words){
 	std::sort(words.begin(), words.end(), wordCompare);
 }
 
-void getData(vector<word> &words, vector<string> files){
+
+//Take in multiple txt files and create a single bag of words
+void getDataSingle(vector<word> &words, vector<string> files){
 	for(int i=0; i<files.size(); i++){
 		std::cout<<"Reading "<<files[i]<<"\n";
 		ifstream text(files[i]);
@@ -131,27 +134,64 @@ void getData(vector<word> &words, vector<string> files){
 	std::cout<<"Total distinct word count: "<<words.size()<<"\n";
 }
 
-void saveData(vector<word> &words, string file){
+//Take in multiple txt files and create a bag of words for each
+void getDataMultiple(vector<vector<word>> &words, vector<string> files){
+	for(int i=0; i<files.size(); i++){
+		std::cout<<"Reading "<<files[i]<<"\n";
+		vector<word> wordVec;
+		ifstream text(files[i]);
+		std::string temp;
+		while(true){
+			text>>temp;
+			haveIt(wordVec, temp);
+			if(text.eof()){
+				break;
+			}
+		}
+		sortWords(wordVec);
+		process(wordVec);
+		words.push_back(wordVec);
+	}
+}
+
+//Save to a text file, each row is its own word
+void saveDataSingle(vector<word> &words, string file){
 	ofstream output(file);
 	for(int i=0; i<words.size(); i++){
 		output<<words[i].name<<" "<<words[i].count<<" "<<words[i].freq<<" "<<words[i].logFreq<<" ";
-		if(i%20==0){
-			output<<"\n";
-		}
 	}
 	cout<<"Saved word data to "<<file<<"\n";
 }
 
+void saveDataMultiple(vector<vector<word>> &words, string file, vector<string> fileNames){
+	ofstream output(file);
+	for(int i=0; i<words.size(); i++){
+		output<<fileNames[i]<<"--> ";
+		for(int j=0; j<words[i].size(); j++){
+			output<<words[i][j].name<<" "<<words[i][j].count<<" "<<words[i][j].freq<<" "<<words[i][j].logFreq<<" ";
+		}
+		output<<"\n\n";
+	}
+}
+
+int main(){
+	vector<vector<word>> words;
+	//Took out monte cristo and war&peace because they took too long to compile
+	vector<string> files{"alice.txt","holmes.txt","finn.txt","slave.txt","pride.txt","treasure.txt","peter.txt","dracula.txt"};
+	getDataMultiple(words, files);
+	string file = "testMultiple.txt";
+	saveDataMultiple(words, file, files);
+}
+
+/*
 int main(){
 	vector<word> words;
 	vector<string> files{"alice.txt","holmes.txt","finn.txt","slave.txt","pride.txt","war.txt","monte.txt", "treasure.txt","peter.txt","dracula.txt"};
 	getData(words, files);
-
 	string file = "words.txt";
-	saveData(words, file);
+	saveDataColumn(words, file);
 }
-
-
+*/
 
 
 
