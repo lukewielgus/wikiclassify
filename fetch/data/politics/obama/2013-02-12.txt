@@ -1,0 +1,687 @@
+EXECUTIVE ORDER
+- - - - - - -
+IMPROVING CRITICAL INFRASTRUCTURE CYBERSECURITY
+ 
+By the authority vested in me as President by the Constitution and the laws of the United States of America, it is hereby ordered as follows:
+Section 1. Policy. Repeated cyber intrusions into critical infrastructure demonstrate the need for improved cybersecurity. The cyber threat to critical infrastructure continues to grow and represents one of the most serious national security challenges we must confront. The national and economic security of the United States depends on the reliable functioning of the Nation's critical infrastructure in the face of such threats. It is the policy of the United States to enhance the security and resilience of the Nation's critical infrastructure and to maintain a cyber environment that encourages efficiency, innovation, and economic prosperity while promoting safety, security, business confidentiality, privacy, and civil liberties. We can achieve these goals through a partnership with the owners and operators of critical infrastructure to improve cybersecurity information sharing and collaboratively develop and implement risk-based standards.
+Sec. 2. Critical Infrastructure. As used in this order, the term critical infrastructure means systems and assets, whether physical or virtual, so vital to the United States that the incapacity or destruction of such systems and assets would have a debilitating impact on security, national economic security, national public health or safety, or any combination of those matters.
+Sec. 3. Policy Coordination. Policy coordination, guidance, dispute resolution, and periodic in-progress reviews for the functions and programs described and assigned herein shall be provided through the interagency process established in Presidential Policy Directive-1 of February 13, 2009 (Organization of the National Security Council System), or any successor.
+Sec. 4. Cybersecurity Information Sharing. (a) It is the policy of the United States Government to increase the volume, timeliness, and quality of cyber threat information shared with U.S. private sector entities so that these entities may better protect and defend themselves against cyber threats. Within 120 days of the date of this order, the Attorney General, the Secretary of Homeland Security (the "Secretary"), and the Director of National Intelligence shall each issue instructions consistent with their authorities and with the requirements of section 12(c) of this order to ensure the timely production of unclassified reports of cyber threats to the U.S. homeland that identify a specific targeted entity. The instructions shall address the need to protect intelligence and law enforcement sources, methods, operations, and investigations.
+(b) The Secretary and the Attorney General, in coordination with the Director of National Intelligence, shall establish a process that rapidly disseminates the reports produced pursuant to section 4(a) of this order to the targeted entity. Such process shall also, consistent with the need to protect national security information, include the dissemination of classified reports to critical infrastructure entities authorized to receive them. The Secretary and the Attorney General, in coordination with the Director of National Intelligence, shall establish a system for tracking the production, dissemination, and disposition of these reports.
+(c) To assist the owners and operators of critical infrastructure in protecting their systems from unauthorized access, exploitation, or harm, the Secretary, consistent with 6 U.S.C. 143 and in collaboration with the Secretary of Defense, shall, within 120 days of the date of this order, establish procedures to expand the Enhanced Cybersecurity Services program to all critical infrastructure sectors. This voluntary information sharing program will provide classified cyber threat and technical information from the Government to eligible critical infrastructure companies or commercial service providers that offer security services to critical infrastructure.
+(d) The Secretary, as the Executive Agent for the Classified National Security Information Program created under Executive Order 13549 of August 18, 2010 (Classified National Security Information Program for State, Local, Tribal, and Private Sector Entities), shall expedite the processing of security clearances to appropriate personnel employed by critical infrastructure owners and operators, prioritizing the critical infrastructure identified in section 9 of this order.
+(e) In order to maximize the utility of cyber threat information sharing with the private sector, the Secretary shall expand the use of programs that bring private sector subject-matter experts into Federal service on a temporary basis. These subject matter experts should provide advice regarding the content, structure, and types of information most useful to critical infrastructure owners and operators in reducing and mitigating cyber risks.
+Sec. 5. Privacy and Civil Liberties Protections. (a) Agencies shall coordinate their activities under this order with their senior agency officials for privacy and civil liberties and ensure that privacy and civil liberties protections are incorporated into such activities. Such protections shall be based upon the Fair Information Practice Principles and other privacy and civil liberties policies, principles, and frameworks as they apply to each agency's activities.
+(b) The Chief Privacy Officer and the Officer for Civil Rights and Civil Liberties of the Department of Homeland Security (DHS) shall assess the privacy and civil liberties risks of the functions and programs undertaken by DHS as called for in this order and shall recommend to the Secretary ways to minimize or mitigate such risks, in a publicly available report, to be released within 1 year of the date of this order. Senior agency privacy and civil liberties officials for other agencies engaged in activities under this order shall conduct assessments of their agency activities and provide those assessments to DHS for consideration and inclusion in the report. The report shall be reviewed on an annual basis and revised as necessary. The report may contain a classified annex if necessary. Assessments shall include evaluation of activities against the Fair Information Practice Principles and other applicable privacy and civil liberties policies, principles, and frameworks. Agencies shall consider the assessments and recommendations of the report in implementing privacy and civil liberties protections for agency activities.
+(c) In producing the report required under subsection (b) of this section, the Chief Privacy Officer and the Officer for Civil Rights and Civil Liberties of DHS shall consult with the Privacy and Civil Liberties Oversight Board and coordinate with the Office of Management and Budget (OMB).
+(d) Information submitted voluntarily in accordance with 6 U.S.C. 133 by private entities under this order shall be protected from disclosure to the fullest extent permitted by law.
+Sec. 6. Consultative Process. The Secretary shall establish a consultative process to coordinate improvements to the cybersecurity of critical infrastructure. As part of the consultative process, the Secretary shall engage and consider the advice, on matters set forth in this order, of the Critical Infrastructure Partnership Advisory Council; Sector Coordinating Councils; critical infrastructure owners and operators; Sector-Specific Agencies; other relevant agencies; independent regulatory agencies; State, local, territorial, and tribal governments; universities; and outside experts.
+Sec. 7. Baseline Framework to Reduce Cyber Risk to Critical Infrastructure. (a) The Secretary of Commerce shall direct the Director of the National Institute of Standards and Technology (the "Director") to lead the development of a framework to reduce cyber risks to critical infrastructure (the "Cybersecurity Framework"). The Cybersecurity Framework shall include a set of standards, methodologies, procedures, and processes that align policy, business, and technological approaches to address cyber risks. The Cybersecurity Framework shall incorporate voluntary consensus standards and industry best practices to the fullest extent possible. The Cybersecurity Framework shall be consistent with voluntary international standards when such international standards will advance the objectives of this order, and shall meet the requirements of the National Institute of Standards and Technology Act, as amended (15 U.S.C. 271 et seq.), the National Technology Transfer and Advancement Act of 1995 (Public Law 104-113), and OMB Circular A-119, as revised.
+(b) The Cybersecurity Framework shall provide a prioritized, flexible, repeatable, performance-based, and cost-effective approach, including information security measures and controls, to help owners and operators of critical infrastructure identify, assess, and manage cyber risk. The Cybersecurity Framework shall focus on identifying cross-sector security standards and guidelines applicable to critical infrastructure. The Cybersecurity Framework will also identify areas for improvement that should be addressed through future collaboration with particular sectors and standards-developing organizations. To enable technical innovation and account for organizational differences, the Cybersecurity Framework will provide guidance that is technology neutral and that enables critical infrastructure sectors to benefit from a competitive market for products and services that meet the standards, methodologies, procedures, and processes developed to address cyber risks. The Cybersecurity Framework shall include guidance for measuring the performance of an entity in implementing the Cybersecurity Framework.
+(c) The Cybersecurity Framework shall include methodologies to identify and mitigate impacts of the Cybersecurity Framework and associated information security measures or controls on business confidentiality, and to protect individual privacy and civil liberties.
+(d) In developing the Cybersecurity Framework, the Director shall engage in an open public review and comment process. The Director shall also consult with the Secretary, the National Security Agency, Sector-Specific Agencies and other interested agencies including OMB, owners and operators of critical infrastructure, and other stakeholders through the consultative process established in section 6 of this order. The Secretary, the Director of National Intelligence, and the heads of other relevant agencies shall provide threat and vulnerability information and technical expertise to inform the development of the Cybersecurity Framework. The Secretary shall provide performance goals for the Cybersecurity Framework informed by work under section 9 of this order.
+(e) Within 240 days of the date of this order, the Director shall publish a preliminary version of the Cybersecurity Framework (the "preliminary Framework"). Within 1 year of the date of this order, and after coordination with the Secretary to ensure suitability under section 8 of this order, the Director shall publish a final version of the Cybersecurity Framework (the "final Framework").
+(f) Consistent with statutory responsibilities, the Director will ensure the Cybersecurity Framework and related guidance is reviewed and updated as necessary, taking into consideration technological changes, changes in cyber risks, operational feedback from owners and operators of critical infrastructure, experience from the implementation of section 8 of this order, and any other relevant factors.
+Sec. 8. Voluntary Critical Infrastructure Cybersecurity Program. (a) The Secretary, in coordination with Sector-Specific Agencies, shall establish a voluntary program to support the adoption of the Cybersecurity Framework by owners and operators of critical infrastructure and any other interested entities (the "Program").
+(b) Sector-Specific Agencies, in consultation with the Secretary and other interested agencies, shall coordinate with the Sector Coordinating Councils to review the Cybersecurity Framework and, if necessary, develop implementation guidance or supplemental materials to address sector-specific risks and operating environments.
+(c) Sector-Specific Agencies shall report annually to the President, through the Secretary, on the extent to which owners and operators notified under section 9 of this order are participating in the Program.
+(d) The Secretary shall coordinate establishment of a set of incentives designed to promote participation in the Program. Within 120 days of the date of this order, the Secretary and the Secretaries of the Treasury and Commerce each shall make recommendations separately to the President, through the Assistant to the President for Homeland Security and Counterterrorism and the Assistant to the President for Economic Affairs, that shall include analysis of the benefits and relative effectiveness of such incentives, and whether the incentives would require legislation or can be provided under existing law and authorities to participants in the Program.
+(e) Within 120 days of the date of this order, the Secretary of Defense and the Administrator of General Services, in consultation with the Secretary and the Federal Acquisition Regulatory Council, shall make recommendations to the President, through the Assistant to the President for Homeland Security and Counterterrorism and the Assistant to the President for Economic Affairs, on the feasibility, security benefits, and relative merits of incorporating security standards into acquisition planning and contract administration. The report shall address what steps can be taken to harmonize and make consistent existing procurement requirements related to cybersecurity.
+Sec. 9. Identification of Critical Infrastructure at Greatest Risk. (a) Within 150 days of the date of this order, the Secretary shall use a risk-based approach to identify critical infrastructure where a cybersecurity incident could reasonably result in catastrophic regional or national effects on public health or safety, economic security, or national security. In identifying critical infrastructure for this purpose, the Secretary shall use the consultative process established in section 6 of this order and draw upon the expertise of Sector-Specific Agencies. The Secretary shall apply consistent, objective criteria in identifying such critical infrastructure. The Secretary shall not identify any commercial information technology products or consumer information technology services under this section. The Secretary shall review and update the list of identified critical infrastructure under this section on an annual basis, and provide such list to the President, through the Assistant to the President for Homeland Security and Counterterrorism and the Assistant to the President for Economic Affairs.
+(b) Heads of Sector-Specific Agencies and other relevant agencies shall provide the Secretary with information necessary to carry out the responsibilities under this section. The Secretary shall develop a process for other relevant stakeholders to submit information to assist in making the identifications required in subsection (a) of this section.
+(c) The Secretary, in coordination with Sector-Specific Agencies, shall confidentially notify owners and operators of critical infrastructure identified under subsection (a) of this section that they have been so identified, and ensure identified owners and operators are provided the basis for the determination. The Secretary shall establish a process through which owners and operators of critical infrastructure may submit relevant information and request reconsideration of identifications under subsection (a) of this section.
+Sec. 10. Adoption of Framework. (a) Agencies with responsibility for regulating the security of critical infrastructure shall engage in a consultative process with DHS, OMB, and the National Security Staff to review the preliminary Cybersecurity Framework and determine if current cybersecurity regulatory requirements are sufficient given current and projected risks. In making such determination, these agencies shall consider the identification of critical infrastructure required under section 9 of this order. Within 90 days of the publication of the preliminary Framework, these agencies shall submit a report to the President, through the Assistant to the President for Homeland Security and Counterterrorism, the Director of OMB, and the Assistant to the President for Economic Affairs, that states whether or not the agency has clear authority to establish requirements based upon the Cybersecurity Framework to sufficiently address current and projected cyber risks to critical infrastructure, the existing authorities identified, and any additional authority required.
+(b) If current regulatory requirements are deemed to be insufficient, within 90 days of publication of the final Framework, agencies identified in subsection (a) of this section shall propose prioritized, risk-based, efficient, and coordinated actions, consistent with Executive Order 12866 of September 30, 1993 (Regulatory Planning and Review), Executive Order 13563 of January 18, 2011 (Improving Regulation and Regulatory Review), and Executive Order 13609 of May 1, 2012 (Promoting International Regulatory Cooperation), to mitigate cyber risk.
+(c) Within 2 years after publication of the final Framework, consistent with Executive Order 13563 and Executive Order 13610 of May 10, 2012 (Identifying and Reducing Regulatory Burdens), agencies identified in subsection (a) of this section shall, in consultation with owners and operators of critical infrastructure, report to OMB on any critical infrastructure subject to ineffective, conflicting, or excessively burdensome cybersecurity requirements. This report shall describe efforts made by agencies, and make recommendations for further actions, to minimize or eliminate such requirements.
+(d) The Secretary shall coordinate the provision of technical assistance to agencies identified in subsection (a) of this section on the development of their cybersecurity workforce and programs.
+(e) Independent regulatory agencies with responsibility for regulating the security of critical infrastructure are encouraged to engage in a consultative process with the Secretary, relevant Sector-Specific Agencies, and other affected parties to consider prioritized actions to mitigate cyber risks for critical infrastructure consistent with their authorities.
+Sec. 11. Definitions. (a) "Agency" means any authority of the United States that is an "agency" under 44 U.S.C. 3502(1), other than those considered to be independent regulatory agencies, as defined in 44 U.S.C. 3502(5).
+(b) "Critical Infrastructure Partnership Advisory Council" means the council established by DHS under 6 U.S.C. 451 to facilitate effective interaction and coordination of critical infrastructure protection activities among the Federal Government; the private sector; and State, local, territorial, and tribal governments.
+(c) "Fair Information Practice Principles" means the eight principles set forth in Appendix A of the National Strategy for Trusted Identities in Cyberspace.
+(d) "Independent regulatory agency" has the meaning given the term in 44 U.S.C. 3502(5).
+(e) "Sector Coordinating Council" means a private sector coordinating council composed of representatives of owners and operators within a particular sector of critical infrastructure established by the National Infrastructure Protection Plan or any successor.
+(f) "Sector-Specific Agency" has the meaning given the term in Presidential Policy Directive-21 of February 12, 2013 (Critical Infrastructure Security and Resilience), or any successor.
+Sec. 12. General Provisions. (a) This order shall be implemented consistent with applicable law and subject to the availability of appropriations. Nothing in this order shall be construed to provide an agency with authority for regulating the security of critical infrastructure in addition to or to a greater extent than the authority the agency has under existing law. Nothing in this order shall be construed to alter or limit any authority or responsibility of an agency under existing law.
+(b) Nothing in this order shall be construed to impair or otherwise affect the functions of the Director of OMB relating to budgetary, administrative, or legislative proposals.
+(c) All actions taken pursuant to this order shall be consistent with requirements and authorities to protect intelligence and law enforcement sources and methods. Nothing in this order shall be interpreted to supersede measures established under authority of law to protect the security and integrity of specific activities and associations that are in direct support of intelligence and law enforcement operations.
+(d) This order shall be implemented consistent with U.S. international obligations.
+(e) This order is not intended to, and does not, create any right or benefit, substantive or procedural, enforceable at law or in equity by any party against the United States, its departments, agencies, or entities, its officers, employees, or agents, or any other person.
+BARACK OBAMA
+First Lady Michelle Obama
+	 
+	Dr. Jill Biden
+	 
+	Valerie Jarrett, Senior Advisor to the President
+	 
+	The following individuals will be seated in the box with the First Lady and Dr. Biden at the State of the Union Address:
+	 
+Sergeant Sheena Adams (Vista, CA)
+	Team Advisor & Lead Instructor, Female Engagement Team
+	A native of Kauai, Hawaii, Sergeant Adams joined the Marine Corps in 2003 and attended recruit training in Parris Island, S.C.  In 2010, Sergeant Adams joined the Female Engagement Team (FET) and was deployed to Helmand Province, Afghanistan from September 2010 to April 2011 in direct support of 1st Battalion 8th Marines in Musa Qal’eh District.  Sergeant Adams received her Combat Action Ribbon and Navy and Marine Corp Achievement Medal (second award) after successful completion of the deployment.  In September 2011, Sergeant Adams returned to 1st Marine Expeditionary Force Advisor Training Cell, as Team Advisor/Liaison and lead FET instructor, where she re-engineered the Period of Instruction for future FETs.
+	 
+Alan Aleman (Las Vegas, NV)
+	DREAM Student
+	Alan Aleman was born in Mexico City, Mexico.  In high school, Alan watched his friends come of age – driving around town with their new licenses and earning some extra cash from their summer jobs at the mall.  Although Alan knew he could not do those things because of his immigration status, he was determined to get a good education.  Last year, when Alan heard the news that the Obama Administration was going to provide Deferred Action for undocumented youth like him to emerge from the shadows, he was one of the first to sign up.  Alan was among the first people in Nevada to get approved.  In that moment, Alan said, “I felt the fear vanish.  I felt accepted.”  Today, Alan is in his second year at the College of Southern Nevada.  He’s studying to become a doctor and he hopes to join the Air Force.  Alan is currently working at Hermandad Mexicana, where he is in charge of final review for DACA applications. 
+Jack Andraka (Crownsville, MD)
+	Winner of the 2012 Intel International Science and Engineering Fair
+	Jack Andraka, 16, of North County High School, was awarded first place for his new method to detect pancreatic cancer at the Intel International Science and Engineering Fair 2012, a program of Society for Science & the Public. Motivated by the death of his uncle due to pancreatic cancer, Jack created a simple dip-stick sensor based on diabetic test paper to test blood or urine to determine whether or not a patient has early-stage pancreatic cancer. His study resulted in over 90 percent accuracy and showed his patent-pending sensor to be 28 times faster, 28 times less expensive and over 100 times more sensitive than current tests. President Obama strongly believes that we need more students like Jack who are passionate about science, technology, engineering and math (STEM) and has hosted two White House Science Fairs to celebrate students participating in such competitions. 
+Susan Bumgarner (Norman, OK)                                        
+	Early Childhood Educator
+	Susan Bumgarner's home state of Oklahoma is a national leader in providing access to high quality preschool for all children, and she has been an early educator in the Oklahoma system for more than twenty years. Susan was educated at the University of Oklahoma and influenced by family members who taught and studied there.  Susan has written curriculum, trained Head Start teachers, taught infants and toddlers, and prepared parents by teaching Early Birds readiness class.  In 1992 Susan began teaching pre-kindergarten at what is now Wilson Arts Integration Elementary School, a public school. “My work is enthralling and my students are amazing, creative, intelligent people,” she said. “It is an honor to facilitate their playful transition into the formal world of learning.”
+	 
+Deb Carey (New Glarus, WI)
+	Small Business Owner, New Glarus Brewing Company
+	Deborah Carey’s decision to start New Glarus Brewing Company was rooted in doing what was best for her family.  As she worked on a business plan, her husband Dan, a master brewer, gathered the materials, grains and equipment needed for start-up.  In 1993 they negotiated to rent a warehouse in New Glarus, exchanging the lease for stock in the New Glarus Brewing Company.  They sold their home and raised $40,000 in seed money, but still needed more funding. Deborah pitched her story to local newspapers, and the media attention brought $200,000 from investors.  In the early days, the couple worked hard to establish the brewery’s reputation for consistent quality beers and developed a very loyal customer base. Today, New Glarus Brewing Company has grown to 50 full-time employees, and registered growth in profits of 123 percent from 2007 to 2009, becoming Wisconsin’s number one micro-brewery relative to sales volume.
+Sergeant Carlos Evans, USMC (Cameron, NC)
+	Wounded Warrior
+	Sergeant Evans, born in Puerto Rico, was on his fourth overseas deployment when he sustained injuries in Afghanistan that resulted in the loss of both of his legs and his left hand.  Recovering at Walter Reed Medical Center, Sergeant Evans met the First Lady and later visited the White House for a Wounded Warrior Tour.  At that time, the President signed his prosthetic arm.   He credits the support he has received from private organizations to the First Lady and Dr. Biden’s efforts in Joining Forces.  In 2012, he received a custom home from Operation Coming Home and now resides in North Carolina with his wife and two young daughters. 
+	 
+Tim Cook (Cupertino, CA)
+	CEO of Apple
+	Before being named CEO in August 2011, Tim was Apple's Chief Operating Officer and was responsible for all of the company’s worldwide sales and operations, including end-to-end management of Apple’s supply chain, sales activities, and service and support in all markets and countries. He also headed Apple’s Macintosh division and played a key role in the continued development of strategic reseller and supplier relationships, ensuring flexibility in response to an increasingly demanding marketplace.
+Prior to joining Apple, Tim was vice president of Corporate Materials for Compaq and was responsible for procuring and managing all of Compaq’s product inventory. Previous to his work at Compaq, Tim was the chief operating officer of the Reseller Division at Intelligent Electronics. Tim also spent 12 years with IBM, most recently as director of North American Fulfillment where he led manufacturing and distribution functions for IBM’s Personal Computer Company in North and Latin America.
+Tim earned an M.B.A. from Duke University, where he was a Fuqua Scholar, and a Bachelor of Science degree in Industrial Engineering from Auburn University.
+	 
+Cleopatra Cowley-Pendleton and Nathaniel A. Pendleton Sr. (Chicago, IL)
+	Cleopatra and Nathaniel’s daughter Hadiya Pendleton was murdered on January 29, 2013, when she was shot and killed in Harsh Park on Chicago’s South Side. Hadiya had participated in President Obama’s public inaugural celebration on January 21, 2013.  She was an honor student and band majorette at King College Prep High School.  First Lady Michelle Obama attended Hadiya’s memorial service on Saturday, February 6th.  
+Menchu de Luna Sanchez (Secaucus, NJ)
+	Registered Nurse, NYU Langone Medical Center
+	When Hurricane Sandy cut the power at NYU Langone Medical Center, Menchu Sanchez, a Registered Nurse, devised a plan to transport twenty at-risk infants to intensive care units around the city.  She organized the nurses and doctors to carefully carry the babies down eight flights of stairs with only cell phones to light the way.  Even as Menchu’s own home was flooding, she thought only of protecting the babies in her care.  Menchu was born, raised, and educated in the Philippines and she immigrated to the United States in the 1980s.  She has worked as a nurse in New York for more than 25 years, and has been at NYU since 2010.  Menchu currently lives in New Jersey with her husband and two children, both of whom are in college.
+	 
+Bobak Ferdowsi (Pasadena, CA)
+	Flight Director, Mars Curiosity Rover
+	Bobak Ferdowsi, aka NASA’s “Mohawk Guy,” is a member of the Mars Curiosity rover team at NASA and Caltech’s Jet Propulsion Laboratory in California.  After the successful landing of the Curiosity rover in August 2012, President Obama called to congratulate the team on their success, and singled out Bobak for his unique haircut that captured the imagination of millions of people around the world. The Curiosity rover is a car-sized robot equipped with a laser, chemistry set, and drill for assessing whether Mars ever had an environment able to support small life forms. Bobak is an Iranian-American and science, technology, engineering, and math (STEM) professional who, in addition to his inspiring day-to-day work on the Mars Curiosity mission, volunteers as a FIRST robotics mentor to get more boys and girls excited about STEM education.
+Bradley Henning (Louisville, KY)
+	Machinist, Atlas Machine and Supply
+	Bradley Henning’s high school has one of the best machining programs in Kentucky.  He got hooked on machining in his sophomore year, and by the time he graduated, Bradley had taken enough vocational classes to get hired as a full-time apprentice with Atlas Machine and Supply in Louisville, Kentucky.  For the past four years, Bradley has worked under a veteran machinist and is taking additional classes to earn his full certification. Today, at 23, he is a card-carrying Journeyman Machinist at Atlas, and responsible for mentoring the next generation of apprentices.  Bradley is committed to a career in manufacturing and sees a bright future ahead. “This is going to be my lifelong career,” he said. “I come in every day with a smile on my face. I learn something new every day…I love that.”
+Tracey Hepner (Arlington, VA)
+	Co-Founder, Military Partners and Families Coalition
+	Tracey is a co-founder of the Military Partners and Families Coalition (MPFC), which provides support, resources, education, and advocacy for LGBT military partners and their families.  Outside of her work with MPFC, Tracey works full time for the Department of Homeland Security as a Master Behavior Detection Officer.  She is married to the first openly gay or lesbian general officer in the military, Army Brigadier General Tammy Smith.
+Peter Hudson (Evergreen, CO)
+	Co-Founder and CEO, iTriage
+	Dr. Peter Hudson, the co-founder and CEO of iTriage, is a physician and entrepreneur with more than 15 years of experience founding and growing healthcare-related businesses. His focus has been on creating efficiencies within the healthcare delivery system, and empowering healthcare consumers with technology.  Using open government data, Dr. Hudson launched iTriage in 2009, a company focused on prompting citizens to actively engage in their own healthcare. Through the app, an example of government inspired innovation, smartphone users can locate nearby providers based on their symptoms, make appointments, store their personal health records, save medication refill reminders, and learn about thousands of medications, diseases and procedures.
+	 
+Governor John Kitzhaber (D-OR)
+	Governor John Kitzhaber has built on his experience as a former emergency room doctor to transform health care delivery in Oregon. Now in his third term, Governor Kitzhaber is working with the Obama administration to scale up innovative models that show how government can do more with less. These performance partnerships, which emphasize federal flexibility and local accountability, are key to achieving improved health care outcomes and efficiencies, better results for our students and building the infrastructure we'll need to unleash the 21st century economy.
+	 
+Mayor Marie Lopez Rogers (Avondale, AZ)
+	Marie Lopez Rogers served on the Avondale City Council for 14 years before being elected as the city’s first Latina Mayor in 2006.  Growing up in migrant farm labor camps and picking cotton alongside her parents in fields where her City Hall now stands, Mayor Rogers never imagined that she would be guiding the transformation of the region.  Mayor Rogers currently serves as Chair of the Maricopa Association of Governments.  In Dec. 2012, she was named president of the National League of Cities, an organization dedicated to helping city leaders build better communities. She and her husband Ed have been married for 43 years and have three children and six grandchildren.
+Amanda E. McMillan (Jackson, MS)
+	Pay Discrimination Victim
+	For a number of years Amanda McMillan worked as a secretary for the owner of a Forrest City Grocery Company. She was doing many of the same duties as male salespeople, but at lower pay. Despite repeatedly asking to be officially promoted to the better and higher-paying job in sales, she was told by the company that the job of a salesman was too dangerous for a woman, and that she would not be a good mother if she were on the road meeting customers. With the help of the Equal Employment Opportunity Commission (EEOC), she sued the company for sex discrimination. The lawsuit charged that Forrest City Grocery denied sales positions to an employee because she was a woman and paid McMillan less than men doing the same work. When asked why she has pursued the case, McMillan said, “I’m doing this because it was wrong and I could never look my girls in the face and then tell them they live in America and could be anything they wanted to be.”As a result of the suit, Forrest City Grocery agreed to pay $125,000 in monetary damages and agreed to disseminate employment policies to employees and provide ongoing training for management on sex discrimination. Amanda, a mother of three, currently lives in Jackson, MS.
+Lee Maxwell (Wilton, IA)
+	Graduate, Kirkwood Community College Wind Technician Program
+	In 2012, Lee Maxwell graduated from Kirkwood Community College in Cedar Rapids, Iowa.   He gained twenty six separate certifications in everything from reading blueprints to driving forklifts.  Today, he’s responsible for turning on the power for new wind turbines that are being built all around the country.   Kirkwood started its wind technician training program three years ago in partnership with Iowa-based Clipper Windpower, combining an industry-based curriculum and donated equipment to give students the hands-on experience they need to succeed.
+Lieutenant Brian Murphy (Oak Creek, WI)
+	Lieutenant Brian Murphy was the first police officer to arrive at the scene of the tragic Sikh temple shooting in Oak Creek, Wisconsin last August.  Lt. Murphy directly confronted the shooter, and took fifteen bullets to his head, neck, and body before the rest of the police force arrived.  When his fellow officers moved to assist him, he waved them off and told them to protect the threatened citizens who remained in the temple. When asked how he was able to respond with such bravery, Lt. Murphy responded, “That’s just the way we’re made.” Today, Lt. Murphy is on medical leave from the force and still recovering from his injuries.  Lt. Murphy has served as a police officer for more than twenty years and previously served in the Marine Corps and the United National security force.  He lives with his wife and children in Oak Creek, Wisconsin.
+Lisa Richards (Arlington, VA)
+	#My2K Participant
+	Lisa Richards, a single mom, was one of thousands of Americans who shared stories about what paying $2,200 more in taxes would mean for her family by using #My2K. She wrote, “It's 20 weeks of groceries, two years worth of gasoline, 1/3 of a new roof (which I need), six months of utilities.” With the passage of the middle class tax cuts at the beginning of the year, Lisa and millions of Americans like her did not see did not see an income tax increase. Born in Philadelphia and raised in New York and Dallas, Lisa has called the Washington, DC area home for more than 25 years. She now lives in Arlington, Virginia with her seven-year-old daughter working freelance and contract work for a variety of website clients. 
+	 
+Kaitlin Roig (Greenwich, CT)
+	1st Grade Teacher, Sandy Hook Elementary School
+	Kaitlin Roig has taught first grade for six years at Sandy Hook Elementary, and has always had a passion for education and working with children.  She attended and received her Master’s degree from the NEAG School of Education at the University of Connecticut, where she was a member of the Order of Omega Honor Society, The Historical Honor Society, and the NEAG honor society.  In addition to her teaching, Kaitlin also started a running club called Marathon Mondays for third and fourth grade students at Sandy Hook Elementary.  She will be running the New York City Marathon this year.
+	 
+Abby Schanfield (Minneapolis, MN)
+	ACA Beneficiary
+	Prior to the passage of the Affordable Care Act, Abby would have lost coverage upon turning 21 and would not have been able to obtain care due to her several pre-existing conditions.  Abby is a member of TakeAction Minnesota’s healthcare team, a grassroots organization that advocates for progressive policies ranging from health care to economic reform.  Abby was influenced by her experiences growing up with a chronic illness, and the privileges that come with being insured.  A recent graduate of the University of Minnesota, Abby hopes to work in public policy, focusing on women’s and community health.
+	 
+Haile Thomas (Tucson, AZ)
+	Let’s Move! Champion
+	Haile Thomas is a 12 year-old Youth Advisory Board member with the Alliance for a Healthier Generation.  She is Co-Founder/Director of the HAPPY Organization, an Arizona nonprofit dedicated to improving the health and wellness of youth through education, outreach, and advocacy about proper nutrition and healthy lifestyle choices. Haile hosts an annual H.E.A.L. (healthy eating, active lifestyle) Festival on Global Youth Service Day in Tucson. She created the Healthy Girl Adventures Club to inspire girls to embrace healthy habits, and produces online cooking videos aimed at encouraging kids to get cooking. Haile is also the Youth Spokesperson and Jr. Chef Consultant for Hyatt Hotels.
+Desiline Victor (Miami, FL)
+	Desiline Victor, a naturalized U.S. citizen from Haiti and retired farmworker, is 102 years old. On October 28, the first Sunday of early voting in Florida, Desiline went to vote at her polling place, a local library. When she arrived at 10:00 a.m., wait times were up to six hours. Determined to vote, she stood in line for three hours, until 1:00 p.m. After citizen advocates complained that the elderly woman was struggling on her feet, a poll worker asked Desiline to come back at a later time. On Desiline’s second visit that evening, she was finally able to cast her ballot. When she emerged from the building with her “I Voted” sticker, the crowd of thousands of waiting voters erupted into applause. Several voters remarked that the lines were long, and they needed to get home, but because of Desiline they would continue to stand and wait. Desiline resides in North Miami, where she is lovingly known as “Granny” among the city’s Haitian community. A spirited and independent centenarian, she enjoys attending church services and cooking her own meals.
+
+PRESIDENTIAL POLICY DIRECTIVE/PPD-21
+SUBJECT: Critical Infrastructure Security and Resilience
+The Presidential Policy Directive (PPD) on Critical Infrastructure Security and Resilience advances a national unity of effort to strengthen and maintain secure, functioning, and resilient critical infrastructure.
+
+
+
+ 
+Introduction
+The Nation's critical infrastructure provides the essential services that underpin American society. Proactive and coordinated efforts are necessary to strengthen and maintain secure, functioning, and resilient critical infrastructure – including assets, networks, and systems – that are vital to public confidence and the Nation's safety, prosperity, and well-being.
+The Nation's critical infrastructure is diverse and complex. It includes distributed networks, varied organizational structures and operating models (including multinational ownership), interdependent functions and systems in both the physical space and cyberspace, and governance constructs that involve multi-level authorities, responsibilities, and regulations. Critical infrastructure owners and operators are uniquely positioned to manage risks to their individual operations and assets, and to determine effective strategies to make them more secure and resilient.
+Critical infrastructure must be secure and able to withstand and rapidly recover from all hazards. Achieving this will require integration with the national preparedness system across prevention, protection, mitigation, response, and recovery.
+This directive establishes national policy on critical infrastructure security and resilience. This endeavor is a shared responsibility among the Federal, state, local, tribal, and territorial (SLTT) entities, and public and private owners and operators of critical infrastructure (herein referred to as "critical infrastructure owners and operators"). This directive also refines and clarifies the critical infrastructure-related functions, roles, and responsibilities across the Federal Government, as well as enhances overall coordination and collaboration. The Federal Government also has a responsibility to strengthen the security and resilience of its own critical infrastructure, for the continuity of national essential functions, and to organize itself to partner effectively with and add value to the security and resilience efforts of critical infrastructure owners and operators.
+
+
+ 
+Policy
+It is the policy of the United States to strengthen the security and resilience of its critical infrastructure against both physical and cyber threats. The Federal Government shall work with critical infrastructure owners and operators and SLTT entities to take proactive steps to manage risk and strengthen the security and resilience of the Nation's critical infrastructure, considering all hazards that could have a debilitating impact on national security, economic stability, public health and safety, or any combination thereof. These efforts shall seek to reduce vulnerabilities, minimize consequences, identify and disrupt threats, and hasten response and recovery efforts related to critical infrastructure.
+The Federal Government shall also engage with international partners to strengthen the security and resilience of domestic critical infrastructure and critical infrastructure located outside of the United States on which the Nation depends.
+U.S. efforts shall address the security and resilience of critical infrastructure in an integrated, holistic manner to reflect this infrastructure's interconnectedness and interdependency. This directive also identifies energy and communications systems as uniquely critical due to the enabling functions they provide across all critical infrastructure sectors.
+Three strategic imperatives shall drive the Federal approach to strengthen critical infrastructure security and resilience:
+1) Refine and clarify functional relationships across the Federal Government to advance the national unity of effort to strengthen critical infrastructure security and resilience;
+2) Enable effective information exchange by identifying baseline data and systems requirements for the Federal Government; and
+3) Implement an integration and analysis function to inform planning and operations decisions regarding critical infrastructure.
+All Federal department and agency heads are responsible for the identification, prioritization, assessment, remediation, and security of their respective internal critical infrastructure that supports primary mission essential functions. Such infrastructure shall be addressed in the plans and execution of the requirements in the National Continuity Policy.
+Federal departments and agencies shall implement this directive in a manner consistent with applicable law, Presidential directives, and Federal regulations, including those protecting privacy, civil rights, and civil liberties. In addition, Federal departments and agencies shall protect all information associated with carrying out this directive consistent with applicable legal authorities and policies.
+
+
+ 
+Roles and Responsibilities
+Effective implementation of this directive requires a national unity of effort pursuant to strategic guidance from the Secretary of Homeland Security. That national effort must include expertise and day-to-day engagement from the Sector-Specific Agencies (SSAs) as well as the specialized or support capabilities from other Federal departments and agencies, and strong collaboration with critical infrastructure owners and operators and SLTT entities. Although the roles and responsibilities identified in this directive are directed at Federal departments and agencies, effective partnerships with critical infrastructure owners and operators and SLTT entities are imperative to strengthen the security and resilience of the Nation's critical infrastructure.
+Secretary of Homeland Security
+			The Secretary of Homeland Security shall provide strategic guidance, promote a national unity of effort, and coordinate the overall Federal effort to promote the security and resilience of the Nation's critical infrastructure. In carrying out the responsibilities assigned in the Homeland Security Act of 2002, as amended, the Secretary of Homeland Security evaluates national capabilities, opportunities, and challenges in protecting critical infrastructure; analyzes threats to, vulnerabilities of, and potential consequences from all hazards on critical infrastructure; identifies security and resilience functions that are necessary for effective public-private engagement with all critical infrastructure sectors; develops a national plan and metrics, in coordination with SSAs and other critical infrastructure partners; integrates and coordinates Federal cross-sector security and resilience activities; identifies and analyzes key interdependencies among critical infrastructure sectors; and reports on the effectiveness of national efforts to strengthen the Nation's security and resilience posture for critical infrastructure.
+Additional roles and responsibilities for the Secretary of Homeland Security include:
+1) Identify and prioritize critical infrastructure, considering physical and cyber threats, vulnerabilities, and consequences, in coordination with SSAs and other Federal departments and agencies;
+2) Maintain national critical infrastructure centers that shall provide a situational awareness capability that includes integrated, actionable information about emerging trends, imminent threats, and the status of incidents that may impact critical infrastructure;
+3) In coordination with SSAs and other Federal departments and agencies, provide analysis, expertise, and other technical assistance to critical infrastructure owners and operators and facilitate access to and exchange of information and intelligence necessary to strengthen the security and resilience of critical infrastructure;
+4) Conduct comprehensive assessments of the vulnerabilities of the Nation's critical infrastructure in coordination with the SSAs and in collaboration with SLTT entities and critical infrastructure owners and operators;
+5) Coordinate Federal Government responses to significant cyber or physical incidents affecting critical infrastructure consistent with statutory authorities;
+6) Support the Attorney General and law enforcement agencies with their responsibilities to investigate and prosecute threats to and attacks against critical infrastructure;
+7) Coordinate with and utilize the expertise of SSAs and other appropriate Federal departments and agencies to map geospatially, image, analyze, and sort critical infrastructure by employing commercial satellite and airborne systems, as well as existing capabilities within other departments and agencies; and
+8) Report annually on the status of national critical infrastructure efforts as required by statute.
+Sector-Specific Agencies
+			Each critical infrastructure sector has unique characteristics, operating models, and risk profiles that benefit from an identified Sector-Specific Agency that has institutional knowledge and specialized expertise about the sector. Recognizing existing statutory or regulatory authorities of specific Federal departments and agencies, and leveraging existing sector familiarity and relationships, SSAs shall carry out the following roles and responsibilities for their respective sectors:
+1) As part of the broader national effort to strengthen the security and resilience of critical infrastructure, coordinate with the Department of Homeland Security (DHS) and other relevant Federal departments and agencies and collaborate with critical infrastructure owners and operators, where appropriate with independent regulatory agencies, and with SLTT entities, as appropriate, to implement this directive;
+2) Serve as a day-to-day Federal interface for the dynamic prioritization and coordination of sector-specific activities;
+3) Carry out incident management responsibilities consistent with statutory authority and other appropriate policies, directives, or regulations;
+4) Provide, support, or facilitate technical assistance and consultations for that sector to identify vulnerabilities and help mitigate incidents, as appropriate; and
+5) Support the Secretary of Homeland Security's statutorily required reporting requirements by providing on an annual basis sector-specific critical infrastructure information.
+Additional Federal Responsibilities
+The following departments and agencies have specialized or support functions related to critical infrastructure security and resilience that shall be carried out by, or along with, other Federal departments and agencies and independent regulatory agencies, as appropriate.
+1) The Department of State, in coordination with DHS, SSAs, and other Federal departments and agencies, shall engage foreign governments and international organizations to strengthen the security and resilience of critical infrastructure located outside the United States and to facilitate the overall exchange of best practices and lessons learned for promoting the security and resilience of critical infrastructure on which the Nation depends.
+2) The Department of Justice (DOJ), including the Federal Bureau of Investigation (FBI), shall lead counterterrorism and counterintelligence investigations and related law enforcement activities across the critical infrastructure sectors. DOJ shall investigate, disrupt, prosecute, and otherwise reduce foreign intelligence, terrorist, and other threats to, and actual or attempted attacks on, or sabotage of, the Nation's critical infrastructure. The FBI also conducts domestic collection, analysis, and dissemination of cyber threat information, and shall be responsible for the operation of the National Cyber Investigative Joint Task Force (NCIJTF). The NCIJTF serves as a multi-agency national focal point for coordinating, integrating, and sharing pertinent information related to cyber threat investigations, with representation from DHS, the Intelligence Community (IC), the Department of Defense (DOD), and other agencies as appropriate. The Attorney General and the Secretary of Homeland Security shall collaborate to carry out their respective critical infrastructure missions.
+3) The Department of the Interior, in collaboration with the SSA for the Government Facilities Sector, shall identify, prioritize, and coordinate the security and resilience efforts for national monuments and icons and incorporate measures to reduce risk to these critical assets, while also promoting their use and enjoyment.
+4) The Department of Commerce (DOC), in collaboration with DHS and other relevant Federal departments and agencies, shall engage private sector, research, academic, and government organizations to improve security for technology and tools related to cyber-based systems, and promote the development of other efforts related to critical infrastructure to enable the timely availability of industrial products, materials, and services to meet homeland security requirements.
+5) The IC, led by the Director of National Intelligence (DNI), shall use applicable authorities and coordination mechanisms to provide, as appropriate, intelligence assessments regarding threats to critical infrastructure and coordinate on intelligence and other sensitive or proprietary information related to critical infrastructure. In addition, information security policies, directives, standards, and guidelines for safeguarding national security systems shall be overseen as directed by the President, applicable law, and in accordance with that direction, carried out under the authority of the heads of agencies that operate or exercise authority over such national security systems.
+6) The General Services Administration, in consultation with DOD, DHS, and other departments and agencies as appropriate, shall provide or support government-wide contracts for critical infrastructure systems and ensure that such contracts include audit rights for the security and resilience of critical infrastructure.
+7) The Nuclear Regulatory Commission (NRC) is to oversee its licensees' protection of commercial nuclear power reactors and non-power nuclear reactors used for research, testing, and training; nuclear materials in medical, industrial, and academic settings, and facilities that fabricate nuclear fuel; and the transportation, storage, and disposal of nuclear materials and waste. The NRC is to collaborate, to the extent possible, with DHS, DOJ, the Department of Energy, the Environmental Protection Agency, and other Federal departments and agencies, as appropriate, on strengthening critical infrastructure security and resilience.
+8) The Federal Communications Commission, to the extent permitted by law, is to exercise its authority and expertise to partner with DHS and the Department of State, as well as other Federal departments and agencies and SSAs as appropriate, on: (1) identifying and prioritizing communications infrastructure; (2) identifying communications sector vulnerabilities and working with industry and other stakeholders to address those vulnerabilities; and (3) working with stakeholders, including industry, and engaging foreign governments and international organizations to increase the security and resilience of critical infrastructure within the communications sector and facilitating the development and implementation of best practices promoting the security and resilience of critical communications infrastructure on which the Nation depends.
+9) Federal departments and agencies shall provide timely information to the Secretary of Homeland Security and the national critical infrastructure centers necessary to support cross-sector analysis and inform the situational awareness capability for critical infrastructure.
+
+
+ 
+Three Strategic Imperatives
+1) Refine and Clarify Functional Relationships across the Federal Government to Advance the National Unity of Effort to Strengthen Critical Infrastructure Security and Resilience
+An effective national effort to strengthen critical infrastructure security and resilience must be guided by a national plan that identifies roles and responsibilities and is informed by the expertise, experience, capabilities, and responsibilities of the SSAs, other Federal departments and agencies with critical infrastructure roles, SLTT entities, and critical infrastructure owners and operators.
+During the past decade, new programs and initiatives have been established to address specific infrastructure issues, and priorities have shifted and expanded. As a result, Federal functions related to critical infrastructure security and resilience shall be clarified and refined to establish baseline capabilities that will reflect this evolution of knowledge, to define relevant Federal program functions, and to facilitate collaboration and information exchange between and among the Federal Government, critical infrastructure owners and operators, and SLTT entities.
+As part of this refined structure, there shall be two national critical infrastructure centers operated by DHS – one for physical infrastructure and another for cyber infrastructure. They shall function in an integrated manner and serve as focal points for critical infrastructure partners to obtain situational awareness and integrated, actionable information to protect the physical and cyber aspects of critical infrastructure. Just as the physical and cyber elements of critical infrastructure are inextricably linked, so are the vulnerabilities. Accordingly, an integration and analysis function (further developed in Strategic Imperative 3) shall be implemented between these two national centers.
+The success of these national centers, including the integration and analysis function, is dependent on the quality and timeliness of the information and intelligence they receive from the SSAs and other Federal departments and agencies, as well as from critical infrastructure owners and operators and SLTT entities.
+These national centers shall not impede the ability of the heads of Federal departments and agencies to carry out or perform their responsibilities for national defense, criminal, counterintelligence, counterterrorism, or investigative activities.
+2) Enable Efficient Information Exchange by Identifying Baseline Data and Systems Requirements for the Federal Government
+A secure, functioning, and resilient critical infrastructure requires the efficient exchange of information, including intelligence, between all levels of governments and critical infrastructure owners and operators. This must facilitate the timely exchange of threat and vulnerability information as well as information that allows for the development of a situational awareness capability during incidents. The goal is to enable efficient information exchange through the identification of requirements for data and information formats and accessibility, system interoperability, and redundant systems and alternate capabilities should there be a disruption in the primary systems.
+Greater information sharing within the government and with the private sector can and must be done while respecting privacy and civil liberties. Federal departments and agencies shall ensure that all existing privacy principles, policies, and procedures are implemented consistent with applicable law and policy and shall include senior agency officials for privacy in their efforts to govern and oversee information sharing properly.
+3) Implement an Integration and Analysis Function to Inform Planning and Operational Decisions Regarding Critical Infrastructure
+The third strategic imperative builds on the first two and calls for the implementation of an integration and analysis function for critical infrastructure that includes operational and strategic analysis on incidents, threats, and emerging risks. It shall reside at the intersection of the two national centers as identified in Strategic Imperative 1, and it shall include the capability to collate, assess, and integrate vulnerability and consequence information with threat streams and hazard information to:
+a. Aid in prioritizing assets and managing risks to critical infrastructure;
+b. Anticipate interdependencies and cascading impacts;
+c. Recommend security and resilience measures for critical infrastructure prior to, during, and after an event or incident; and
+d. Support incident management and restoration efforts related to critical infrastructure.
+ 
+This function shall not replicate the analysis function of the IC or the National Counterterrorism Center, nor shall it involve intelligence collection activities. The IC, DOD, DOJ, DHS, and other Federal departments and agencies with relevant intelligence or information shall, however, inform this integration and analysis capability regarding the Nation's critical infrastructure by providing relevant, timely, and appropriate information to the national centers. This function shall also use information and intelligence provided by other critical infrastructure partners, including SLTT and nongovernmental analytic entities.
+Finally, this integration and analysis function shall support DHS's ability to maintain and share, as a common Federal service, a near real-time situational awareness capability for critical infrastructure that includes actionable information about imminent threats, significant trends, and awareness of incidents that may affect critical infrastructure.
+
+
+ 
+Innovation and Research and Development
+The Secretary of Homeland Security, in coordination with the Office of Science and Technology Policy (OSTP), the SSAs, DOC, and other Federal departments and agencies, shall provide input to align those Federal and Federally-funded research and development (R&D) activities that seek to strengthen the security and resilience of the Nation's critical infrastructure, including:
+1) Promoting R&D to enable the secure and resilient design and construction of critical infrastructure and more secure accompanying cyber technology;
+2) Enhancing modeling capabilities to determine potential impacts on critical infrastructure of an incident or threat scenario, as well as cascading effects on other sectors;
+3) Facilitating initiatives to incentivize cybersecurity investments and the adoption of critical infrastructure design features that strengthen all-hazards security and resilience; and
+4) Prioritizing efforts to support the strategic guidance issued by the Secretary of Homeland Security.
+
+
+ 
+Implementation of the Directive
+The Secretary of Homeland Security shall take the following actions as part of the implementation of this directive.
+1) Critical Infrastructure Security and Resilience Functional Relationships. Within 120 days of the date of this directive, the Secretary of Homeland Security shall develop a description of the functional relationships within DHS and across the Federal Government related to critical infrastructure security and resilience. It should include the roles and functions of the two national critical infrastructure centers and a discussion of the analysis and integration function. When complete, it should serve as a roadmap for critical infrastructure owners and operators and SLTT entities to navigate the Federal Government's functions and primary points of contact assigned to those functions for critical infrastructure security and resilience against both physical and cyber threats. The Secretary shall coordinate this effort with the SSAs and other relevant Federal departments and agencies. The Secretary shall provide the description to the President through the Assistant to the President for Homeland Security and Counterterrorism.
+2) Evaluation of the Existing Public-Private Partnership Model. Within 150 days of the date of this directive, the Secretary of Homeland Security, in coordination with the SSAs, other relevant Federal departments and agencies, SLTT entities, and critical infrastructure owners and operators, shall conduct an analysis of the existing public-private partnership model and recommend options for improving the effectiveness of the partnership in both the physical and cyber space. The evaluation shall consider options to streamline processes for collaboration and exchange of information and to minimize duplication of effort. Furthermore, the analysis shall consider how the model can be flexible and adaptable to meet the unique needs of individual sectors while providing a focused, disciplined, and effective approach for the Federal Government to coordinate with the critical infrastructure owners and operators and with SLTT governments. The evaluation shall result in recommendations to enhance partnerships to be approved for implementation through the processes established in the Organization of the National Security Council System directive.
+3) Identification of Baseline Data and Systems Requirements for the Federal Government to Enable Efficient Information Exchange. Within 180 days of the date of this directive, the Secretary of Homeland Security, in coordination with the SSAs and other Federal departments and agencies, shall convene a team of experts to identify baseline data and systems requirements to enable the efficient exchange of information and intelligence relevant to strengthening the security and resilience of critical infrastructure. The experts should include representatives from those entities that routinely possess information important to critical infrastructure security and resilience; those that determine and manage information technology systems used to exchange information; and those responsible for the security of information being exchanged. Interoperability with critical infrastructure partners; identification of key data and the information requirements of key Federal, SLTT, and private sector entities; availability, accessibility, and formats of data; the ability to exchange various classifications of information; and the security of those systems to be used; and appropriate protections for individual privacy and civil liberties should be included in the analysis. The analysis should result in baseline requirements for sharing of data and interoperability of systems to enable the timely exchange of data and information to secure critical infrastructure and make it more resilient. The Secretary shall provide that analysis to the President through the Assistant to the President for Homeland Security and Counterterrorism.
+4) Development of a Situational Awareness Capability for Critical Infrastructure. Within 240 days of the date of this directive, the Secretary of Homeland Security shall demonstrate a near real-time situational awareness capability for critical infrastructure that includes threat streams and all-hazards information as well as vulnerabilities; provides the status of critical infrastructure and potential cascading effects; supports decision making; and disseminates critical information that may be needed to save or sustain lives, mitigate damage, or reduce further degradation of a critical infrastructure capability throughout an incident. This capability should be available for and cover physical and cyber elements of critical infrastructure, and enable an integration of information as necessitated by the incident.
+5) Update to National Infrastructure Protection Plan. Within 240 days of the date of this directive, the Secretary of Homeland Security shall provide to the President, through the Assistant to the President for Homeland Security and Counterterrorism, a successor to the National Infrastructure Protection Plan to address the implementation of this directive, the requirements of Title II of the Homeland Security Act of 2002 as amended, and alignment with the National Preparedness Goal and System required by PPD-8. The plan shall include the identification of a risk management framework to be used to strengthen the security and resilience of critical infrastructure; the methods to be used to prioritize critical infrastructure; the protocols to be used to synchronize communication and actions within the Federal Government; and a metrics and analysis process to be used to measure the Nation's ability to manage and reduce risks to critical infrastructure. The updated plan shall also reflect the identified functional relationships within DHS and across the Federal Government and the updates to the public-private partnership model. Finally, the plan should consider sector dependencies on energy and communications systems, and identify pre-event and mitigation measures or alternate capabilities during disruptions to those systems. The Secretary shall coordinate this effort with the SSAs, other relevant Federal departments and agencies, SLTT entities, and critical infrastructure owners and operators.
+6) National Critical Infrastructure Security and Resilience R&D Plan. Within 2 years of the date of this directive, the Secretary of Homeland Security, in coordination with the OSTP, the SSAs, DOC, and other Federal departments and agencies, shall provide to the President, through the Assistant to the President for Homeland Security and Counterterrorism, a National Critical Infrastructure Security and Resilience R&D Plan that takes into account the evolving threat landscape, annual metrics, and other relevant information to identify priorities and guide R&D requirements and investments. The plan should be issued every 4 years after its initial delivery, with interim updates as needed.
+Policy coordination, dispute resolution, and periodic in-progress reviews for the implementation of this directive shall be carried out consistent with PPD-1, including the use of Interagency Policy Committees coordinated by the National Security Staff.
+Nothing in this directive alters, supersedes, or impedes the authorities of Federal departments and agencies, including independent regulatory agencies, to carry out their functions and duties consistent with applicable legal authorities and other Presidential guidance and directives, including, but not limited to, the designation of critical infrastructure under such authorities.
+This directive revokes Homeland Security Presidential Directive/HSPD-7, Critical Infrastructure Identification, Prioritization, and Protection, issued December 17, 2003. Plans developed pursuant to HSPD-7 shall remain in effect until specifically revoked or superseded.
+
+
+ 
+Designated Critical Infrastructure Sectors and Sector-Specific Agencies
+This directive identifies 16 critical infrastructure sectors and designates associated Federal SSAs. In some cases co-SSAs are designated where those departments share the roles and responsibilities of the SSA. The Secretary of Homeland Security shall periodically evaluate the need for and approve changes to critical infrastructure sectors and shall consult with the Assistant to the President for Homeland Security and Counterterrorism before changing a critical infrastructure sector or a designated SSA for that sector. The sectors and SSAs are as follows:
+Chemical:
+			Sector-Specific Agency: Department of Homeland Security
+Commercial Facilities:
+			Sector-Specific Agency: Department of Homeland Security
+Communications:
+			Sector-Specific Agency: Department of Homeland Security
+Critical Manufacturing: Sector-Specific Agency: Department of Homeland Security
+Dams:
+			Sector-Specific Agency: Department of Homeland Security
+Defense Industrial Base:
+			Sector-Specific Agency: Department of Defense
+Emergency Services:
+			Sector-Specific Agency: Department of Homeland Security
+Energy:
+			Sector-Specific Agency: Department of Energy
+Financial Services:
+			Sector-Specific Agency: Department of the Treasury
+Food and Agriculture:
+			Co-Sector-Specific Agencies: U.S. Department of Agriculture and Department of Health and Human Services
+Government Facilities:
+			Co-Sector-Specific Agencies: Department of Homeland Security and General Services Administration
+Healthcare and Public Health:
+			Sector-Specific Agency: Department of Health and Human Services
+Information Technology:
+			Sector-Specific Agency: Department of Homeland Security
+Nuclear Reactors, Materials, and Waste:
+			Sector-Specific Agency: Department of Homeland Security
+Transportation Systems:
+			Co-Sector-Specific Agencies: Department of Homeland Security and Department of Transportation
+Water and Wastewater Systems:
+			Sector-Specific Agency: Environmental Protection Agency
+
+
+ 
+Definitions
+For purposes of this directive:
+The term "all hazards" means a threat or an incident, natural or manmade, that warrants action to protect life, property, the environment, and public health or safety, and to minimize disruptions of government, social, or economic activities. It includes natural disasters, cyber incidents, industrial accidents, pandemics, acts of terrorism, sabotage, and destructive criminal activity targeting critical infrastructure.
+The term "collaboration" means the process of working together to achieve shared goals.
+The terms "coordinate" and "in coordination with" mean a consensus decision-making process in which the named coordinating department or agency is responsible for working with the affected departments and agencies to achieve consensus and a consistent course of action.
+The term "critical infrastructure" has the meaning provided in section 1016(e) of the USA Patriot Act of 2001 (42 U.S.C. 5195c(e)), namely systems and assets, whether physical or virtual, so vital to the United States that the incapacity or destruction of such systems and assets would have a debilitating impact on security, national economic security, national public health or safety, or any combination of those matters.
+The term "Federal departments and agencies" means any authority of the United States that is an "agency" under 44 U.S.C. 3502(1), other than those considered to be independent regulatory agencies, as defined in 44 U.S.C. 3502(5).
+The term "national essential functions" means that subset of Government functions that are necessary to lead and sustain the Nation during a catastrophic emergency.
+The term "primary mission essential functions" means those Government functions that must be performed in order to support or implement the performance of the national essential functions before, during, and in the aftermath of an emergency.
+The term "national security systems" has the meaning given to it in the Federal Information Security Management Act of 2002 (44 U.S.C. 3542(b)).
+The term "resilience" means the ability to prepare for and adapt to changing conditions and withstand and recover rapidly from disruptions. Resilience includes the ability to withstand and recover from deliberate attacks, accidents, or naturally occurring threats or incidents.
+The term "Sector-Specific Agency" (SSA) means the Federal department or agency designated under this directive to be responsible for providing institutional knowledge and specialized expertise as well as leading, facilitating, or supporting the security and resilience programs and associated activities of its designated critical infrastructure sector in the all-hazards environment.
+The terms "secure" and "security" refer to reducing the risk to critical infrastructure by physical means or defense cyber measures to intrusions, attacks, or the effects of natural or manmade disasters.
+
+
+ 
+ 
+ 
+
+	U.S. Capitol
+
+	Washington, D.C. 
+
+	 
+
+	 
+
+	9:15 P.M. EST
+
+	 
+
+	THE PRESIDENT:  Mr. Speaker, Mr. Vice President, members of Congress, fellow citizens:  
+
+	 
+
+	Fifty-one years ago, John F. Kennedy declared to this chamber that “the Constitution makes us not rivals for power but partners for progress.”  (Applause.) “It is my task,” he said, “to report the State of the Union -- to improve it is the task of us all.”  
+
+	 
+
+	Tonight, thanks to the grit and determination of the American people, there is much progress to report.  After a decade of grinding war, our brave men and women in uniform are coming home.  (Applause.)  After years of grueling recession, our businesses have created over six million new jobs.  We buy more American cars than we have in five years, and less foreign oil than we have in 20.  (Applause.)  Our housing market is healing, our stock market is rebounding, and consumers, patients, and homeowners enjoy stronger protections than ever before.  (Applause.)  
+
+	 
+
+	So, together, we have cleared away the rubble of crisis, and we can say with renewed confidence that the State of our Union is stronger.  (Applause.) 
+
+	 
+
+	But we gather here knowing that there are millions of Americans whose hard work and dedication have not yet been rewarded.  Our economy is adding jobs -- but too many people still can’t find full-time employment.  Corporate profits have skyrocketed to all-time highs -- but for more than a decade, wages and incomes have barely budged.  
+
+	 
+
+	It is our generation’s task, then, to reignite the true engine of America’s economic growth -- a rising, thriving middle class.  (Applause.)  
+
+	 
+
+	It is our unfinished task to restore the basic bargain that built this country -- the idea that if you work hard and meet your responsibilities, you can get ahead, no matter where you come from, no matter what you look like, or who you love.
+
+	 
+
+	It is our unfinished task to make sure that this government works on behalf of the many, and not just the few; that it encourages free enterprise, rewards individual initiative, and opens the doors of opportunity to every child across this great nation.  (Applause.) 
+
+	 
+
+	The American people don’t expect government to solve every problem.  They don’t expect those of us in this chamber to agree on every issue.  But they do expect us to put the nation’s interests before party.  (Applause.)  They do expect us to forge reasonable compromise where we can.  For they know that America moves forward only when we do so together, and that the responsibility of improving this union remains the task of us all.
+
+	 
+
+	Our work must begin by making some basic decisions about our budget -- decisions that will have a huge impact on the strength of our recovery.
+
+	 
+
+	Over the last few years, both parties have worked together to reduce the deficit by more than $2.5 trillion -- mostly through spending cuts, but also by raising tax rates on the wealthiest 1 percent of Americans.  As a result, we are more than halfway towards the goal of $4 trillion in deficit reduction that economists say we need to stabilize our finances.    
+
+	 
+
+	Now we need to finish the job.  And the question is, how? 
+
+	 
+
+	In 2011, Congress passed a law saying that if both parties couldn’t agree on a plan to reach our deficit goal, about a trillion dollars’ worth of budget cuts would automatically go into effect this year.  These sudden, harsh, arbitrary cuts would jeopardize our military readiness.  They’d devastate priorities like education, and energy, and medical research.  They would certainly slow our recovery, and cost us hundreds of thousands of jobs.  That’s why Democrats, Republicans, business leaders, and economists have already said that these cuts, known here in Washington as the sequester, are a really bad idea.  
+
+	 
+
+	Now, some in Congress have proposed preventing only the defense cuts by making even bigger cuts to things like education and job training, Medicare and Social Security benefits.  That idea is even worse.  (Applause.)  
+
+	 
+
+	Yes, the biggest driver of our long-term debt is the rising cost of health care for an aging population.  And those of us who care deeply about programs like Medicare must embrace the need for modest reforms -- otherwise, our retirement programs will crowd out the investments we need for our children, and jeopardize the promise of a secure retirement for future generations.  
+
+	 
+
+	But we can’t ask senior citizens and working families to shoulder the entire burden of deficit reduction while asking nothing more from the wealthiest and the most powerful.  (Applause.)  We won’t grow the middle class simply by shifting the cost of health care or college onto families that are already struggling, or by forcing communities to lay off more teachers and more cops and more firefighters.  Most Americans -- Democrats, Republicans, and independents -- understand that we can’t just cut our way to prosperity.  They know that broad-based economic growth requires a balanced approach to deficit reduction, with spending cuts and revenue, and with everybody doing their fair share.  And that’s the approach I offer tonight.  
+
+	On Medicare, I’m prepared to enact reforms that will achieve the same amount of health care savings by the beginning of the next decade as the reforms proposed by the bipartisan Simpson-Bowles commission.  (Applause.)  
+
+	 
+
+	Already, the Affordable Care Act is helping to slow the growth of health care costs.  (Applause.)  And the reforms I’m proposing go even further.  We’ll reduce taxpayer subsidies to prescription drug companies and ask more from the wealthiest seniors.  (Applause.)  We’ll bring down costs by changing the way our government pays for Medicare, because our medical bills shouldn’t be based on the number of tests ordered or days spent in the hospital; they should be based on the quality of care that our seniors receive.  (Applause.)  And I am open to additional reforms from both parties, so long as they don’t violate the guarantee of a secure retirement.  Our government shouldn’t make promises we cannot keep -- but we must keep the promises we’ve already made.  (Applause.) 
+
+	 
+
+	To hit the rest of our deficit reduction target, we should do what leaders in both parties have already suggested, and save hundreds of billions of dollars by getting rid of tax loopholes and deductions for the well-off and the well-connected.  After all, why would we choose to make deeper cuts to education and Medicare just to protect special interest tax breaks?  How is that fair?  Why is it that deficit reduction is a big emergency justifying making cuts in Social Security benefits but not closing some loopholes?  How does that promote growth?  (Applause.) 
+
+	 
+
+	Now is our best chance for bipartisan, comprehensive tax reform that encourages job creation and helps bring down the deficit.  (Applause.)  We can get this done.  The American people deserve a tax code that helps small businesses spend less time filling out complicated forms, and more time expanding and hiring -- a tax code that ensures billionaires with high-powered accountants can’t work the system and pay a lower rate than their hardworking secretaries; a tax code that lowers incentives to move jobs overseas, and lowers tax rates for businesses and manufacturers that are creating jobs right here in the United States of America.  That’s what tax reform can deliver.  That’s what we can do together.  (Applause.) 
+
+	 
+
+	I realize that tax reform and entitlement reform will not be easy.  The politics will be hard for both sides.  None of us will get 100 percent of what we want.  But the alternative will cost us jobs, hurt our economy, visit hardship on millions of hardworking Americans.  So let’s set party interests aside and work to pass a budget that replaces reckless cuts with smart savings and wise investments in our future.  And let’s do it without the brinksmanship that stresses consumers and scares off investors.  (Applause.)  The greatest nation on Earth cannot keep conducting its business by drifting from one manufactured crisis to the next.  (Applause.)  We can't do it.  
+
+	 
+
+	Let’s agree right here, right now to keep the people’s government open, and pay our bills on time, and always uphold the full faith and credit of the United States of America.  (Applause.)  The American people have worked too hard, for too long, rebuilding from one crisis to see their elected officials cause another.  (Applause.)  
+
+	 
+
+	Now, most of us agree that a plan to reduce the deficit must be part of our agenda.  But let’s be clear, deficit reduction alone is not an economic plan.  (Applause.)  A growing economy that creates good, middle-class jobs -- that must be the North Star that guides our efforts.  (Applause.)  Every day, we should ask ourselves three questions as a nation:  How do we attract more jobs to our shores?  How do we equip our people with the skills they need to get those jobs?  And how do we make sure that hard work leads to a decent living? 
+
+	 
+
+	A year and a half ago, I put forward an American Jobs Act that independent economists said would create more than 1 million new jobs.  And I thank the last Congress for passing some of that agenda.  I urge this Congress to pass the rest.  (Applause.)  But tonight, I’ll lay out additional proposals that are fully paid for and fully consistent with the budget framework both parties agreed to just 18 months ago.  Let me repeat -- nothing I’m proposing tonight should increase our deficit by a single dime.  It is not a bigger government we need, but a smarter government that sets priorities and invests in broad-based growth.  (Applause.)  That's what we should be looking for. 
+
+	 
+
+	Our first priority is making America a magnet for new jobs and manufacturing.  After shedding jobs for more than 10 years, our manufacturers have added about 500,000 jobs over the past three.  Caterpillar is bringing jobs back from Japan.  Ford is bringing jobs back from Mexico.  And this year, Apple will start making Macs in America again.  (Applause.)
+
+	 
+
+	There are things we can do, right now, to accelerate this trend.  Last year, we created our first manufacturing innovation institute in Youngstown, Ohio.  A once-shuttered warehouse is now a state-of-the art lab where new workers are mastering the 3D printing that has the potential to revolutionize the way we make almost everything.  There’s no reason this can’t happen in other towns.  
+
+	 
+
+	So tonight, I’m announcing the launch of three more of these manufacturing hubs, where businesses will partner with the Department of Defense and Energy to turn regions left behind by globalization into global centers of high-tech jobs.  And I ask this Congress to help create a network of 15 of these hubs and guarantee that the next revolution in manufacturing is made right here in America.  We can get that done.  (Applause.)
+
+	 
+
+	Now, if we want to make the best products, we also have to invest in the best ideas.  Every dollar we invested to map the human genome returned $140 to our economy -- every dollar.  Today, our scientists are mapping the human brain to unlock the answers to Alzheimer’s.  They’re developing drugs to regenerate damaged organs; devising new material to make batteries 10 times more powerful.  Now is not the time to gut these job-creating investments in science and innovation.  Now is the time to reach a level of research and development not seen since the height of the Space Race.  We need to make those investments.  (Applause.)  
+
+	Today, no area holds more promise than our investments in American energy.  After years of talking about it, we’re finally poised to control our own energy future.  We produce more oil at home than we have in 15 years.  (Applause.)  We have doubled the distance our cars will go on a gallon of gas, and the amount of renewable energy we generate from sources like wind and solar -- with tens of thousands of good American jobs to show for it.  We produce more natural gas than ever before -- and nearly everyone’s energy bill is lower because of it.  And over the last four years, our emissions of the dangerous carbon pollution that threatens our planet have actually fallen.
+
+	 
+
+	But for the sake of our children and our future, we must do more to combat climate change.  (Applause.)  Now, it’s true that no single event makes a trend.  But the fact is the 12 hottest years on record have all come in the last 15.  Heat waves, droughts, wildfires, floods -- all are now more frequent and more intense.  We can choose to believe that Superstorm Sandy, and the most severe drought in decades, and the worst wildfires some states have ever seen were all just a freak coincidence.  Or we can choose to believe in the overwhelming judgment of science -- and act before it’s too late.  (Applause.)
+
+	 
+
+	Now, the good news is we can make meaningful progress on this issue while driving strong economic growth.  I urge this Congress to get together, pursue a bipartisan, market-based solution to climate change, like the one John McCain and Joe Lieberman worked on together a few years ago.  But if Congress won’t act soon to protect future generations, I will.  (Applause.)  I will direct my Cabinet to come up with executive actions we can take, now and in the future, to reduce pollution, prepare our communities for the consequences of climate change, and speed the transition to more sustainable sources of energy.
+
+	 
+
+	Four years ago, other countries dominated the clean energy market and the jobs that came with it.  And we’ve begun to change that.  Last year, wind energy added nearly half of all new power capacity in America.  So let’s generate even more.  Solar energy gets cheaper by the year -- let’s drive down costs even further. As long as countries like China keep going all in on clean energy, so must we.
+
+	 
+
+	Now, in the meantime, the natural gas boom has led to cleaner power and greater energy independence.  We need to encourage that.  And that’s why my administration will keep cutting red tape and speeding up new oil and gas permits.  (Applause.)  That’s got to be part of an all-of-the-above plan.  But I also want to work with this Congress to encourage the research and technology that helps natural gas burn even cleaner and protects our air and our water.
+
+	 
+
+	In fact, much of our new-found energy is drawn from lands and waters that we, the public, own together.  So tonight, I propose we use some of our oil and gas revenues to fund an Energy Security Trust that will drive new research and technology to shift our cars and trucks off oil for good.  If a nonpartisan coalition of CEOs and retired generals and admirals can get behind this idea, then so can we.  Let’s take their advice and free our families and businesses from the painful spikes in gas prices we’ve put up with for far too long.  
+
+	 
+
+	I’m also issuing a new goal for America:  Let’s cut in half the energy wasted by our homes and businesses over the next 20 years.  (Applause.)  We'll work with the states to do it.  Those states with the best ideas to create jobs and lower energy bills by constructing more efficient buildings will receive federal support to help make that happen.
+
+	 
+
+	America’s energy sector is just one part of an aging infrastructure badly in need of repair.  Ask any CEO where they’d rather locate and hire -- a country with deteriorating roads and bridges, or one with high-speed rail and Internet; high-tech schools, self-healing power grids.  The CEO of Siemens America -- a company that brought hundreds of new jobs to North Carolina -- said that if we upgrade our infrastructure, they’ll bring even more jobs.  And that’s the attitude of a lot of companies all around the world.  And I know you want these job-creating projects in your district.  I’ve seen all those ribbon-cuttings. (Laughter.)  
+
+	 
+
+	So tonight, I propose a “Fix-It-First” program to put people to work as soon as possible on our most urgent repairs, like the nearly 70,000 structurally deficient bridges across the country. (Applause.)  And to make sure taxpayers don’t shoulder the whole burden, I’m also proposing a Partnership to Rebuild America that attracts private capital to upgrade what our businesses need most:  modern ports to move our goods, modern pipelines to withstand a storm, modern schools worthy of our children.  (Applause.)  Let’s prove that there’s no better place to do business than here in the United States of America, and let’s start right away.  We can get this done.
+
+	 
+
+	And part of our rebuilding effort must also involve our housing sector.  The good news is our housing market is finally healing from the collapse of 2007.  Home prices are rising at the fastest pace in six years.  Home purchases are up nearly 50 percent, and construction is expanding again.  
+
+	 
+
+	But even with mortgage rates near a 50-year low, too many families with solid credit who want to buy a home are being rejected.  Too many families who never missed a payment and want to refinance are being told no.  That’s holding our entire economy back.  We need to fix it.  
+
+	 
+
+	Right now, there’s a bill in this Congress that would give every responsible homeowner in America the chance to save $3,000 a year by refinancing at today’s rates.  Democrats and Republicans have supported it before, so what are we waiting for? Take a vote, and send me that bill.  (Applause.)  Why would we be against that?  (Applause.)  Why would that be a partisan issue, helping folks refinance?  Right now, overlapping regulations keep responsible young families from buying their first home.  What’s holding us back?  Let’s streamline the process, and help our economy grow.
+
+	 
+
+	These initiatives in manufacturing, energy, infrastructure, housing -- all these things will help entrepreneurs and small business owners expand and create new jobs.  But none of it will matter unless we also equip our citizens with the skills and training to fill those jobs.  (Applause.)  
+
+	 
+
+	And that has to start at the earliest possible age.  Study after study shows that the sooner a child begins learning, the better he or she does down the road.  But today, fewer than 3 in 10 four year-olds are enrolled in a high-quality preschool program.  Most middle-class parents can’t afford a few hundred bucks a week for a private preschool.  And for poor kids who need help the most, this lack of access to preschool education can shadow them for the rest of their lives.  So tonight, I propose working with states to make high-quality preschool available to every single child in America.  (Applause.)  That's something we should be able to do.  
+
+	 
+
+	Every dollar we invest in high-quality early childhood education can save more than seven dollars later on -- by boosting graduation rates, reducing teen pregnancy, even reducing violent crime.  In states that make it a priority to educate our youngest children, like Georgia or Oklahoma, studies show students grow up more likely to read and do math at grade level, graduate high school, hold a job, form more stable families of their own.  We know this works.  So let’s do what works and make sure none of our children start the race of life already behind. Let’s give our kids that chance.  (Applause.) 
+
+	 
+
+	Let’s also make sure that a high school diploma puts our kids on a path to a good job.  Right now, countries like Germany focus on graduating their high school students with the equivalent of a technical degree from one of our community colleges.  So those German kids, they're ready for a job when they graduate high school.  They've been trained for the jobs that are there.  Now at schools like P-Tech in Brooklyn, a collaboration between New York Public Schools and City University of New York and IBM, students will graduate with a high school diploma and an associate's degree in computers or engineering.  
+
+	We need to give every American student opportunities like this.  (Applause.)  
+
+	 
+
+	And four years ago, we started Race to the Top -- a competition that convinced almost every state to develop smarter curricula and higher standards, all for about 1 percent of what we spend on education each year.  Tonight, I’m announcing a new challenge to redesign America’s high schools so they better equip graduates for the demands of a high-tech economy.  And we’ll reward schools that develop new partnerships with colleges and employers, and create classes that focus on science, technology, engineering and math -- the skills today’s employers are looking for to fill the jobs that are there right now and will be there in the future.
+
+	 
+
+	Now, even with better high schools, most young people will need some higher education.  It’s a simple fact the more education you’ve got, the more likely you are to have a good job and work your way into the middle class.  But today, skyrocketing costs price too many young people out of a higher education, or saddle them with unsustainable debt.
+
+	 
+
+	Through tax credits, grants and better loans, we’ve made college more affordable for millions of students and families over the last few years.  But taxpayers can’t keep on subsidizing higher and higher and higher costs for higher education.  Colleges must do their part to keep costs down, and it’s our job to make sure that they do.  (Applause.)
+
+	 
+
+	So tonight, I ask Congress to change the Higher Education Act so that affordability and value are included in determining which colleges receive certain types of federal aid.  (Applause.) And tomorrow, my administration will release a new “College Scorecard” that parents and students can use to compare schools based on a simple criteria -- where you can get the most bang for your educational buck.   
+
+	 
+
+	Now, to grow our middle class, our citizens have to have access to the education and training that today’s jobs require.  But we also have to make sure that America remains a place where everyone who’s willing to work -- everybody who’s willing to work hard has the chance to get ahead.
+
+	 
+
+	Our economy is stronger when we harness the talents and ingenuity of striving, hopeful immigrants.  (Applause.)  And right now, leaders from the business, labor, law enforcement, faith communities -- they all agree that the time has come to pass comprehensive immigration reform.  (Applause.)  Now is the time to do it.  Now is the time to get it done.  Now is the time to get it done.  (Applause.) 
+
+	 
+
+	Real reform means strong border security, and we can build on the progress my administration has already made -- putting more boots on the Southern border than at any time in our history and reducing illegal crossings to their lowest levels in 40 years.  
+
+	 
+
+	Real reform means establishing a responsible pathway to earned citizenship -- a path that includes passing a background check, paying taxes and a meaningful penalty, learning English, and going to the back of the line behind the folks trying to come here legally.  (Applause.)  
+
+	 
+
+	And real reform means fixing the legal immigration system to cut waiting periods and attract the highly-skilled entrepreneurs and engineers that will help create jobs and grow our economy.  (Applause.)   
+
+	 
+
+	In other words, we know what needs to be done.  And as we speak, bipartisan groups in both chambers are working diligently to draft a bill, and I applaud their efforts.  So let’s get this done.  Send me a comprehensive immigration reform bill in the next few months, and I will sign it right away.  And America will be better for it.  (Applause.)  Let’s get it done.  Let’s get it done.  
+
+	 
+
+	But we can’t stop there.  We know our economy is stronger when our wives, our mothers, our daughters can live their lives free from discrimination in the workplace, and free from the fear of domestic violence.  Today, the Senate passed the Violence Against Women Act that Joe Biden originally wrote almost 20 years ago.  And I now urge the House to do the same.  (Applause.)  Good job, Joe.  And I ask this Congress to declare that women should earn a living equal to their efforts, and finally pass the Paycheck Fairness Act this year.  (Applause.) 
+
+	 
+
+	We know our economy is stronger when we reward an honest day’s work with honest wages.  But today, a full-time worker making the minimum wage earns $14,500 a year.  Even with the tax relief we put in place, a family with two kids that earns the minimum wage still lives below the poverty line.  That’s wrong.  That’s why, since the last time this Congress raised the minimum wage, 19 states have chosen to bump theirs even higher.
+
+	 
+
+	Tonight, let’s declare that in the wealthiest nation on Earth, no one who works full-time should have to live in poverty, and raise the federal minimum wage to $9.00 an hour.  (Applause.) We should be able to get that done.  (Applause.)
+
+	 
+
+	This single step would raise the incomes of millions of working families.  It could mean the difference between groceries or the food bank; rent or eviction; scraping by or finally getting ahead.  For businesses across the country, it would mean customers with more money in their pockets.  And a whole lot of folks out there would probably need less help from government.  In fact, working folks shouldn’t have to wait year after year for the minimum wage to go up while CEO pay has never been higher.  So here’s an idea that Governor Romney and I actually agreed on last year -- let’s tie the minimum wage to the cost of living, so that it finally becomes a wage you can live on.  (Applause.)
+
+	 
+
+	Tonight, let’s also recognize that there are communities in this country where no matter how hard you work, it is virtually impossible to get ahead.  Factory towns decimated from years of plants packing up.  Inescapable pockets of poverty, urban and rural, where young adults are still fighting for their first job.  America is not a place where the chance of birth or circumstance should decide our destiny.  And that’s why we need to build new ladders of opportunity into the middle class for all who are willing to climb them.
+
+	 
+
+	Let’s offer incentives to companies that hire Americans who’ve got what it takes to fill that job opening, but have been out of work so long that no one will give them a chance anymore. Let’s put people back to work rebuilding vacant homes in run-down neighborhoods.  And this year, my administration will begin to partner with 20 of the hardest-hit towns in America to get these communities back on their feet.  We’ll work with local leaders to target resources at public safety, and education, and housing.  
+
+	 
+
+	We’ll give new tax credits to businesses that hire and invest.  And we’ll work to strengthen families by removing the financial deterrents to marriage for low-income couples, and do more to encourage fatherhood -- because what makes you a man isn’t the ability to conceive a child; it’s having the courage to raise one.  And we want to encourage that.  We want to help that. (Applause.)
+
+	 
+
+	Stronger families.  Stronger communities.  A stronger America.  It is this kind of prosperity -- broad, shared, built on a thriving middle class -- that has always been the source of our progress at home.  It’s also the foundation of our power and influence throughout the world. 
+
+	 
+
+	Tonight, we stand united in saluting the troops and civilians who sacrifice every day to protect us.  Because of them, we can say with confidence that America will complete its mission in Afghanistan and achieve our objective of defeating the core of al Qaeda.  (Applause.)  
+
+	 
+
+	Already, we have brought home 33,000 of our brave servicemen and women.  This spring, our forces will move into a support role, while Afghan security forces take the lead.  Tonight, I can announce that over the next year, another 34,000 American troops will come home from Afghanistan.  This drawdown will continue and by the end of next year, our war in Afghanistan will be over.  (Applause.)   
+
+	 
+
+	Beyond 2014, America’s commitment to a unified and sovereign Afghanistan will endure, but the nature of our commitment will change.  We're negotiating an agreement with the Afghan government that focuses on two missions -- training and equipping Afghan forces so that the country does not again slip into chaos, and counterterrorism efforts that allow us to pursue the remnants of al Qaeda and their affiliates. 
+
+	 
+
+	Today, the organization that attacked us on 9/11 is a shadow of its former self.  (Applause.)  It's true, different al Qaeda affiliates and extremist groups have emerged -- from the Arabian Peninsula to Africa.  The threat these groups pose is evolving.  But to meet this threat, we don’t need to send tens of thousands of our sons and daughters abroad or occupy other nations.  Instead, we'll need to help countries like Yemen, and Libya, and Somalia provide for their own security, and help allies who take the fight to terrorists, as we have in Mali.  And where necessary, through a range of capabilities, we will continue to take direct action against those terrorists who pose the gravest threat to Americans.  (Applause.)  
+
+	 
+
+	Now, as we do, we must enlist our values in the fight.  That's why my administration has worked tirelessly to forge a durable legal and policy framework to guide our counterterrorism efforts.  Throughout, we have kept Congress fully informed of our efforts.  I recognize that in our democracy, no one should just take my word for it that we’re doing things the right way.  So in the months ahead, I will continue to engage Congress to ensure not only that our targeting, detention and prosecution of terrorists remains consistent with our laws and system of checks and balances, but that our efforts are even more transparent to the American people and to the world.  (Applause.) 
+
+	 
+
+	Of course, our challenges don’t end with al Qaeda.  America will continue to lead the effort to prevent the spread of the world’s most dangerous weapons.  The regime in North Korea must know they will only achieve security and prosperity by meeting their international obligations.  Provocations of the sort we saw last night will only further isolate them, as we stand by our allies, strengthen our own missile defense and lead the world in taking firm action in response to these threats.  
+
+	 
+
+	Likewise, the leaders of Iran must recognize that now is the time for a diplomatic solution, because a coalition stands united in demanding that they meet their obligations, and we will do what is necessary to prevent them from getting a nuclear weapon. (Applause.) 
+
+	 
+
+	At the same time, we’ll engage Russia to seek further reductions in our nuclear arsenals, and continue leading the global effort to secure nuclear materials that could fall into the wrong hands -- because our ability to influence others depends on our willingness to lead and meet our obligations.
+
+	 
+
+	America must also face the rapidly growing threat from cyber-attacks.  (Applause.)  Now, we know hackers steal people’s identities and infiltrate private emails.  We know foreign countries and companies swipe our corporate secrets.  Now our enemies are also seeking the ability to sabotage our power grid, our financial institutions, our air traffic control systems.  We cannot look back years from now and wonder why we did nothing in the face of real threats to our security and our economy.  
+
+	 
+
+	And that’s why, earlier today, I signed a new executive order that will strengthen our cyber defenses by increasing information sharing, and developing standards to protect our national security, our jobs, and our privacy.  (Applause.)
+
+	 
+
+	But now Congress must act as well, by passing legislation to give our government a greater capacity to secure our networks and deter attacks.  This is something we should be able to get done on a bipartisan basis.  (Applause.) 
+
+	 
+
+	Now, even as we protect our people, we should remember that today’s world presents not just dangers, not just threats, it presents opportunities.  To boost American exports, support American jobs and level the playing field in the growing markets of Asia, we intend to complete negotiations on a Trans-Pacific Partnership.  And tonight, I’m announcing that we will launch talks on a comprehensive Transatlantic Trade and Investment Partnership with the European Union -- because trade that is fair and free across the Atlantic supports millions of good-paying American jobs.  (Applause.) 
+
+	 
+
+	We also know that progress in the most impoverished parts of our world enriches us all -- not only because it creates new markets, more stable order in certain regions of the world, but also because it’s the right thing to do.  In many places, people live on little more than a dollar a day.  So the United States will join with our allies to eradicate such extreme poverty in the next two decades by connecting more people to the global economy; by empowering women; by giving our young and brightest minds new opportunities to serve, and helping communities to feed, and power, and educate themselves; by saving the world’s children from preventable deaths; and by realizing the promise of an AIDS-free generation, which is within our reach.  (Applause.)   
+
+	 
+
+	You see, America must remain a beacon to all who seek freedom during this period of historic change.  I saw the power of hope last year in Rangoon, in Burma, when Aung San Suu Kyi welcomed an American President into the home where she had been imprisoned for years; when thousands of Burmese lined the streets, waving American flags, including a man who said, “There is justice and law in the United States.  I want our country to be like that.”
+
+	 
+
+	In defense of freedom, we’ll remain the anchor of strong alliances from the Americas to Africa; from Europe to Asia.  In the Middle East, we will stand with citizens as they demand their universal rights, and support stable transitions to democracy.  (Applause.)  
+
+	 
+
+	We know the process will be messy, and we cannot presume to dictate the course of change in countries like Egypt, but we can -- and will -- insist on respect for the fundamental rights of all people.  We’ll keep the pressure on a Syrian regime that has murdered its own people, and support opposition leaders that respect the rights of every Syrian.  And we will stand steadfast with Israel in pursuit of security and a lasting peace.  (Applause.)  
+
+	 
+
+	These are the messages I'll deliver when I travel to the Middle East next month.  And all this work depends on the courage and sacrifice of those who serve in dangerous places at great personal risk –- our diplomats, our intelligence officers, and the men and women of the United States Armed Forces.  As long as I’m Commander-in-Chief, we will do whatever we must to protect those who serve their country abroad, and we will maintain the best military the world has ever known.  (Applause.) 
+
+	 
+
+	We'll invest in new capabilities, even as we reduce waste and wartime spending.  We will ensure equal treatment for all servicemembers, and equal benefits for their families -- gay and straight.  (Applause.)  We will draw upon the courage and skills of our sisters and daughters and moms, because women have proven under fire that they are ready for combat.  
+
+	 
+
+	We will keep faith with our veterans, investing in world-class care, including mental health care, for our wounded warriors -- (applause) -- supporting our military families; giving our veterans the benefits and education and job opportunities that they have earned.  And I want to thank my wife, Michelle, and Dr. Jill Biden for their continued dedication to serving our military families as well as they have served us. Thank you, honey.  Thank you, Jill.  (Applause.)  
+
+	 
+
+	Defending our freedom, though, is not just the job of our military alone.  We must all do our part to make sure our God-given rights are protected here at home.  That includes one of the most fundamental right of a democracy:  the right to vote.  (Applause.)  When any American, no matter where they live or what their party, are denied that right because they can’t afford to wait for five or six or seven hours just to cast their ballot, we are betraying our ideals.  (Applause.)  
+
+	 
+
+	So tonight, I’m announcing a nonpartisan commission to improve the voting experience in America.  And it definitely needs improvement.  I’m asking two long-time experts in the field -- who, by the way, recently served as the top attorneys for my campaign and for Governor Romney’s campaign -- to lead it.  We can fix this, and we will.  The American people demand it, and so does our democracy.  (Applause.)
+
+	 
+
+	Of course, what I’ve said tonight matters little if we don’t come together to protect our most precious resource:  our children.  It has been two months since Newtown.  I know this is not the first time this country has debated how to reduce gun violence.  But this time is different.  Overwhelming majorities of Americans -- Americans who believe in the Second Amendment -- have come together around common-sense reform, like background checks that will make it harder for criminals to get their hands on a gun.  (Applause.)  Senators of both parties are working together on tough new laws to prevent anyone from buying guns for resale to criminals.  Police chiefs are asking our help to get weapons of war and massive ammunition magazines off our streets, because these police chiefs, they’re tired of seeing their guys and gals being outgunned.  
+
+	 
+
+	Each of these proposals deserves a vote in Congress.  (Applause.)  Now, if you want to vote no, that’s your choice.  But these proposals deserve a vote.  Because in the two months since Newtown, more than a thousand birthdays, graduations, anniversaries have been stolen from our lives by a bullet from a gun -- more than a thousand. 
+
+	 
+
+	One of those we lost was a young girl named Hadiya Pendleton.  She was 15 years old.  She loved Fig Newtons and lip gloss.  She was a majorette.  She was so good to her friends they all thought they were her best friend.  Just three weeks ago, she was here, in Washington, with her classmates, performing for her country at my inauguration.  And a week later, she was shot and killed in a Chicago park after school, just a mile away from my house.
+
+	 
+
+	Hadiya’s parents, Nate and Cleo, are in this chamber tonight, along with more than two dozen Americans whose lives have been torn apart by gun violence.  They deserve a vote.  They deserve a vote.  (Applause.)  Gabby Giffords deserves a vote.  (Applause.)  The families of Newtown deserve a vote.  (Applause.) The families of Aurora deserve a vote.  (Applause.)  The families of Oak Creek and Tucson and Blacksburg, and the countless other communities ripped open by gun violence –- they deserve a simple vote.  (Applause.)  They deserve a simple vote.  
+
+	 
+
+	Our actions will not prevent every senseless act of violence in this country.  In fact, no laws, no initiatives, no administrative acts will perfectly solve all the challenges I’ve outlined tonight.  But we were never sent here to be perfect.  We were sent here to make what difference we can, to secure this nation, expand opportunity, uphold our ideals through the hard, often frustrating, but absolutely necessary work of self-government.
+
+	 
+
+	We were sent here to look out for our fellow Americans the same way they look out for one another, every single day, usually without fanfare, all across this country.  We should follow their example.
+
+	 
+
+	We should follow the example of a New York City nurse named Menchu Sanchez.  When Hurricane Sandy plunged her hospital into darkness, she wasn’t thinking about how her own home was faring. Her mind was on the 20 precious newborns in her care and the rescue plan she devised that kept them all safe. 
+
+	 
+
+	We should follow the example of a North Miami woman named Desiline Victor.  When Desiline arrived at her polling place, she was told the wait to vote might be six hours.  And as time ticked by, her concern was not with her tired body or aching feet, but whether folks like her would get to have their say.  And hour after hour, a throng of people stayed in line to support her -- because Desiline is 102 years old.  (Applause.)  And they erupted in cheers when she finally put on a sticker that read, “I voted.” (Applause.) 
+
+	 
+
+	We should follow the example of a police officer named Brian Murphy.  When a gunman opened fire on a Sikh temple in Wisconsin and Brian was the first to arrive, he did not consider his own safety.  He fought back until help arrived and ordered his fellow officers to protect the safety of the Americans worshiping inside, even as he lay bleeding from 12 bullet wounds.  And when asked how he did that, Brian said, “That’s just the way we’re made.” 
+
+	 
+
+	That’s just the way we’re made.  We may do different jobs and wear different uniforms, and hold different views than the person beside us.  But as Americans, we all share the same proud title -- we are citizens.  It’s a word that doesn’t just describe our nationality or legal status.  It describes the way we’re made.  It describes what we believe.  It captures the enduring idea that this country only works when we accept certain obligations to one another and to future generations, that our rights are wrapped up in the rights of others; and that well into our third century as a nation, it remains the task of us all, as citizens of these United States, to be the authors of the next great chapter of our American story.  
+
+	 
+
+	Thank you.  God bless you, and God bless these United States of America.  (Applause.) 
+
+	 
+
+	 
+
+	END
+
+	10:16 P.M. 
