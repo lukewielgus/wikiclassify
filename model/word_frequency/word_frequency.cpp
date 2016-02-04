@@ -15,11 +15,15 @@ using std::string;
 using std::size_t;
 using std::getline;
 
+#include <cmath>
+
+
 class word{
 public:
-	double average;
+	double freq;
+	double logFreq;
 	int count;
-	string name; 
+	string name;
 	word(string input){
 		name=input;
 		count=1;
@@ -38,7 +42,8 @@ double process(vector<word> &input){
 		total+=input[i].count;
 	}
 	for(int i=0; i<input.size(); i++){
-		input[i].average = double(input[i].count/total);
+		input[i].freq = double(input[i].count/total);
+		input[i].logFreq = log(input[i].freq);
 	}
 	std::cout<<"Total words read: "<<total<<"\n";
 	return total;
@@ -46,7 +51,7 @@ double process(vector<word> &input){
 
 ostream& operator<<(ostream& os, word& w)
 {
-    os <<"Word:\t\t"<<w.name<<"\nCount:\t\t"<<w.count<<"\nFrequency:\t"<<w.average<<"\n";
+    os <<"Word:\t\t"<<w.name<<"\nCount:\t\t"<<w.count<<"\nFrequency:\t"<<w.freq<<"\nLog Frequency:\t"<<w.logFreq<<"\n";
     return os;
 }
 
@@ -129,7 +134,10 @@ void getData(vector<word> &words, vector<string> files){
 void saveData(vector<word> &words, string file){
 	ofstream output(file);
 	for(int i=0; i<words.size(); i++){
-		output<<words[i].name<<" "<<words[i].count<<" "<<words[i].average<<"\n";
+		output<<words[i].name<<" "<<words[i].count<<" "<<words[i].freq<<" "<<words[i].logFreq<<" ";
+		if(i%20==0){
+			output<<"\n";
+		}
 	}
 	cout<<"Saved word data to "<<file<<"\n";
 }
