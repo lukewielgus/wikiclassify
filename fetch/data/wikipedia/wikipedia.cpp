@@ -152,13 +152,23 @@ void wikiPage::removeJunk() {
 			condition=false;
 		}
 	}
+	
+	condition=true;
+	target = "{{cite";
+	endtarget = "}}";
+	while(condition){
+		size_t location = temp.find(target);
+		if(location!=string::npos){
+			size_t endlocation = temp.find(endtarget, target.size());
+			temp.erase(location, endlocation+endtarget.size());
+		}
+		else{
+			condition=false;
+		}
+	}
+	/*
 	//Adding junk formatting to the targets vector...
-	vector<string> targets;
-	targets.push_back("'''");
-	targets.push_back("&lt;");
-	targets.push_back("&gt;");
-	targets.push_back("&quot;");
-	targets.push_back("''");
+	vector<string> targets{"'''","&lt;","&gt;","&quot;","''","[[","]]"};
 	//Removing all instances of junk strings...
 	for(int i=0; i<targets.size(); i++){
 		target = targets[i];
@@ -173,13 +183,14 @@ void wikiPage::removeJunk() {
 			}
 		}
 	}
+	*/
 	text = temp;
 	return;
 }
 
 //Save function (save to file)
 void wikiPage::save(ofstream &file){
-	file<<"------> SAVE VERSION 1.0 <------\n";
+	file<<"-------------> SAVE VERSION 1.0 <-------------\n";
 	file<<(*this);
 	file<<text<<"\n";
 	file<<"-----------------------------------------------\n";
