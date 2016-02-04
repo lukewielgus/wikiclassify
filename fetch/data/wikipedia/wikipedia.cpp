@@ -128,6 +128,7 @@ wikiPage::wikiPage(string pagestr) {
 	if (isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")) {
 		quality = 1;
 	}
+
 	//Count number of pictures present in article
 	pic = picCount(pagestr);
 
@@ -137,28 +138,39 @@ wikiPage::wikiPage(string pagestr) {
 
 void wikiPage::removeJunk() {
 	string temp = text;
-	//Searching for triple apostrophe formatting
+	//Searching for categories not yet removed
 	bool condition=true;
-	string tripleAp = "'''";
+	string target = "[[Category:";
+	string endtarget = "]]";
 	while(condition){
-		size_t location = temp.find(tripleAp);
+		size_t location = temp.find(target);
 		if(location!=string::npos){
-			temp.erase(location, tripleAp.size());
+			size_t endlocation = temp.find(endtarget, target.size());
+			temp.erase(location, endlocation+endtarget.size());
 		}
 		else{
 			condition=false;
 		}
 	}
-	//Searching for &lt text
-	condition=true;
-	string target = "&lt";
-	while(condition){
-		size_t location = temp.find(target);
-		if(location!=string::npos){
-			temp.erase(location, target.size());
-		}
-		else{
-			condition=false;
+	//Adding junk formatting to the targets vector...
+	vector<string> targets;
+	targets.push_back("'''");
+	targets.push_back("&lt;");
+	targets.push_back("&gt;");
+	targets.push_back("&quot;");
+	targets.push_back("''");
+	//Removing all instances of junk strings...
+	for(int i=0; i<targets.size(); i++){
+		target = targets[i];
+		condition=true;
+		while(condition){
+			size_t location = temp.find(target);
+			if(location!=string::npos){
+				temp.erase(location,target.size());
+			}
+			else{
+				condition=false;
+			}
 		}
 	}
 	text = temp;
@@ -167,9 +179,10 @@ void wikiPage::removeJunk() {
 
 //Save function (save to file)
 void wikiPage::save(ofstream &file){
-	file<<"////// --> SAVE VERSION 1.0 <-- //////\n";
+	file<<"------> SAVE VERSION 1.0 <------\n";
 	file<<(*this);
 	file<<text<<"\n";
+	file<<"-----------------------------------------------\n";
 }
 
 ostream& operator<<(ostream& os, wikiPage& wp)
@@ -219,7 +232,6 @@ int main(){
 	string saveFile = "test.txt";
 	ofstream file(saveFile);
 	pages[10].save(file);
-	pages[11].save(file);
 }
 
 /*
