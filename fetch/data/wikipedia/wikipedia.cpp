@@ -272,6 +272,10 @@ int main(int argc, char** argv) {
 	for (string i : raw_pages) {
 		wikiPage x(i);
 		if (x.ns == "0" and not x.isRedirect) {
+<<<<<<< HEAD:data/parser.cpp
+			cout<<x.title<<endl;
+=======
+>>>>>>> master:fetch/data/wikipedia/wikipedia.cpp
 			pages.push_back(x);
 		}
 	}
@@ -281,5 +285,9 @@ int main(int argc, char** argv) {
 	cout<<"wikiPage time: "<<timer.times[1]<<" Seconds per Page\n";
 	
 	return 0;
+<<<<<<< HEAD:data/parser.cpp
+}
+=======
 }
 */
+>>>>>>> master:fetch/data/wikipedia/wikipedia.cpp
