@@ -137,6 +137,9 @@ wikiPage::wikiPage(string pagestr) {
 
 	//Remove Junk from text
 	removeJunk();
+
+	//Convert entire text to lower case
+	std::transform(text.begin(), text.end(), text.begin(), ::tolower);
 }
 
 
@@ -328,8 +331,8 @@ int main(){
 		float percent = (counter/numpages)*100;
 		int percentInt = percent;
 		cout<<"\r"<<percentInt<<"% Complete\t[";
-		for(int j=0; j<100; j++){
-			if(percent>j){
+		for(int j=0; j<50; j++){
+			if(percent/2>j){
 				cout<<"|";
 			}
 			else{
