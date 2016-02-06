@@ -107,6 +107,7 @@ public:
 
 // wikipage constructor
 wikiPage::wikiPage(string pagestr) {
+
 	//Set the title of the page
 	title = parse(pagestr, "<title>", "</title>");
 	//Set the namespace
@@ -151,24 +152,23 @@ void wikiPage::removeJunk() {
 		else{
 			condition=false;
 		}
-	}
-	
+	}/*
 	condition=true;
 	target = "{{cite";
 	endtarget = "}}";
 	while(condition){
 		size_t location = temp.find(target);
 		if(location!=string::npos){
-			size_t endlocation = temp.find(endtarget, target.size());
+			size_t endlocation = temp.find(endtarget, location+target.size());
 			temp.erase(location, endlocation+endtarget.size());
 		}
 		else{
 			condition=false;
 		}
 	}
-	/*
+	*/
 	//Adding junk formatting to the targets vector...
-	vector<string> targets{"'''","&lt;","&gt;","&quot;","''","[[","]]"};
+	vector<string> targets{"'''","&lt;","&quot;","''","[[","]]",".",","};
 	//Removing all instances of junk strings...
 	for(int i=0; i<targets.size(); i++){
 		target = targets[i];
@@ -183,6 +183,53 @@ void wikiPage::removeJunk() {
 			}
 		}
 	}
+	condition=true;
+	string open = "{{";
+	string close = "}}";
+	while(condition){
+		size_t location = temp.find(open);
+		if(location!=string::npos){
+			size_t endlocation = temp.find(close, location+open.size());
+			size_t error = temp.find(open, location+open.size());
+			if(error>endlocation or error==string::npos){
+				temp.erase(location, endlocation+close.size());
+			}
+		}
+		else{
+			condition=false;
+		}
+	}
+	/*
+	while(condition){
+		size_t olocation = temp.find(open);
+		if(olocation!=string::npos){
+			int openCt=1;
+			while(openCt>0){
+				size_t clocation = temp.find(close, olocation+open.size());
+				size_t temploc = olocation+open.size();
+				bool condition=true;
+				while(condition){
+					cout<<openCt<<"\n";
+					size_t nextopen = temp.find(open, temploc);
+					if(nextopen!=string::npos){
+						if(nextopen<clocation){
+							openCt++;
+							temploc = nextopen+open.size();
+						}
+						else{
+							condition=false;
+						}
+					}
+					else{
+						condition=false;
+					}
+				}
+				temp.erase(olocation, clocation+close.size());
+				olocation=clocation;
+				openCt--;
+			}
+		}
+	}
 	*/
 	text = temp;
 	return;
@@ -191,7 +238,7 @@ void wikiPage::removeJunk() {
 //Save function (save to file)
 void wikiPage::save(ofstream &file){
 	file<<"-------------> SAVE VERSION 1.0 <-------------\n";
-	file<<(*this);
+	file<<(*this)<<"\n";
 	file<<text<<"\n";
 	file<<"-----------------------------------------------\n";
 }
@@ -221,7 +268,6 @@ vector<string> getPages(string &filename, int numpages) {
 			dataDump.read(buffer, sizeof(buffer));
 			block.append(buffer, sizeof(buffer));
 		}
-	
 		fpos += parse(block, "<page>", "</page>", pages);
 		
 	}
@@ -290,4 +336,3 @@ int main(int argc, char** argv) {
 =======
 }
 */
->>>>>>> master:fetch/data/wikipedia/wikipedia.cpp

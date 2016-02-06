@@ -21,7 +21,6 @@ using std::getline;
 class word{
 public:
 	double freq;
-	double logFreq;
 	int count;
 	string name;
 	word(string input){
@@ -36,6 +35,9 @@ public:
 	friend ostream& operator<<(ostream& os, word& w);
 };
 
+
+//Adds the freq value for every word in input vector
+//freq = this.count/(total words read)
 double process(vector<word> &input){
 	double total=0;
 	for(int i=0; i<input.size(); i++){
@@ -43,7 +45,6 @@ double process(vector<word> &input){
 	}
 	for(int i=0; i<input.size(); i++){
 		input[i].freq = double(input[i].count/total);
-		input[i].logFreq = log(input[i].freq);
 	}
 	std::cout<<"Total words read: "<<total<<"\n";
 	return total;
@@ -55,6 +56,8 @@ ostream& operator<<(ostream& os, word& w)
     return os;
 }
 
+
+//Removes the formatting of the word
 bool checkFormat(string &input){
 	bool check = false;
 	string target = "\"";
@@ -82,9 +85,12 @@ bool checkFormat(string &input){
 	return check;
 }
 
+
+//Check if input is already present in words vector
+//if not, it will add it
+//if so, it will increment the count on that word
 bool haveIt(vector<word> &words, string &input){
 	std::transform(input.begin(), input.end(), input.begin(), ::tolower);
-
 	for(int i=0; i<words.size(); i++){
 		if(words[i].name==input){
 			words[i].count++;
@@ -104,12 +110,15 @@ bool haveIt(vector<word> &words, string &input){
 	return true;
 }
 
+
+//Used in the std::sort process
 bool wordCompare(word A, word B){
 	int aVal = A.count;
 	int bVal = B.count;
 	return (aVal>bVal);
 }
 
+//Sort words based on their counts
 void sortWords(vector<word> &words){
 	std::sort(words.begin(), words.end(), wordCompare);
 }
