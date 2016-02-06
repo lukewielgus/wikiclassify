@@ -183,16 +183,32 @@ void wikiPage::removeJunk() {
 	string open = "{{";
 	string close = "}}";
 	while(condition){
-		size_t location = temp.find_first_of(open);
+		size_t location = temp.find(open);
 		if(location!=string::npos){
 			size_t locationCopy=location;
 			int openCt=1;
-			nestedRemoval(open, close, temp, locationCopy, locationCopy, openCt);
+			nestedRemoval(open, close, temp, location, location, openCt);
 		}
 		else{
 			condition=false;
 		}
 	}
+
+	//Removing all content between brackets
+	condition=true;
+	open = "[[";
+	close = "]]";
+	while(condition){
+		size_t location = temp.find(open);
+		if(location!=string::npos){
+			int openCt=1;
+			nestedRemoval(open, close, temp, location, location, openCt);
+		}
+		else{
+			condition=false;
+		}
+	}
+
 	//Removing all sub-category headers
 	condition=true;
 	string both = "===";
@@ -219,8 +235,9 @@ void wikiPage::removeJunk() {
 			condition=false;
 		}
 	}
+
 	//Adding junk formatting to the targets vector...
-	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref","/",".",",","!",":","?"};
+	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",".",",","!",":","?",";","(",")","$","'","&"};
 	//Removing all instances of junk strings...
 	for(int i=0; i<targets.size(); i++){
 		target = targets[i];
@@ -235,6 +252,22 @@ void wikiPage::removeJunk() {
 			}
 		}
 	}
+	//Characters to be replaced by a space
+	vector<string> tobereplaced{"-","|","/","="};
+	for(int i=0; i<tobereplaced.size(); i++){
+		target = tobereplaced[i];
+		condition=true;
+		while(condition){
+			size_t location = temp.find(target);
+			if(location!=string::npos){
+				temp.replace(location, 1, " ");
+			}
+			else{
+				condition=false;
+			}
+		}
+	}
+
 	text = temp;
 	return;
 }
@@ -284,17 +317,34 @@ vector<string> getPages(string &filename, int numpages) {
 
 int main(){
 	string filename = "enwiki-20160113-pages-articles.xml";
-	vector<string> raw_pages = getPages(filename, 90);
-	
+	int numpages=1000;
+	cout<<"Fetching...\n";
+	vector<string> raw_pages = getPages(filename, numpages);
+	float counter=0;
 	vector<wikiPage> pages;
+	cout<<"Parsing...\n";
 	for(string i : raw_pages){
+		counter++;
+		float percent = (counter/numpages)*100;
+		int percentInt = percent;
+		cout<<"\r"<<percentInt<<"% Complete\t[";
+		for(int j=0; j<100; j++){
+			if(percent>j){
+				cout<<"|";
+			}
+			else{
+				cout<<" ";
+			}
+		}
+		cout<<"]";
+		cout.flush();
 		wikiPage x(i);
 		if(x.ns == "0" and not x.isRedirect){
 			pages.push_back(x);
 		}
 	}
-
 	string saveFile = "test.txt";
 	ofstream file(saveFile);
+	cout<<"\nSaving to "<<saveFile<<"\n";
 	pages[10].save(file);
 }
