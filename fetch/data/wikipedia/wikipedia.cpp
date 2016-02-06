@@ -17,6 +17,8 @@ using std::size_t;
 
 #include <time.h>
 
+#include <algorithm>
+
 //Check if string "tag1" is within string "str"
 bool isWithin(string &str, string tag1) {
 	return (str.find(tag1) != string::npos);
@@ -137,6 +139,29 @@ wikiPage::wikiPage(string pagestr) {
 	removeJunk();
 }
 
+
+//Both begintarg & endtarg must be same length for function to work
+void nestedRemoval(string begintarg, string endtarg, string &text, size_t &current, size_t begin, int &openCt){
+	if(openCt==0){
+		text.erase(begin, current+endtarg.size()-begin);
+		return;
+	}
+	size_t closeLocation = text.find_first_of(endtarg, current+begintarg.size());
+	size_t temp = current;
+	while(true){
+		size_t nests = text.find_first_of(begintarg, temp+begintarg.size());
+		if((nests>closeLocation) or (nests==string::npos)){
+			break;
+		}
+		else{
+			openCt++;
+			temp = nests;
+		}
+	}
+	openCt--;
+	return nestedRemoval(begintarg, endtarg, text, closeLocation, begin, openCt);
+}
+
 void wikiPage::removeJunk() {
 	string temp = text;
 	//Searching for categories not yet removed
@@ -146,29 +171,56 @@ void wikiPage::removeJunk() {
 	while(condition){
 		size_t location = temp.find(target);
 		if(location!=string::npos){
-			size_t endlocation = temp.find(endtarget, target.size());
-			temp.erase(location, endlocation+endtarget.size());
-		}
-		else{
-			condition=false;
-		}
-	}/*
-	condition=true;
-	target = "{{cite";
-	endtarget = "}}";
-	while(condition){
-		size_t location = temp.find(target);
-		if(location!=string::npos){
 			size_t endlocation = temp.find(endtarget, location+target.size());
-			temp.erase(location, endlocation+endtarget.size());
+			temp.erase(location, endlocation+endtarget.size()-location);
 		}
 		else{
 			condition=false;
 		}
 	}
-	*/
+	//Removing all content between curly brackets
+	condition=true;
+	string open = "{{";
+	string close = "}}";
+	while(condition){
+		size_t location = temp.find_first_of(open);
+		if(location!=string::npos){
+			size_t locationCopy=location;
+			int openCt=1;
+			nestedRemoval(open, close, temp, locationCopy, locationCopy, openCt);
+		}
+		else{
+			condition=false;
+		}
+	}
+	//Removing all sub-category headers
+	condition=true;
+	string both = "===";
+	while(condition){
+		size_t location = temp.find(both);
+		if(location!=string::npos){
+			size_t end = temp.find(both, location+both.size());
+			temp.erase(location, end+both.size()-location);
+		}
+		else{
+			condition=false;
+		}
+	}
+	//Removing all category headers
+	condition=true;
+	both = "==";
+	while(condition){
+		size_t location = temp.find(both);
+		if(location!=string::npos){
+			size_t end = temp.find(both, location+both.size());
+			temp.erase(location, end+both.size()-location);
+		}
+		else{
+			condition=false;
+		}
+	}
 	//Adding junk formatting to the targets vector...
-	vector<string> targets{"'''","&lt;","&quot;","''","[[","]]",".",","};
+	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref","/",".",",","!",":","?"};
 	//Removing all instances of junk strings...
 	for(int i=0; i<targets.size(); i++){
 		target = targets[i];
@@ -183,64 +235,16 @@ void wikiPage::removeJunk() {
 			}
 		}
 	}
-	condition=true;
-	string open = "{{";
-	string close = "}}";
-	while(condition){
-		size_t location = temp.find(open);
-		if(location!=string::npos){
-			size_t endlocation = temp.find(close, location+open.size());
-			size_t error = temp.find(open, location+open.size());
-			if(error>endlocation or error==string::npos){
-				temp.erase(location, endlocation+close.size());
-			}
-		}
-		else{
-			condition=false;
-		}
-	}
-	/*
-	while(condition){
-		size_t olocation = temp.find(open);
-		if(olocation!=string::npos){
-			int openCt=1;
-			while(openCt>0){
-				size_t clocation = temp.find(close, olocation+open.size());
-				size_t temploc = olocation+open.size();
-				bool condition=true;
-				while(condition){
-					cout<<openCt<<"\n";
-					size_t nextopen = temp.find(open, temploc);
-					if(nextopen!=string::npos){
-						if(nextopen<clocation){
-							openCt++;
-							temploc = nextopen+open.size();
-						}
-						else{
-							condition=false;
-						}
-					}
-					else{
-						condition=false;
-					}
-				}
-				temp.erase(olocation, clocation+close.size());
-				olocation=clocation;
-				openCt--;
-			}
-		}
-	}
-	*/
 	text = temp;
 	return;
 }
 
 //Save function (save to file)
 void wikiPage::save(ofstream &file){
-	file<<"-------------> SAVE VERSION 1.0 <-------------\n";
+	file<<"----------------> SAVE VERSION 1.0 <----------------\n";
 	file<<(*this)<<"\n";
 	file<<text<<"\n";
-	file<<"-----------------------------------------------\n";
+	file<<"----------------------------------------------------\n";
 }
 
 ostream& operator<<(ostream& os, wikiPage& wp)
@@ -248,6 +252,8 @@ ostream& operator<<(ostream& os, wikiPage& wp)
     os <<"Title:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp<<"\nPic Count:\t"<<wp.pic<<"\n";
     return os;
 }
+
+
 
 vector<string> getPages(string &filename, int numpages) {
 	/* Gets a vector of page strings */
@@ -274,9 +280,11 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
+
+
 int main(){
 	string filename = "enwiki-20160113-pages-articles.xml";
-	vector<string> raw_pages = getPages(filename, 100);
+	vector<string> raw_pages = getPages(filename, 90);
 	
 	vector<wikiPage> pages;
 	for(string i : raw_pages){
@@ -290,49 +298,3 @@ int main(){
 	ofstream file(saveFile);
 	pages[10].save(file);
 }
-
-/*
-int main(int argc, char** argv) {
-
-	string filename = "enwiki-20160113-pages-articles.xml";
-	
-	// Get vector of raw page strings
-	cout<<"Getting raw page strings..."<<endl;
-	
-	// WARNING -- RAM size requirements is about 1 GB per 30,000 articles
-	int npages = 30000;
-
-	//Start timer for raw page grab
-	timeit timer;
-	
-	timer.start();
-	vector<string> raw_pages = getPages(filename, npages);
-	timer.stop();
-	
-	// Vector of wikipage objects
-	vector<wikiPage> pages;
-	
-	// Populate pages with initialized wikiPages
-	timer.start();
-	cout<<"Parsing raw page strings..."<<endl;
-	for (string i : raw_pages) {
-		wikiPage x(i);
-		if (x.ns == "0" and not x.isRedirect) {
-<<<<<<< HEAD:data/parser.cpp
-			cout<<x.title<<endl;
-=======
->>>>>>> master:fetch/data/wikipedia/wikipedia.cpp
-			pages.push_back(x);
-		}
-	}
-	timer.stop();
-	
-	cout<<"Parsing time: "<<timer.times[0]<<" Seconds per Page\n";
-	cout<<"wikiPage time: "<<timer.times[1]<<" Seconds per Page\n";
-	
-	return 0;
-<<<<<<< HEAD:data/parser.cpp
-}
-=======
-}
-*/
