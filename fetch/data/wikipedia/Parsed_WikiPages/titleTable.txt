@@ -1,4 +1,5 @@
-Parsed_WikiPages/vol-0.txt...
+
+--> vol-0.txt 250 articles ...
 Anarchism
 Autism
 Albedo
@@ -199,7 +200,6 @@ Acute disseminated encephalomyelitis
 Ataxia
 Abdul Alhazred
 Ada Lovelace
-Parsed_WikiPages/vol-1.txt...
 August Derleth
 Alps
 Albert Camus
@@ -250,6 +250,8 @@ Telecommunications in Antigua and Barbuda
 Royal Antigua and Barbuda Defence Force
 Antisemitism
 Economy of Azerbaijan
+
+--> vol-1.txt 250 articles ...
 Geography of Azerbaijan
 Foreign relations of Azerbaijan
 Azerbaijani Armed Forces
@@ -400,7 +402,6 @@ Alphorn
 Army
 Alligatoridae
 Alder
-Parsed_WikiPages/vol-2.txt...
 Amos Bronson Alcott
 Arachnophobia
 Alabaster
@@ -501,6 +502,8 @@ Arthur Aikin
 Ailanthus
 Aimoin
 Akkadian Empire
+
+--> vol-2.txt 244 articles ...
 Ajax the Lesser
 Ajax (mythology)
 Ajax
@@ -601,7 +604,6 @@ August Wilhelm Ambros
 Amazon River
 Alfred of Beverley
 April 22
-Parsed_WikiPages/vol-3.txt...
 August 31
 Autpert Ambrose
 Abu Bakr

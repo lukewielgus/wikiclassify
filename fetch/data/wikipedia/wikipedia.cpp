@@ -329,6 +329,26 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
+void flush(vector<wikiPage> &pages, int &numDone, ofstream &titles){
+	//Saving the pages...
+	int num_articles = pages.size();
+
+	string saveFilePre = "Parsed_WikiPages/vol-";
+	string saveFileExt = ".txt";
+	titles<<"\n--> vol-"<<numDone<<".txt "<<num_articles<<" articles ...\n";
+	string filename = saveFilePre+std::to_string(numDone)+saveFileExt;
+
+	ofstream file(filename);
+
+	for(int i=0; i<pages.size(); i++){
+		pages[i].save(file);
+		titles<<pages[i].title<<"\n";
+	}
+	cout<<"Saved "<<num_articles<<" articles to "<<filename<<"                                          \n";
+	numDone++;
+	vector<wikiPage> newPage;
+	pages=newPage;
+}
 
 
 void fetch_and_save(int numpages, int articlesPerPage){
@@ -337,8 +357,11 @@ void fetch_and_save(int numpages, int articlesPerPage){
 	cout<<"Fetching...\n";
 	vector<string> raw_pages = getPages(filename, numpages);
 	float counter=0;
+	int numDone=0;
 	vector<wikiPage> pages;
 	cout<<"Parsing...\n";
+	string titleTable = "Parsed_WikiPages/titleTable.txt";
+	ofstream titles(titleTable);
 	for(string i : raw_pages){
 		counter++;
 		float percent = (counter/numpages)*100;
@@ -357,54 +380,22 @@ void fetch_and_save(int numpages, int articlesPerPage){
 		wikiPage x(i);
 		if(x.ns == "0" and not x.isRedirect){
 			pages.push_back(x);
-		}
-	}
-
-	//Saving the pages...
-	string saveFilePre = "Parsed_WikiPages/vol-";
-	string saveFileExt = ".txt";
-	string titleTable = "Parsed_WikiPages/titleTable.txt";
-	ofstream titles(titleTable);
-	//int articlesPerPage = 5000;
-	int articlesPerPageCopy=articlesPerPage;
-	int numfiles = pages.size()/articlesPerPage;
-	int extra = pages.size()%articlesPerPage;
-	int index=0;
-	for(int i=0; i<=numfiles; i++){
-		string saveFile = saveFilePre+std::to_string(i)+saveFileExt;
-		ofstream file(saveFile);
-		counter=0;
-		if(i==numfiles){
-			articlesPerPage=extra;
-		}
-		cout<<"\nSaving to "<<saveFile<<"...\n";
-		titles<<"\n-->"<<saveFile<<"...\n";
-		for(int j=0; j<articlesPerPage; j++){
-			pages[(articlesPerPageCopy*i)+j].save(file);
-			titles<<pages[(articlesPerPageCopy*i)+j].title<<"\n";
-			counter++;
-			float percent = (counter/articlesPerPage)*100;
-			int percentInt = percent;
-			cout<<"\r"<<percentInt<<"% Complete\t[";
-			for(int j=0; j<50; j++){
-				if(percent/2>j){
-					cout<<"|";
-				}
-				else{
-					cout<<" ";
-				}
+			if(pages.size()>=articlesPerPage){
+				cout<<"\r";
+				flush(pages, numDone, titles);
 			}
-			cout<<"]";
-			cout.flush();
 		}
-		cout<<"\n";
 	}
+	cout<<"\r";
+	flush(pages, numDone, titles);
+	cout<<"Done\n";
 }
 
 
+
 int main(){
-	int articles=100000;
-	int perpage = 2500;
+	int articles=1000;
+	int perpage = 250;
 	fetch_and_save(articles, perpage);
 }
 
