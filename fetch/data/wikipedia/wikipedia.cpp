@@ -330,23 +330,33 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
-vector<string> getPages(int numpages, ifstream &dataDump, unsigned long long &fpos) {
+void backup(unsigned long long &fpos, string filename){
+	
+	ofstream file(filename);
+	file<<fpos;
+	cout<<"File position data cached to: "<<filename<<"\n";
+}
+
+vector<string> getPages(int numpages, ifstream &dataDump, unsigned long long &fpos, bool &done) {
 	
 	unsigned short buffersize = 4096;               // Number of characters buffered at a time
 	unsigned blocksize = 1000000;                   // Size of string searched at a time; larger than largest article (apprx 800000)
 	string block; char buffer[buffersize];          // String objects for buffering
 	
 	vector<string> pages;                           // Initialize return value
-	while(pages.size() < numpages) {                // While pages is below the specified size
+	while(pages.size()<numpages) {                  // While pages is below the specified size
 		// Load buffer into string
 		block = "";                                 // New string being searched
 		dataDump.seekg(fpos);                       // Seek to current file position (position after last match)
 		while (block.size() < blocksize) {          // While string size is less than the block size
 			dataDump.read(buffer, sizeof(buffer));
+			if(dataDump.eof()){
+				done = true;
+				return pages;
+			}
 			block.append(buffer, sizeof(buffer));
 		}
 		fpos += parse(block, "<page>", "</page>", pages);
-		
 	}
 	return pages;
 }
@@ -354,6 +364,7 @@ vector<string> getPages(int numpages, ifstream &dataDump, unsigned long long &fp
 void flush(vector<wikiPage> &pages, int &numDone, ofstream &titleTable, timeit &timer){
 	//Saving the pages...
 	int num_articles = pages.size();
+
 
 	string saveFilePre = "Parsed_WikiPages/vol-";
 	string saveFileExt = ".txt";
@@ -376,16 +387,19 @@ void flush(vector<wikiPage> &pages, int &numDone, ofstream &titleTable, timeit &
 }
 
 
-void fetch_and_save(int numpages, int articlesPerPage, ifstream &dataDump, int swap, unsigned long long &fpos, int &fileCt, ofstream &titleTable){
+void fetch_and_save(int numpages, int articlesPerPage, ifstream &dataDump, int swap, unsigned long long &fpos, int &fileCt, ofstream &titleTable, bool &done){
 	timeit timer;
 	cout<<"Fetching...\n";
-	vector<string> raw_pages = getPages(numpages, dataDump, fpos);
+	unsigned long long prior_fpos = fpos;
+	vector<string> raw_pages = getPages(numpages, dataDump, fpos, done);
+	backup(fpos,"Parsed_WikiPages/fpos_cached.txt");
+	backup(prior_fpos,"Parsed_WikiPages/prior_fpos_cached.txt");
 	float counter=0;
 	vector<wikiPage> pages;
 	timer.start();
 	for(string i : raw_pages){
 		counter++;
-		float percent = (counter/numpages)*100;
+		float percent = (counter/raw_pages.size())*100;
 		int percentInt = percent;
 		cout<<"\r"<<percentInt<<"% Complete ("<<swap<<"/102)\t[";
 		for(int j=0; j<50; j++){
@@ -409,6 +423,7 @@ void fetch_and_save(int numpages, int articlesPerPage, ifstream &dataDump, int s
 	}
 	cout<<"\r";
 	flush(pages, fileCt, titleTable, timer);
+	cout<<"\n";
 }
 
 void run(){
@@ -425,12 +440,38 @@ void run(){
 	int fileCt=0;
 	string tablefile = "Parsed_WikiPages/titleTable.txt";
 	ofstream titleTable(tablefile);
+	bool done = false;
 	for(int i=0; i<102; i++){
-		fetch_and_save(articles_per_swap, articles_per_page, dataDump, i, fpos, fileCt, titleTable);
+		fetch_and_save(articles_per_swap, articles_per_page, dataDump, i, fpos, fileCt, titleTable, done);
+		if(done){
+			cout<<"Done... See titleTable.txt for seaching\n";
+			return;
+		}
+	}
+	cout<<"Done... See titleTable.txt for seaching\n";
+}
+
+unsigned long long get_max_fpos(string filename){
+	ifstream file(filename);
+	unsigned long long fpos=0;
+	cout<<"Finding the max fpos... ["<<fpos<<"]";
+	char buffer[5000];
+	while(true){
+		file.seekg(fpos);
+		file.read(buffer, sizeof(buffer));
+		if(file.eof()){
+			cout<<"Found max fpos: "<<fpos<<"\n";
+			return fpos;
+		}
+		cout<<"\rFinding the max fpos... ["<<fpos<<"]";
+		cout.flush();
+		fpos+=5000;
 	}
 }
 
+
 int main(){
+	//get_max_fpos("enwiki-20160113-pages-articles.xml");
 	run();
 }
 
