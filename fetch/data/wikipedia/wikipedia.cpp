@@ -330,20 +330,41 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
-void flush(vector<wikiPage> &pages, int &numDone, ofstream &titles, timeit &timer){
+vector<string> getPages(int numpages, ifstream &dataDump, unsigned long long &fpos) {
+	
+	unsigned short buffersize = 4096;               // Number of characters buffered at a time
+	unsigned blocksize = 1000000;                   // Size of string searched at a time; larger than largest article (apprx 800000)
+	string block; char buffer[buffersize];          // String objects for buffering
+	
+	vector<string> pages;                           // Initialize return value
+	while(pages.size() < numpages) {                // While pages is below the specified size
+		// Load buffer into string
+		block = "";                                 // New string being searched
+		dataDump.seekg(fpos);                       // Seek to current file position (position after last match)
+		while (block.size() < blocksize) {          // While string size is less than the block size
+			dataDump.read(buffer, sizeof(buffer));
+			block.append(buffer, sizeof(buffer));
+		}
+		fpos += parse(block, "<page>", "</page>", pages);
+		
+	}
+	return pages;
+}
+
+void flush(vector<wikiPage> &pages, int &numDone, ofstream &titleTable, timeit &timer){
 	//Saving the pages...
 	int num_articles = pages.size();
 
 	string saveFilePre = "Parsed_WikiPages/vol-";
 	string saveFileExt = ".txt";
-	titles<<"\n--> vol-"<<numDone<<".txt "<<num_articles<<" articles ...\n";
+	titleTable<<"\n--> vol-"<<numDone<<".txt "<<num_articles<<" articles ...\n";
 	string filename = saveFilePre+std::to_string(numDone)+saveFileExt;
 
 	ofstream file(filename);
 
 	for(int i=0; i<pages.size(); i++){
 		pages[i].save(file);
-		titles<<pages[i].title<<"\n";
+		titleTable<<pages[i].title<<"\n";
 	}
 
 	timer.stop();
@@ -355,24 +376,18 @@ void flush(vector<wikiPage> &pages, int &numDone, ofstream &titles, timeit &time
 }
 
 
-void fetch_and_save(int numpages, int articlesPerPage){
+void fetch_and_save(int numpages, int articlesPerPage, ifstream &dataDump, int swap, unsigned long long &fpos, int &fileCt, ofstream &titleTable){
 	timeit timer;
-	string filename = "enwiki-20160113-pages-articles.xml";
-	//int numpages = 20000;
 	cout<<"Fetching...\n";
-	vector<string> raw_pages = getPages(filename, numpages);
+	vector<string> raw_pages = getPages(numpages, dataDump, fpos);
 	float counter=0;
-	int numDone=0;
 	vector<wikiPage> pages;
-	cout<<"Parsing...\n";
-	string titleTable = "Parsed_WikiPages/titleTable.txt";
-	ofstream titles(titleTable);
 	timer.start();
 	for(string i : raw_pages){
 		counter++;
 		float percent = (counter/numpages)*100;
 		int percentInt = percent;
-		cout<<"\r"<<percentInt<<"% Complete\t[";
+		cout<<"\r"<<percentInt<<"% Complete ("<<swap<<"/102)\t[";
 		for(int j=0; j<50; j++){
 			if(percent/2>j){
 				cout<<"|";
@@ -388,19 +403,35 @@ void fetch_and_save(int numpages, int articlesPerPage){
 			pages.push_back(x);
 			if(pages.size()>=articlesPerPage){
 				cout<<"\r";
-				flush(pages, numDone, titles, timer);
+				flush(pages, fileCt, titleTable, timer);
 			}
 		}
 	}
 	cout<<"\r";
-	flush(pages, numDone, titles, timer);
-	cout<<"Done... See titleTable.txt for searching\n";
+	flush(pages, fileCt, titleTable, timer);
+}
+
+void run(){
+	//About 1GB per 50000 articles
+	int articles_per_swap = 50000;
+	int articles_per_page = 5000;
+	long total_articles = 5073000;
+
+	//Initializing ifstream
+	string filename = "enwiki-20160113-pages-articles.xml";
+	ifstream dataDump(filename);
+	unsigned long long fpos=0;
+
+	int fileCt=0;
+	string tablefile = "Parsed_WikiPages/titleTable.txt";
+	ofstream titleTable(tablefile);
+	for(int i=0; i<102; i++){
+		fetch_and_save(articles_per_swap, articles_per_page, dataDump, i, fpos, fileCt, titleTable);
+	}
 }
 
 int main(){
-	int articles=10000;
-	int perpage = 500;
-	fetch_and_save(articles, perpage);
+	run();
 }
 
 
