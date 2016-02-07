@@ -4,3 +4,7 @@
 docs/*
 !docs/*.pdf
 !docs/*.tex
+
+*.txt
+
+fetch/data/wikipedia/wikitest
