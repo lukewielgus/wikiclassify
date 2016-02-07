@@ -149,10 +149,14 @@ void nestedRemoval(string begintarg, string endtarg, string &text, size_t &curre
 		text.erase(begin, current+endtarg.size()-begin);
 		return;
 	}
-	size_t closeLocation = text.find_first_of(endtarg, current+begintarg.size());
+	size_t closeLocation = text.find(endtarg, current+begintarg.size());
+	if(closeLocation==string::npos){
+		text.erase(begin, string::npos);
+		return;
+	}
 	size_t temp = current;
 	while(true){
-		size_t nests = text.find_first_of(begintarg, temp+begintarg.size());
+		size_t nests = text.find(begintarg, temp+begintarg.size());
 		if((nests>closeLocation) or (nests==string::npos)){
 			break;
 		}
@@ -181,6 +185,7 @@ void wikiPage::removeJunk() {
 			condition=false;
 		}
 	}
+
 	//Removing all content between curly brackets
 	condition=true;
 	string open = "{{";
@@ -188,7 +193,6 @@ void wikiPage::removeJunk() {
 	while(condition){
 		size_t location = temp.find(open);
 		if(location!=string::npos){
-			size_t locationCopy=location;
 			int openCt=1;
 			nestedRemoval(open, close, temp, location, location, openCt);
 		}
@@ -196,7 +200,6 @@ void wikiPage::removeJunk() {
 			condition=false;
 		}
 	}
-
 	//Removing all content between brackets
 	condition=true;
 	open = "[[";
@@ -211,7 +214,6 @@ void wikiPage::removeJunk() {
 			condition=false;
 		}
 	}
-
 	//Removing all sub-category headers
 	condition=true;
 	string both = "===";
@@ -238,9 +240,8 @@ void wikiPage::removeJunk() {
 			condition=false;
 		}
 	}
-
 	//Adding junk formatting to the targets vector...
-	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",".",",","!",":","?",";","(",")","$","'","&"};
+	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",".",",","!",":","?",";","(",")","$","'","&","ampndash"};
 	//Removing all instances of junk strings...
 	for(int i=0; i<targets.size(); i++){
 		target = targets[i];
@@ -270,17 +271,29 @@ void wikiPage::removeJunk() {
 			}
 		}
 	}
-
+	//Remove empyt lines
+	string twoline = "\n\n";
+	string oneline = "\n";
+	condition = true;
+	while(condition){
+		size_t location = temp.find(twoline);
+		if(location!=string::npos){
+			temp.replace(location, twoline.size(), oneline);
+		}
+		else{
+			condition=false;
+		}
+	}
 	text = temp;
 	return;
 }
 
 //Save function (save to file)
 void wikiPage::save(ofstream &file){
-	file<<"----------------> SAVE VERSION 1.0 <----------------\n";
-	file<<(*this)<<"\n";
+	file<<"---> SAVE VERSION 1.0\n";
+	file<<(*this);
 	file<<text<<"\n";
-	file<<"----------------------------------------------------\n";
+	file<<"---> END OF ARTICLE\n";
 }
 
 ostream& operator<<(ostream& os, wikiPage& wp)
@@ -318,9 +331,9 @@ vector<string> getPages(string &filename, int numpages) {
 
 
 
-int main(){
+void fetch_and_save(int numpages, int articlesPerPage){
 	string filename = "enwiki-20160113-pages-articles.xml";
-	int numpages=1000;
+	//int numpages = 20000;
 	cout<<"Fetching...\n";
 	vector<string> raw_pages = getPages(filename, numpages);
 	float counter=0;
@@ -346,8 +359,56 @@ int main(){
 			pages.push_back(x);
 		}
 	}
-	string saveFile = "test.txt";
-	ofstream file(saveFile);
-	cout<<"\nSaving to "<<saveFile<<"\n";
-	pages[10].save(file);
+
+	//Saving the pages...
+	string saveFilePre = "Parsed_WikiPages/vol-";
+	string saveFileExt = ".txt";
+	string titleTable = "Parsed_WikiPages/titleTable.txt";
+	ofstream titles(titleTable);
+	//int articlesPerPage = 5000;
+	int articlesPerPageCopy=articlesPerPage;
+	int numfiles = pages.size()/articlesPerPage;
+	int extra = pages.size()%articlesPerPage;
+	int index=0;
+	for(int i=0; i<=numfiles; i++){
+		string saveFile = saveFilePre+std::to_string(i)+saveFileExt;
+		ofstream file(saveFile);
+		counter=0;
+		if(i==numfiles){
+			articlesPerPage=extra;
+		}
+		cout<<"\nSaving to "<<saveFile<<"...\n";
+		titles<<"\n-->"<<saveFile<<"...\n";
+		for(int j=0; j<articlesPerPage; j++){
+			pages[(articlesPerPageCopy*i)+j].save(file);
+			titles<<pages[(articlesPerPageCopy*i)+j].title<<"\n";
+			counter++;
+			float percent = (counter/articlesPerPage)*100;
+			int percentInt = percent;
+			cout<<"\r"<<percentInt<<"% Complete\t[";
+			for(int j=0; j<50; j++){
+				if(percent/2>j){
+					cout<<"|";
+				}
+				else{
+					cout<<" ";
+				}
+			}
+			cout<<"]";
+			cout.flush();
+		}
+		cout<<"\n";
+	}
 }
+
+
+int main(){
+	int articles=100000;
+	int perpage = 2500;
+	fetch_and_save(articles, perpage);
+}
+
+
+
+
+
