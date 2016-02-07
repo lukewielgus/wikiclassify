@@ -53,6 +53,7 @@ int parse(string &str, string tag1, string tag2, vector<string> &result) {
 	return pos;
 }
 
+//Grab the number of pictures in article
 short picCount(string &article){
 	short count=0;
 	bool condition=true;
@@ -76,7 +77,7 @@ class timeit {
 public:
 	void start();
 	void stop();
-	vector<float> times;
+	float times;
 private:
 	time_t tclock;
 };
@@ -86,7 +87,7 @@ void timeit::start() {
 }
 
 void timeit::stop() {
-	times.push_back(float(clock()-tclock)/CLOCKS_PER_SEC);
+	times = (float(clock()-tclock)/CLOCKS_PER_SEC);
 }
 
 class wikiPage {
@@ -137,6 +138,9 @@ wikiPage::wikiPage(string pagestr) {
 
 	//Remove Junk from text
 	removeJunk();
+
+	//Convert entire text to lower case
+	std::transform(text.begin(), text.end(), text.begin(), ::tolower);
 }
 
 
@@ -146,10 +150,14 @@ void nestedRemoval(string begintarg, string endtarg, string &text, size_t &curre
 		text.erase(begin, current+endtarg.size()-begin);
 		return;
 	}
-	size_t closeLocation = text.find_first_of(endtarg, current+begintarg.size());
+	size_t closeLocation = text.find(endtarg, current+begintarg.size());
+	if(closeLocation==string::npos){
+		text.erase(begin, string::npos);
+		return;
+	}
 	size_t temp = current;
 	while(true){
-		size_t nests = text.find_first_of(begintarg, temp+begintarg.size());
+		size_t nests = text.find(begintarg, temp+begintarg.size());
 		if((nests>closeLocation) or (nests==string::npos)){
 			break;
 		}
@@ -178,16 +186,30 @@ void wikiPage::removeJunk() {
 			condition=false;
 		}
 	}
+
 	//Removing all content between curly brackets
 	condition=true;
 	string open = "{{";
 	string close = "}}";
 	while(condition){
-		size_t location = temp.find_first_of(open);
+		size_t location = temp.find(open);
 		if(location!=string::npos){
-			size_t locationCopy=location;
 			int openCt=1;
-			nestedRemoval(open, close, temp, locationCopy, locationCopy, openCt);
+			nestedRemoval(open, close, temp, location, location, openCt);
+		}
+		else{
+			condition=false;
+		}
+	}
+	//Removing all content between brackets
+	condition=true;
+	open = "[[";
+	close = "]]";
+	while(condition){
+		size_t location = temp.find(open);
+		if(location!=string::npos){
+			int openCt=1;
+			nestedRemoval(open, close, temp, location, location, openCt);
 		}
 		else{
 			condition=false;
@@ -220,7 +242,7 @@ void wikiPage::removeJunk() {
 		}
 	}
 	//Adding junk formatting to the targets vector...
-	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref","/",".",",","!",":","?"};
+	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",".",",","!",":","?",";","(",")","$","'","&","ampndash"};
 	//Removing all instances of junk strings...
 	for(int i=0; i<targets.size(); i++){
 		target = targets[i];
@@ -235,16 +257,44 @@ void wikiPage::removeJunk() {
 			}
 		}
 	}
+	//Characters to be replaced by a space
+	vector<string> tobereplaced{"-","|","/","="};
+	for(int i=0; i<tobereplaced.size(); i++){
+		target = tobereplaced[i];
+		condition=true;
+		while(condition){
+			size_t location = temp.find(target);
+			if(location!=string::npos){
+				temp.replace(location, 1, " ");
+			}
+			else{
+				condition=false;
+			}
+		}
+	}
+	//Remove empty lines
+	string twoline = "\n\n";
+	string oneline = "\n";
+	condition = true;
+	while(condition){
+		size_t location = temp.find(twoline);
+		if(location!=string::npos){
+			temp.replace(location, twoline.size(), oneline);
+		}
+		else{
+			condition=false;
+		}
+	}
 	text = temp;
 	return;
 }
 
 //Save function (save to file)
 void wikiPage::save(ofstream &file){
-	file<<"----------------> SAVE VERSION 1.0 <----------------\n";
-	file<<(*this)<<"\n";
+	file<<"---> SAVE VERSION 1.0\n";
+	file<<(*this);
 	file<<text<<"\n";
-	file<<"----------------------------------------------------\n";
+	file<<"---> END OF ARTICLE\n";
 }
 
 ostream& operator<<(ostream& os, wikiPage& wp)
@@ -280,21 +330,111 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
-
-
-int main(){
-	string filename = "enwiki-20160113-pages-articles.xml";
-	vector<string> raw_pages = getPages(filename, 90);
+vector<string> getPages(int numpages, ifstream &dataDump, unsigned long long &fpos) {
 	
+	unsigned short buffersize = 4096;               // Number of characters buffered at a time
+	unsigned blocksize = 1000000;                   // Size of string searched at a time; larger than largest article (apprx 800000)
+	string block; char buffer[buffersize];          // String objects for buffering
+	
+	vector<string> pages;                           // Initialize return value
+	while(pages.size() < numpages) {                // While pages is below the specified size
+		// Load buffer into string
+		block = "";                                 // New string being searched
+		dataDump.seekg(fpos);                       // Seek to current file position (position after last match)
+		while (block.size() < blocksize) {          // While string size is less than the block size
+			dataDump.read(buffer, sizeof(buffer));
+			block.append(buffer, sizeof(buffer));
+		}
+		fpos += parse(block, "<page>", "</page>", pages);
+		
+	}
+	return pages;
+}
+
+void flush(vector<wikiPage> &pages, int &numDone, ofstream &titleTable, timeit &timer){
+	//Saving the pages...
+	int num_articles = pages.size();
+
+	string saveFilePre = "Parsed_WikiPages/vol-";
+	string saveFileExt = ".txt";
+	titleTable<<"\n--> vol-"<<numDone<<".txt "<<num_articles<<" articles ...\n";
+	string filename = saveFilePre+std::to_string(numDone)+saveFileExt;
+
+	ofstream file(filename);
+
+	for(int i=0; i<pages.size(); i++){
+		pages[i].save(file);
+		titleTable<<pages[i].title<<"\n";
+	}
+
+	timer.stop();
+	cout<<"Saved "<<num_articles<<" articles to "<<filename<<" in "<<timer.times<<" seconds                          \n";
+	timer.start();
+	numDone++;
+	vector<wikiPage> newPage;
+	pages=newPage;
+}
+
+
+void fetch_and_save(int numpages, int articlesPerPage, ifstream &dataDump, int swap, unsigned long long &fpos, int &fileCt, ofstream &titleTable){
+	timeit timer;
+	cout<<"Fetching...\n";
+	vector<string> raw_pages = getPages(numpages, dataDump, fpos);
+	float counter=0;
 	vector<wikiPage> pages;
+	timer.start();
 	for(string i : raw_pages){
+		counter++;
+		float percent = (counter/numpages)*100;
+		int percentInt = percent;
+		cout<<"\r"<<percentInt<<"% Complete ("<<swap<<"/102)\t[";
+		for(int j=0; j<50; j++){
+			if(percent/2>j){
+				cout<<"|";
+			}
+			else{
+				cout<<" ";
+			}
+		}
+		cout<<"]";
+		cout.flush();
 		wikiPage x(i);
 		if(x.ns == "0" and not x.isRedirect){
 			pages.push_back(x);
+			if(pages.size()>=articlesPerPage){
+				cout<<"\r";
+				flush(pages, fileCt, titleTable, timer);
+			}
 		}
 	}
-
-	string saveFile = "test.txt";
-	ofstream file(saveFile);
-	pages[10].save(file);
+	cout<<"\r";
+	flush(pages, fileCt, titleTable, timer);
 }
+
+void run(){
+	//About 1GB per 50000 articles
+	int articles_per_swap = 50000;
+	int articles_per_page = 5000;
+	long total_articles = 5073000;
+
+	//Initializing ifstream
+	string filename = "enwiki-20160113-pages-articles.xml";
+	ifstream dataDump(filename);
+	unsigned long long fpos=0;
+
+	int fileCt=0;
+	string tablefile = "Parsed_WikiPages/titleTable.txt";
+	ofstream titleTable(tablefile);
+	for(int i=0; i<102; i++){
+		fetch_and_save(articles_per_swap, articles_per_page, dataDump, i, fpos, fileCt, titleTable);
+	}
+}
+
+int main(){
+	run();
+}
+
+
+
+
+
