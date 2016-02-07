@@ -53,6 +53,7 @@ int parse(string &str, string tag1, string tag2, vector<string> &result) {
 	return pos;
 }
 
+//Grab the number of pictures in article
 short picCount(string &article){
 	short count=0;
 	bool condition=true;
@@ -76,7 +77,7 @@ class timeit {
 public:
 	void start();
 	void stop();
-	vector<float> times;
+	float times;
 private:
 	time_t tclock;
 };
@@ -86,7 +87,7 @@ void timeit::start() {
 }
 
 void timeit::stop() {
-	times.push_back(float(clock()-tclock)/CLOCKS_PER_SEC);
+	times = (float(clock()-tclock)/CLOCKS_PER_SEC);
 }
 
 class wikiPage {
@@ -271,7 +272,7 @@ void wikiPage::removeJunk() {
 			}
 		}
 	}
-	//Remove empyt lines
+	//Remove empty lines
 	string twoline = "\n\n";
 	string oneline = "\n";
 	condition = true;
@@ -329,7 +330,7 @@ vector<string> getPages(string &filename, int numpages) {
 	return pages;
 }
 
-void flush(vector<wikiPage> &pages, int &numDone, ofstream &titles){
+void flush(vector<wikiPage> &pages, int &numDone, ofstream &titles, timeit &timer){
 	//Saving the pages...
 	int num_articles = pages.size();
 
@@ -344,7 +345,10 @@ void flush(vector<wikiPage> &pages, int &numDone, ofstream &titles){
 		pages[i].save(file);
 		titles<<pages[i].title<<"\n";
 	}
-	cout<<"Saved "<<num_articles<<" articles to "<<filename<<"                                          \n";
+
+	timer.stop();
+	cout<<"Saved "<<num_articles<<" articles to "<<filename<<" in "<<timer.times<<" seconds                          \n";
+	timer.start();
 	numDone++;
 	vector<wikiPage> newPage;
 	pages=newPage;
@@ -352,6 +356,7 @@ void flush(vector<wikiPage> &pages, int &numDone, ofstream &titles){
 
 
 void fetch_and_save(int numpages, int articlesPerPage){
+	timeit timer;
 	string filename = "enwiki-20160113-pages-articles.xml";
 	//int numpages = 20000;
 	cout<<"Fetching...\n";
@@ -362,6 +367,7 @@ void fetch_and_save(int numpages, int articlesPerPage){
 	cout<<"Parsing...\n";
 	string titleTable = "Parsed_WikiPages/titleTable.txt";
 	ofstream titles(titleTable);
+	timer.start();
 	for(string i : raw_pages){
 		counter++;
 		float percent = (counter/numpages)*100;
@@ -382,20 +388,18 @@ void fetch_and_save(int numpages, int articlesPerPage){
 			pages.push_back(x);
 			if(pages.size()>=articlesPerPage){
 				cout<<"\r";
-				flush(pages, numDone, titles);
+				flush(pages, numDone, titles, timer);
 			}
 		}
 	}
 	cout<<"\r";
-	flush(pages, numDone, titles);
-	cout<<"Done\n";
+	flush(pages, numDone, titles, timer);
+	cout<<"Done... See titleTable.txt for searching\n";
 }
 
-
-
 int main(){
-	int articles=1000;
-	int perpage = 250;
+	int articles=10000;
+	int perpage = 500;
 	fetch_and_save(articles, perpage);
 }
 
