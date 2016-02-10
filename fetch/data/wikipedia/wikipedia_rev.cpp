@@ -413,20 +413,19 @@ void setup(string &filename){
 		cout<<"--> Enter the name of your data dump file: ";
 		cin>>filename;
 	}
-	cout<<"--> The parsed wikiPages will be held in a sub-directory named Parsed_WikiPages, have you created this? [Y/n]: ";
+	cout<<"--> The parsed wikiPages will be held in a sub-directory named parsed, have you created this? [Y/n]: ";
 	cin>>input;
-	if(input=="Y" or input=="y"){
-		cout<<"--> Starting process...\n\n";
-		return;
-	}
-	else{
+	if(input=="N" or input=="n"){
 		cout<<"--> Create the folder and input 'ready' when completed: ";
 		cin>>input;
-		if(input=="ready" or input=="Ready" or input=="READY"){
-			cout<<"--> Starting process...\n\n";
-		}
-		return;
 	}
+	cout<<"--> Within /parsed you need the following 3 folders; featured, good, & stub, do you have these? [Y/n]: ";
+	cin>>input;
+	if(input=="n" or input=="N"){
+		cout<<"--> Create these three folders, input 'ready' when complete: ";
+		cin>>input;
+	}
+	cout<<"--> Starting process... \n\n";
 }
 
 int main(){
