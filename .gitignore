@@ -9,3 +9,5 @@ docs/*
 *.txt
 
 fetch/data/wikipedia/wikitest
+
+fetch/data/wikipedia/better
