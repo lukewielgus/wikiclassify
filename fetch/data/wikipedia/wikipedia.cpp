@@ -389,7 +389,7 @@ void flush(vector<wikiPage> &pages, int &numDone, ofstream &titleTable, timeit &
 
 void fetch_and_save(int numpages, int articlesPerPage, ifstream &dataDump, int swap, unsigned long long &fpos, int &fileCt, ofstream &titleTable, bool &done){
 	timeit timer;
-	cout<<"Fetching...\n";
+	cout<<"Fetching "<<numpages<<" pages ("<<swap<<"/102) ...\n";
 	unsigned long long prior_fpos = fpos;
 	vector<string> raw_pages = getPages(numpages, dataDump, fpos, done);
 	backup(fpos,"Parsed_WikiPages/fpos_cached.txt");
@@ -468,7 +468,22 @@ unsigned long long get_max_fpos(string filename){
 		fpos+=5000;
 	}
 }
+/*
 
+run() will first create a subfolder called Parsed_WikiPages. It will then
+begin creating a series of files called git-X.txt, each of which will contain
+~5000 wikiPage objects.  Throughout the process it will write to the titleTable.txt
+file as well and update it will the relative locations of every wikiPage object.
+
+Lastly, the function will also maintain two files: fpos_cached.txt and
+prior_fpos_cached.txt which contain the current and previous unsigned
+positons in the data dump file (that the program is currently working on).
+
+Using these two files we can add some functionality that allows the user
+to save their progress in indexing the entire data dump and return to their
+location the next time they start up the program.
+
+*/
 
 int main(){
 	//get_max_fpos("enwiki-20160113-pages-articles.xml");
