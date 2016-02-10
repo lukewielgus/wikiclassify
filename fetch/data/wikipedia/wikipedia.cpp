@@ -389,7 +389,7 @@ void flush(vector<wikiPage> &pages, int &numDone, ofstream &titleTable, timeit &
 
 void fetch_and_save(int numpages, int articlesPerPage, ifstream &dataDump, int swap, unsigned long long &fpos, int &fileCt, ofstream &titleTable, bool &done){
 	timeit timer;
-	cout<<"Fetching...\n";
+	cout<<"Fetching "<<numpages<<" pages ("<<swap<<"/102) ...\n";
 	unsigned long long prior_fpos = fpos;
 	vector<string> raw_pages = getPages(numpages, dataDump, fpos, done);
 	backup(fpos,"Parsed_WikiPages/fpos_cached.txt");
