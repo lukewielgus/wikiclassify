@@ -2,6 +2,7 @@
 using std::cout;
 using std::endl;
 using std::ostream;
+using std::cin;
 
 #include <fstream>
 using std::ifstream;
@@ -426,14 +427,13 @@ void fetch_and_save(int numpages, int articlesPerPage, ifstream &dataDump, int s
 	cout<<"\n";
 }
 
-void run(){
+void run(string filename){
 	//About 1GB per 50000 articles
 	int articles_per_swap = 50000;
 	int articles_per_page = 5000;
 	long total_articles = 5073000;
 
 	//Initializing ifstream
-	string filename = "enwiki-20160113-pages-articles.xml";
 	ifstream dataDump(filename);
 	unsigned long long fpos=0;
 
@@ -468,26 +468,53 @@ unsigned long long get_max_fpos(string filename){
 		fpos+=5000;
 	}
 }
-/*
 
-run() will first create a subfolder called Parsed_WikiPages. It will then
-begin creating a series of files called git-X.txt, each of which will contain
-~5000 wikiPage objects.  Throughout the process it will write to the titleTable.txt
-file as well and update it will the relative locations of every wikiPage object.
-
-Lastly, the function will also maintain two files: fpos_cached.txt and
-prior_fpos_cached.txt which contain the current and previous unsigned
-positons in the data dump file (that the program is currently working on).
-
-Using these two files we can add some functionality that allows the user
-to save their progress in indexing the entire data dump and return to their
-location the next time they start up the program.
-
-*/
+void setup(string &filename){
+	cout<<"\nSkip setup? [Y/n]: ";
+	string input;
+	cin>>input;
+	if(input=="Y" or input=="y"){
+		cout<<"--> Starting process...\n\n";
+		return;
+	}
+	string summary = "Summary: run() will begin creating a series of files called git-X.txt, \
+each of which will contain ~5000 wikiPage objects.  Throughout the process it will \
+write to the titleTable.txt file as well and update it will the relative locations \
+of every wikiPage object. Lastly, the function will also maintain two files: \
+fpos_cached.txt and prior_fpos_cached.txt which contain the current and previous \
+unsigned positons in the data dump file (that the program is currently working on). \
+Using these two files we can add some functionality that allows the user to save their \
+progress in indexing the entire data dump and return to their location the next time \
+they start up the program.\n";
+	cout<<"\n--> Is this the name of your data dump file: "<<filename<<" [Y/n]: ";
+	cin>>input;
+	if(input=="n" or input=="N"){
+		cout<<"--> Enter the name of your data dump file: ";
+		cin>>filename;
+	}
+	cout<<"--> The parsed wikiPages will be held in a sub-directory named Parsed_WikiPages, have you created this? [Y/n]: ";
+	cin>>input;
+	if(input=="Y" or input=="y"){
+		cout<<summary;
+		cout<<"--> Starting process...\n\n";
+		return;
+	}
+	else{
+		cout<<"--> Create the folder and input 'ready' when completed: ";
+		cin>>input;
+		if(input=="ready" or input=="Ready" or input=="READY"){
+			cout<<summary;
+			cout<<"--> Starting process...\n\n";
+		}
+		return;
+	}
+}
 
 int main(){
 	//get_max_fpos("enwiki-20160113-pages-articles.xml");
-	run();
+	string filename = "enwiki-20160113-pages-articles.xml";
+	setup(filename);
+	run(filename);
 }
 
 
