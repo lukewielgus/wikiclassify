@@ -11,3 +11,9 @@ docs/*
 fetch/data/wikipedia/wikitest
 
 fetch/data/wikipedia/better
+
+fetch/data/wikipedia/parsed/*
+
+fetch/data/wikipedia/better
+
+fetch/data/wikipedia/wikitest
