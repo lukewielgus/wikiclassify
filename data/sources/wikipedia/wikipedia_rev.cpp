@@ -23,6 +23,8 @@ using std::to_string;
 
 #include <algorithm>
 
+#include <limits>
+
 //Check if string "tag1" is within string "str"
 bool isWithin(string &str, string tag1) {
 	return (str.find(tag1) != string::npos);
@@ -162,8 +164,14 @@ wikiPage::wikiPage(string pagestr) {
 
 
 //Both begintarg & endtarg must be same length for function to work
-void nestedRemoval(string begintarg, string endtarg, string &text, size_t &current, size_t begin, int &openCt){
-	if(openCt==0){
+void nestedRemoval(string begintarg, string endtarg, string &text, size_t &current, size_t begin, int &openCt, int &ct){
+	ct++;
+	if(ct >= 1024000){
+		cout<<"\r\t--> Error in nested removal; page is junk; continuing...\t\t\t\n";
+		cout.flush();
+		return;
+	}
+	if(openCt<=0){
 		text.erase(begin, current+endtarg.size()-begin);
 		return;
 	}
@@ -184,7 +192,7 @@ void nestedRemoval(string begintarg, string endtarg, string &text, size_t &curre
 		}
 	}
 	openCt--;
-	return nestedRemoval(begintarg, endtarg, text, closeLocation, begin, openCt);
+	return nestedRemoval(begintarg, endtarg, text, closeLocation, begin, openCt, ct);
 }
 
 //Remove all formatting artifacts
@@ -212,7 +220,11 @@ void wikiPage::removeJunk() {
 		size_t location = temp.find(open);
 		if(location!=string::npos){
 			int openCt=1;
-			nestedRemoval(open, close, temp, location, location, openCt);
+			int ct=0;
+			nestedRemoval(open, close, temp, location, location, openCt, ct);
+			if(ct>=1023999){
+				condition=false;
+			}
 		}
 		else{
 			condition=false;
@@ -226,7 +238,11 @@ void wikiPage::removeJunk() {
 		size_t location = temp.find(open);
 		if(location!=string::npos){
 			int openCt=1;
-			nestedRemoval(open, close, temp, location, location, openCt);
+			int ct=0;
+			nestedRemoval(open, close, temp, location, location, openCt, ct);
+			if(ct>=1023999){
+				condition=false;
+			}
 		}
 		else{
 			condition=false;
@@ -245,21 +261,8 @@ void wikiPage::removeJunk() {
 			condition=false;
 		}
 	}
-	//Removing all category headers
-	condition=true;
-	both = "==";
-	while(condition){
-		size_t location = temp.find(both);
-		if(location!=string::npos){
-			size_t end = temp.find(both, location+both.size());
-			temp.erase(location, end+both.size()-location);
-		}
-		else{
-			condition=false;
-		}
-	}
 	//Adding junk formatting to the targets vector...
-	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",".",",","!",":","?",";","(",")","$","'","&","ampndash"};
+	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",".",",","!",":","?",";","(",")","$","'","&","ampndash","=="};
 	//Removing all instances of junk strings...
 	for(int i=0; i<targets.size(); i++){
 		target = targets[i];
@@ -321,8 +324,9 @@ ostream& operator<<(ostream& os, wikiPage& wp)
 }
 
 void getPage(ifstream &dataDump, bool &end, string &pagestr){
+
 	unsigned short buffersize = 4096;
-	unsigned blocksize = 1000000;
+	unsigned long blocksize = 1024000;
 	string block; 
 	char buffer[buffersize];
 	
@@ -342,7 +346,7 @@ void getPage(ifstream &dataDump, bool &end, string &pagestr){
 	}
 }
 
-void savePage(wikiPage &temp, ofstream &hash, unsigned long &featuredCt, unsigned long &goodCt, unsigned long &stubCt){
+void savePage(wikiPage &temp, ofstream &hash, unsigned long &featuredCt, unsigned long &goodCt, unsigned long long &stubCt){
 	string featFolder = "parsed/featured/vol-";
 	string goodFolder = "parsed/good/vol-";
 	string stubFolder = "parsed/stub/vol-";
@@ -370,6 +374,7 @@ void savePage(wikiPage &temp, ofstream &hash, unsigned long &featuredCt, unsigne
 }
 
 void compile(string filename){
+
 	string folder = "parsed/";
 	string hashfile = "hashfile.txt";
 	string filePre = "vol-";
@@ -377,7 +382,7 @@ void compile(string filename){
 
 	unsigned long featuredCt = 0;
 	unsigned long goodCt = 0;
-	unsigned long stubCt = 0;
+	unsigned long long stubCt = 0;
 
 	ofstream hash(folder+hashfile);
 	ifstream dataDump(filename);
@@ -403,7 +408,7 @@ void compile(string filename){
 	}
 }
 void setup(string &filename){
-	cout<<"\nSkip setup? [Y/n]: ";
+	cout<<"Skip setup? [Y/n]: ";
 	string input;
 	cin>>input;
 	if(input=="Y" or input=="y"){
@@ -431,11 +436,57 @@ void setup(string &filename){
 	cout<<"--> Starting process... \n\n";
 }
 
+void titleSearch(string &title, string &path){
+	cout<<"Searching...";
+	ifstream hash("parsed/hashfile.txt");
+	vector<string> almostTitles;
+	vector<string> almostFiles;
+	string line;
+	string file;
+	time_t start = clock();
+	while(!hash.eof()){
+		getline(hash, line);
+		if(line.find(title)!=string::npos){
+			cout<<" article found in "<<(double(clock()-start)/CLOCKS_PER_SEC)<<" Seconds\n";
+			size_t location = line.find("]");
+			file = line.substr(location+2, string::npos);
+			cout<<"Location: "<<file<<"\n";
+			return;
+		}
+	}
+}
+
+void menu(){
+	cout<<"[1] Search for a title (already compiled database only)\n[2] Compile database\n[3] Resume previous compilation\n";
+	cout<<"Enter choice: ";
+	int in;
+	cin>>in;
+	if(in==1){
+		string input;
+		cout<<"Enter the title: ";
+		cin>>input;
+		string temp;
+		titleSearch(input, temp); 
+	}
+	if(in==2){
+		cout<<"This will delete the prior database, are you sure [Y/n]: ";
+		string temp;
+		cin>>temp;
+		if(temp=="n" or temp=="N"){
+			return;
+		}
+		string filename = "enwiki-20160113-pages-articles.xml";
+		setup(filename);
+		compile(filename);	
+	}
+	if(in==3){
+		//resume();
+	}
+}
+
 int main(){
-	//get_max_fpos("enwiki-20160113-pages-articles.xml");
-	string filename = "enwiki-20160113-pages-articles.xml";
-	setup(filename);
-	compile(filename);
+	//cout<<"Max streamsize: "<<std::dec<<std::numeric_limits<std::streamsize>::max()<<"\n";
+	menu();
 }
 
 
