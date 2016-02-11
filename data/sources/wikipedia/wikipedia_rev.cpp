@@ -385,17 +385,20 @@ void compile(string filename){
 	//hash<<"SAVE DATE: "<<std::asctime(std::localtime(std::time(nullptr)))<<"\n";
 
 	unsigned long long pageCt = 0;
+	float pageCtFloat = 0;
 	bool end = false;
 
 	cout<<"Fetching, parsing, and saving...\n";
-	cout<<"\rFeatured: "<<featuredCt<<"\t Good: "<<goodCt<<"\t Stub: "<<stubCt<<"\t Total: "<<pageCt;
+	time_t start = clock();
+	//cout<<"\rFeatured: "<<featuredCt<<"\t Good: "<<goodCt<<"\t Stub: "<<stubCt<<"\t Total: "<<pageCt<<"\t Progress: ~"<<(pageCtFloat/5000000)*100<<"%\t\t Articles/Second: "<<(pageCtFloat/((clock()-start)/CLOCKS_PER_SEC));
 	while(dataDump.eof()==false){
 		string pagestr;
 		getPage(dataDump, end, pagestr);
 		wikiPage temp(pagestr);
 		savePage(temp, hash, featuredCt, goodCt, stubCt);
 		pageCt++;
-		cout<<"\rFeatured: "<<featuredCt<<"\t Good: "<<goodCt<<"\t Stub: "<<stubCt<<"\t Total: "<<pageCt;
+		pageCtFloat = pageCt;
+		cout<<"\rFeatured: "<<featuredCt<<"\t Good: "<<goodCt<<"\t Stub: "<<stubCt<<"\t Total: "<<pageCt<<"\t Progress: ~"<<(pageCtFloat/5000000)*100<<"%\t Articles/Second: "<<(pageCtFloat/((clock()-start)/CLOCKS_PER_SEC));
 		cout.flush();
 	}
 }
