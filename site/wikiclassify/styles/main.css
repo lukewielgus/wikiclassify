@@ -91,6 +91,22 @@ input:focus {outline: none;}
 	margin-right: auto;
 }
 
+.label {
+	border:solid 1px #000;
+	border-radius:10px;
+	font-size:12px;
+	padding:5px;
+	margin:auto;
+}
+
+.featured {
+	background-color: #FF0;
+}
+
+.stub {
+	background-color: #0F0;
+}
+
 h1.pageTitle {
 	padding:10px;
 	border-bottom:1px solid #000;
