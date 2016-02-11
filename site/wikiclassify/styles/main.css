@@ -2,6 +2,10 @@
 	font-family:"Arial";
 }
 
+body {
+	background: #EEE url("http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/light_toast.png") repeat;
+}
+
 a {
 	text-decoration:none;
 	color:#000;
@@ -17,11 +21,17 @@ nav {
 
 nav a {
 	margin:0px 100px 0px 100px;
+	padding:4px 12px 4px 12px;
+}
+
+input:focus {outline: none;}
+
+#home {
+	padding:100px;
 }
 
 #home #logo {
-	margin-top: 10%;
-	padding: 50px;
+	padding:50px;
 }
 
 #home #search {
@@ -30,14 +40,44 @@ nav a {
 	height:30px;
 }
 
+#header #logo {
+	width:50px;
+}
+
+#header #search {
+	position:absolute;
+	top:20px;
+	right:40px;
+	font-size:18pt;
+	width:300px;
+	height:40px;
+}
+
+#header {
+    background-color:rgba(255, 255, 255, 1);
+	position: absolute;
+    left: 0;
+    top: 0;
+    border-bottom:1px solid #CCC;
+    width: 100%;
+    padding:10px;
+    height:60px;
+}
+
+#content {
+	border:1px solid #CCC;
+	border-radius:20px;
+	background-color:#FFF;
+	margin:100px 100px 10px 100px;
+	padding:10px 60px;
+}
+
 #footer {
-	background-color: #EEE;
-    position: absolute;
+    position: relative;
     left: 0;
     bottom: 0;
-    border-top:1px solid #CCC;
     width: 100%;
-    padding:20px;
+    padding:10px;
     overflow:hidden;
 }
 
@@ -45,4 +85,9 @@ nav a {
 	display: block; 
 	margin-left: auto; 
 	margin-right: auto;
+}
+
+.pageTitle {
+	padding:10px;
+	border-bottom:1px solid #000;
 }
