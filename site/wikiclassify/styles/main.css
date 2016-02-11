@@ -20,6 +20,10 @@ h1.pageTitle {
 	border-bottom:1px solid #000;
 }
 
+ul {
+	list-style: none;
+}
+
 nav {
 	text-align:center;
 }
