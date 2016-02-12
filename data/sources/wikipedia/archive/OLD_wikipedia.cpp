@@ -15,7 +15,6 @@ using std::vector;
 using std::string;
 using std::getline;
 using std::size_t;
-using std::to_string;
 
 #include <time.h>
 
@@ -144,11 +143,8 @@ wikiPage::wikiPage(string pagestr) {
 	isRedirect = isWithin(text, "#REDIRECT");
 	quality = 0;
 	//Set the quality if a featured or good article
-	if(isWithin(text, "{{Featured article}}")){
-		quality=2;
-	}
-	if(isWithin(text, "{{Good article}}")){
-		quality=1;
+	if (isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")) {
+		quality = 1;
 	}
 	//Get cleanup templates (if any)
 	//templates = getTemplates(text);
@@ -310,6 +306,16 @@ void wikiPage::removeJunk() {
 void wikiPage::save(ofstream &file){
 	file<<"---> VERSION 1.0\n";
 	file<<(*this);
+	/*
+	file<<"CATEGORIES: ";
+	for(int i=0; i<categories.size(); i++){
+		file<<categories[i]<<" ";
+	}
+	file<<"\nTEMPLATES: ";
+	for(int i=0; i<categories.size(); i++){
+		file<<templates[i]<<" ";
+	}
+	*/
 	file<<"\n"<<text<<"\n";
 	file<<"---> EOA\n";
 }
@@ -320,88 +326,176 @@ ostream& operator<<(ostream& os, wikiPage& wp)
     return os;
 }
 
-void getPage(ifstream &dataDump, bool &end, string &pagestr){
-	unsigned short buffersize = 4096;
-	unsigned blocksize = 1000000;
-	string block; 
-	char buffer[buffersize];
+vector<string> getPages(string &filename, int numpages) {
+	/* Gets a vector of page strings */
+
+	ifstream dataDump(filename);                    // Create filestream
 	
-	string line;
-	bool condition=true;
-	while(condition){
-		getline(dataDump, line);
-		if(line.find("<page>") != string::npos){
-			while(true){
-				getline(dataDump, line);
-				if(line.find("</page>") != string::npos){
-					return;
-				}
-				pagestr.append(line);
+	unsigned short buffersize = 4096;               // Number of characters buffered at a time
+	unsigned blocksize = 1000000;                   // Size of string searched at a time; larger than largest article (apprx 800000)
+	string block; char buffer[buffersize];          // String objects for buffering
+	
+	vector<string> pages;                           // Initialize return value
+	unsigned long long fpos = 0;                    // Position in file
+	while(pages.size() < numpages) {                // While pages is below the specified size
+		// Load buffer into string
+		block = "";                                 // New string being searched
+		dataDump.seekg(fpos);                       // Seek to current file position (position after last match)
+		while (block.size() < blocksize) {          // While string size is less than the block size
+			dataDump.read(buffer, sizeof(buffer));
+			block.append(buffer, sizeof(buffer));
+		}
+		fpos += parse(block, "<page>", "</page>", pages);
+		
+	}
+	return pages;
+}
+
+void backup(unsigned long long &fpos, string filename){
+	
+	ofstream file(filename);
+	file<<fpos;
+	cout<<"File position data cached to: "<<filename<<" ("<<fpos<<")\n";
+}
+
+vector<string> getPages(int numpages, ifstream &dataDump, unsigned long long &fpos, bool &done) {
+	
+	unsigned short buffersize = 4096;               // Number of characters buffered at a time
+	unsigned blocksize = 1000000;                   // Size of string searched at a time; larger than largest article (apprx 800000)
+	string block; char buffer[buffersize];          // String objects for buffering
+	
+	vector<string> pages;                           // Initialize return value
+	while(pages.size()<numpages) {                  // While pages is below the specified size
+		// Load buffer into string
+		block = "";                                 // New string being searched
+		dataDump.seekg(fpos);                       // Seek to current file position (position after last match)
+		while (block.size() < blocksize) {          // While string size is less than the block size
+			dataDump.read(buffer, sizeof(buffer));
+			if(dataDump.eof()){
+				done = true;
+				return pages;
+			}
+			block.append(buffer, sizeof(buffer));
+		}
+		fpos += parse(block, "<page>", "</page>", pages);
+	}
+	return pages;
+}
+
+void flush(vector<wikiPage> &pages, int &numDone, ofstream &titleTable, timeit &timer){
+	//Saving the pages...
+	int num_articles = pages.size();
+
+
+	string saveFilePre = "Parsed_WikiPages/vol-";
+	string saveFileExt = ".txt";
+	titleTable<<"\n--> vol-"<<numDone<<".txt "<<num_articles<<" articles ...\n";
+	string filename = saveFilePre+std::to_string(numDone)+saveFileExt;
+
+	//Start filestream
+	ofstream file(filename);
+
+	//Cache the date & time
+	file<<"SAVE DATE: "<<std::asctime(std::localtime(std::time(nullptr)))<<"\n";
+	//Iterate & save every wikiPage
+	for(int i=0; i<pages.size(); i++){
+		pages[i].save(file);
+		titleTable<<pages[i].title<<"\n";
+	}
+	timer.stop();
+	cout<<"Saved "<<num_articles<<" articles to "<<filename<<" in "<<timer.times<<" seconds                          \n";
+	timer.start();
+	numDone++;
+	vector<wikiPage> newPage;
+	pages=newPage;
+}
+
+
+void fetch_and_save(int numpages, int articlesPerPage, ifstream &dataDump, int swap, unsigned long long &fpos, int &fileCt, ofstream &titleTable, bool &done){
+	timeit timer;
+	cout<<"Fetching "<<numpages<<" pages ("<<swap<<"/102) ...\n";
+	unsigned long long prior_fpos = fpos;
+	vector<string> raw_pages = getPages(numpages, dataDump, fpos, done);
+	backup(fpos,"Parsed_WikiPages/fpos_cached.txt");
+	backup(prior_fpos,"Parsed_WikiPages/prior_fpos_cached.txt");
+	float counter=0;
+	vector<wikiPage> pages;
+	timer.start();
+	for(string i : raw_pages){
+		counter++;
+		float percent = (counter/raw_pages.size())*100;
+		int percentInt = percent;
+		cout<<"\r"<<percentInt<<"% Complete ("<<swap<<"/102)\t[";
+		for(int j=0; j<50; j++){
+			if(percent/2>j){
+				cout<<"|";
+			}
+			else{
+				cout<<" ";
+			}
+		}
+		cout<<"]";
+		cout.flush();
+		wikiPage x(i);
+		if(x.ns == "0" and not x.isRedirect){
+			pages.push_back(x);
+			if(pages.size()>=articlesPerPage){
+				cout<<"\r";
+				flush(pages, fileCt, titleTable, timer);
 			}
 		}
 	}
+	cout<<"\r";
+	flush(pages, fileCt, titleTable, timer);
+	cout<<"\n";
 }
 
-void savePage(wikiPage &temp, ofstream &hash, unsigned long &featuredCt, unsigned long &goodCt, unsigned long &stubCt){
-	string featFolder = "parsed/featured/vol-";
-	string goodFolder = "parsed/good/vol-";
-	string stubFolder = "parsed/stub/vol-";
-	string file;
-	switch (temp.quality){
-		case 0:
-		hash<<"["<<temp.title<<"] stub/vol-"<<stubCt<<".txt\n";
-		file = stubFolder+to_string(stubCt)+".txt";
-		stubCt++;
-		break;
-		case 1:
-		hash<<"["<<temp.title<<"] good/vol-"<<goodCt<<".txt\n";
-		file = goodFolder+to_string(goodCt)+".txt";
-		goodCt++;
-		break;
-		case 2:
-		hash<<"["<<temp.title<<"] featured/vol-"<<featuredCt<<".txt\n";
-		file = featFolder+to_string(featuredCt)+".txt";
-		featuredCt++;
-	}
-	ofstream output(file);
-	temp.save(output);
-	//output<<"SAVE DATE: "<<std::asctime(std::localtime(std::time(nullptr)))<<"\n";
-	return;
-}
+void run(string filename){
+	//About 1GB per 50000 articles
+	int articles_per_swap = 50000;
+	int articles_per_page = 5000;
+	long total_articles = 5073000;
 
-void compile(string filename){
-	string folder = "parsed/";
-	string hashfile = "hashfile.txt";
-	string filePre = "vol-";
-	string fileEx = ".txt";
-
-	unsigned long featuredCt = 0;
-	unsigned long goodCt = 0;
-	unsigned long stubCt = 0;
-
-	ofstream hash(folder+hashfile);
+	//Initializing ifstream
 	ifstream dataDump(filename);
+	unsigned long long fpos=0;
 
-	//hash<<"SAVE DATE: "<<std::asctime(std::localtime(std::time(nullptr)))<<"\n";
+	//Start titleTable filestream
+	string tablefile = "Parsed_WikiPages/titleTable.txt";
+	ofstream titleTable(tablefile);
+	titleTable<<"SAVE DATE: "<<std::asctime(std::localtime(std::time(nullptr)))<<"\n";
 
-	unsigned long long pageCt = 0;
-	float pageCtFloat = 0;
-	bool end = false;
+	//Start iterating through
+	int fileCt=0;
+	bool done = false;
+	for(int i=0; i<102; i++){
+		fetch_and_save(articles_per_swap, articles_per_page, dataDump, i, fpos, fileCt, titleTable, done);
+		if(done){
+			cout<<"Done... See titleTable.txt for seaching\n";
+			return;
+		}
+	}
+	cout<<"Done... See titleTable.txt for seaching\n";
+}
 
-	cout<<"Fetching, parsing, and saving...\n";
-	time_t start = clock();
-	//cout<<"\rFeatured: "<<featuredCt<<"\t Good: "<<goodCt<<"\t Stub: "<<stubCt<<"\t Total: "<<pageCt<<"\t Progress: ~"<<(pageCtFloat/5000000)*100<<"%\t\t Articles/Second: "<<(pageCtFloat/((clock()-start)/CLOCKS_PER_SEC));
-	while(dataDump.eof()==false){
-		string pagestr;
-		getPage(dataDump, end, pagestr);
-		wikiPage temp(pagestr);
-		savePage(temp, hash, featuredCt, goodCt, stubCt);
-		pageCt++;
-		pageCtFloat = pageCt;
-		cout<<"\rFeatured: "<<featuredCt<<"\t Good: "<<goodCt<<"\t Stub: "<<stubCt<<"\t Total: "<<pageCt<<"\t Progress: ~"<<(pageCtFloat/5000000)*100<<"%\t Articles/Second: "<<(pageCtFloat/((clock()-start)/CLOCKS_PER_SEC));
+unsigned long long get_max_fpos(string filename){
+	ifstream file(filename);
+	unsigned long long fpos=0;
+	cout<<"Finding the max fpos... ["<<fpos<<"]";
+	char buffer[5000];
+	while(true){
+		file.seekg(fpos);
+		file.read(buffer, sizeof(buffer));
+		if(file.eof()){
+			cout<<"Found max fpos: "<<fpos<<"\n";
+			return fpos;
+		}
+		cout<<"\rFinding the max fpos... ["<<fpos<<"]";
 		cout.flush();
+		fpos+=5000;
 	}
 }
+
 void setup(string &filename){
 	cout<<"\nSkip setup? [Y/n]: ";
 	string input;
@@ -410,34 +504,45 @@ void setup(string &filename){
 		cout<<"--> Starting process...\n\n";
 		return;
 	}
+	string summary = "Summary: run() will begin creating a series of files called git-X.txt, \
+each of which will contain ~5000 wikiPage objects.  Throughout the process it will \
+write to the titleTable.txt file as well and update it will the relative locations \
+of every wikiPage object. Lastly, the function will also maintain two files: \
+fpos_cached.txt and prior_fpos_cached.txt which contain the current and previous \
+unsigned positons in the data dump file (that the program is currently working on). \
+Using these two files we can add some functionality that allows the user to save their \
+progress in indexing the entire data dump and return to their location the next time \
+they start up the program.\n";
 	cout<<"\n--> Is this the name of your data dump file: "<<filename<<" [Y/n]: ";
 	cin>>input;
 	if(input=="n" or input=="N"){
 		cout<<"--> Enter the name of your data dump file: ";
 		cin>>filename;
 	}
-	cout<<"--> The parsed wikiPages will be held in a sub-directory named parsed, have you created this? [Y/n]: ";
+	cout<<"--> The parsed wikiPages will be held in a sub-directory named Parsed_WikiPages, have you created this? [Y/n]: ";
 	cin>>input;
-	if(input=="N" or input=="n"){
+	if(input=="Y" or input=="y"){
+		cout<<summary;
+		cout<<"--> Starting process...\n\n";
+		return;
+	}
+	else{
 		cout<<"--> Create the folder and input 'ready' when completed: ";
 		cin>>input;
+		if(input=="ready" or input=="Ready" or input=="READY"){
+			cout<<summary;
+			cout<<"--> Starting process...\n\n";
+		}
+		return;
 	}
-	cout<<"--> Within /parsed you need the following 3 folders; featured, good, & stub, do you have these? [Y/n]: ";
-	cin>>input;
-	if(input=="n" or input=="N"){
-		cout<<"--> Create these three folders, input 'ready' when complete: ";
-		cin>>input;
-	}
-	cout<<"--> Starting process... \n\n";
 }
 
 int main(){
 	//get_max_fpos("enwiki-20160113-pages-articles.xml");
 	string filename = "enwiki-20160113-pages-articles.xml";
 	setup(filename);
-	compile(filename);
+	run(filename);
 }
-
 
 
 

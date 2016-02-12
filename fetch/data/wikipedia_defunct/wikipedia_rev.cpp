@@ -91,6 +91,7 @@ vector<string> getTemplates(string &input){
 	return found;
 }
 
+/*
 // Small timer class
 class timeit {
 public:
@@ -108,6 +109,7 @@ void timeit::start() {
 void timeit::stop() {
 	times = (float(clock()-tclock)/CLOCKS_PER_SEC);
 }
+*/
 
 class wikiPage {
 public:
