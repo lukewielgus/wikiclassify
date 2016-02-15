@@ -35,13 +35,25 @@ string get_path(){
 	return cwd;
 }
 
-//Make a directoy
+//Make a directoy in current folder
 void create_directory(string directory){
 	char *p = new char[500];
 	string path = get_path();
 	string mkdir = "mkdir ";
 	string quote = "\"";
 	string command = mkdir+quote+path+directory+quote;
+	char *c = const_cast<char*>(command.c_str());
+	system(c);
+	return;
+}
+
+//Remove a directoy in current folder
+void remove_directory(string directory){
+	char *p = new char[500];
+	string path = get_path();
+	string rm = "rm -rf ";
+	string quote = "\"";
+	string command = rm+quote+path+directory+quote;
 	char *c = const_cast<char*>(command.c_str());
 	system(c);
 	return;
@@ -816,45 +828,42 @@ void setup(string &filename, string parent){
 		cout<<"Starting process...\n\n";
 		return;
 	}
-	cout<<"\n--> Is this the name of your data dump file: "<<filename<<" (it should be in same folder) [y/n]: ";
+	cout<<"\n--> Is this the name of your data dump file: "<<filename<<" (it should be in same folder as wikipedia.cpp) [y/n]: ";
 	cin>>input;
 	if(input=="n" or input=="N"){
 		cout<<"--> Enter the name of your data dump file: ";
 		cin>>filename;
 	}
+
+	cout<<"--> Are you running linux or osx (or have bash installed) [y/n]: ";
+	cin>>input;
+	if(input=="y" or input=="Y"){
+		cout<<"--> Deleting any former parsedHTML files and creating file structure...\n";
+		remove_directory(parent);
+		create_directory(parent);
+		string bad = parent+"/bad";
+		create_directory(bad);
+		string good = parent+"/good";
+		create_directory(good);
+		string redirect = parent+"/redirect";
+		create_directory(redirect);
+		string reg = parent+"/regular";
+		create_directory(reg);
+		cout<<"--> Starting Process...\n\n";
+		return;
+	}
+	cout<<"--> For now you will have to create the file structure by hand...\n";
 	cout<<"--> The parsed wikiPages will be held in a sub-directory named "<<parent<<", have you created this? [y/n]: ";
 	cin>>input;
 	if(input=="N" or input=="n"){
-		cout<<"--> Are you running linux or osx (or have bash installed) [y/n]: ";
+		cout<<"--> Create the folder and input 'ready' when completed: ";
 		cin>>input;
-		if(input=="y" or input=="Y"){
-			bash=true;
-			cout<<"--> Creating folder...\n";
-			create_directory(parent);
-		}
-		else{
-			cout<<"--> Create the folder and input 'ready' when completed: ";
-			cin>>input;
-		}
 	}
 	cout<<"--> Within "<<parent<<" you need the following 4 folders; good, bad, redirect & regular, do you have these? [y/n]: ";
 	cin>>input;
 	if(input=="n" or input=="N"){
-		if(bash){
-			cout<<"--> Creating folders...\n";
-			string bad = parent+"/bad";
-			create_directory(bad);
-			string good = parent+"/good";
-			create_directory(good);
-			string redirect = parent+"/redirect";
-			create_directory(redirect);
-			string reg = parent+"/regular";
-			create_directory(reg);
-		}
-		else{
-			cout<<"--> Create these 4 folders, input 'ready' when complete: ";
-			cin>>input;
-		}
+		cout<<"--> Create these 4 folders, input 'ready' when complete: ";
+		cin>>input;
 	}
 	cout<<"--> Starting process... \n\n";
 }
