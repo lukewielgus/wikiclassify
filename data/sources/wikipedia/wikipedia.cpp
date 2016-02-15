@@ -47,6 +47,25 @@ void create_directory(string directory){
 	return;
 }
 
+//Create readme.txt files to hold info
+void create_readme(string parent){
+	string good = parent+"good/readme.txt";
+	string bad = parent+"bad/readme.txt";
+	string reg = parent+"regular/readme.txt";
+	string redir = parent+"redirect/readme.txt";
+	vector<string> readmes = {good, bad, reg, redir};
+
+	time_t _tm = time(NULL);
+	struct tm* curtime = localtime(&_tm);
+	string cache_date = "Cache Date "+string(asctime(curtime))+"\n";
+
+	for(int i=0; i<readmes.size(); i++){
+		string temp = readmes[i];
+		ofstream file(temp);
+		file<<cache_date;
+	}
+}
+
 //Remove a directoy in current folder
 void remove_directory(string directory){
 	char *p = new char[500];
@@ -291,8 +310,7 @@ wikiPage::wikiPage(string pagestr, bool formatting) {
 	
 	if(!formatting){
 		removeJunk();
-		std::transform(text.begin(), text.end(), text.begin(), ::tolower);
-	}	
+	}
 }
 
 wikiPage::wikiPage(ifstream &wikiFile){
@@ -479,6 +497,7 @@ void wikiPage::save(ofstream &file){
 	file<<"---> EOA\n";
 }
 
+//Save to HTML format
 void wikiPage::saveHTML(ofstream &file){
 	file<<"<!DOCTYPE html>\n";
 	file<<"<html>\n";
@@ -515,6 +534,7 @@ ostream& operator<<(ostream& os, wikiPage& wp)
     return os;
 }
 
+//Get a page from the data dump
 void getPage(ifstream &dataDump, bool &end, string &pagestr){
 
 	unsigned short buffersize = 4096;
@@ -714,6 +734,8 @@ void compile(string filename, int N, bool &formatting){
 	string folder = "parsed/";
 	string hashfile = "hashfile.txt";
 
+	create_readme(folder);
+
 	unsigned long goodCt = 0;
 	unsigned long redirectCt = 0;
 	unsigned long regCt = 0;
@@ -765,11 +787,13 @@ void compile(string filename, int N, bool &formatting){
 //Compile articles 
 void compileHTML(string filename){
 
-	int N = 1;
+	int N = 5;
 	bool formatting=false;
 
 	string folder = "parsedHTML/";
 	string hashfile = "hashfile.txt";
+
+	create_readme(folder);
 
 	unsigned long goodCt = 0;
 	unsigned long redirectCt = 0;
@@ -819,6 +843,7 @@ void compileHTML(string filename){
 	return;
 }
 
+//Extended user interface
 void setup(string &filename, string parent){
 	bool bash=false;
 	cout<<"Skip setup? [y/n]: ";
@@ -868,6 +893,7 @@ void setup(string &filename, string parent){
 	cout<<"--> Starting process... \n\n";
 }
 
+//Temporary title search function
 void titleSearch(string &title){
 	cout<<"Searching...";
 	cout.flush();
@@ -912,6 +938,7 @@ void titleSearch(string &title){
 	return menu();
 }
 
+//Basic user interface
 void menu(){
 	cout<<"[1] Search for a title (already compiled database only)\n[2] Compile database\n[3] Resume previous compilation (not there yet haha)\n[4] Compile to html\n[5] Exit\n";
 	cout<<"Enter choice: ";
