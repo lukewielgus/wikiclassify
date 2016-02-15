@@ -15,12 +15,37 @@ using std::vector;
 using std::string;
 using std::getline;
 using std::size_t;
+using std::to_string;
 
 #include <time.h>
 
-#include <ctime>
+//For getting cwd
+#include <unistd.h>
 
-#include <algorithm>
+#include <limits>
+
+void menu();
+
+//Get current directory
+string get_path(){
+	const int max_path_size = 500;
+	char temp[max_path_size];
+	getcwd(temp, max_path_size);
+	string cwd(temp);
+	return cwd;
+}
+
+//Make a directoy
+void create_directory(string directory){
+	char *p = new char[500];
+	string path = get_path();
+	string mkdir = "mkdir ";
+	string quote = "\"";
+	string command = mkdir+quote+path+directory+quote;
+	char *c = const_cast<char*>(command.c_str());
+	system(c);
+	return;
+}
 
 //Check if string "tag1" is within string "str"
 bool isWithin(string &str, string tag1) {
@@ -76,34 +101,81 @@ short picCount(string &article){
 }
 
 //Check article for cleanup templates
-vector<string> getTemplates(string &input){
-	vector<string> found;
-	vector<string> templates = {"stub}}", "{{Cleanup", "{{Advert", "{{Update", "{{Tone", "{{Plot", "{{Essay-like", "{{Peacock", "{{Technical", "{{Confusing"};
-	vector<string> clean = {"stub", "cleanup", "advert", "update", "tone", "plot", "essay-like", "peacock", "technical", "confusing"};
+bool getTemplates(string &input, string &temp){
+	vector<string> templates = {"{{Multiple issues", "stub}}", "{{Cleanup", "{{Advert", "{{Update", "{{Tone", "{{Plot", "{{Essay-like", "{{Peacock", "{{Technical", "{{Confusing"};
+	vector<string> clean = {"multiple", "stub", "cleanup", "advert", "update", "tone", "plot", "essay-like", "peacock", "technical", "confusing"};
 	for(int i=0; i<templates.size(); i++){
 		if(input.find(templates[i]) != string::npos){
-			found.push_back(clean[i]);
+			temp = clean[i];
+			return true;
 		}
 	}
-	return found;
+	return false;
 }
 
-// Small timer class
-class timeit {
-public:
-	void start();
-	void stop();
-	float times;
-private:
-	time_t tclock;
-};
-
-void timeit::start() {
-	tclock = clock();
+//Get redirection title
+string getRedirect(string &input){
+	string begin = "[[";
+	string end = "]]";
+	size_t location = input.find(begin);
+	size_t endlocation = input.find(end, location+begin.size());
+	string title = input.substr(location+begin.size(), endlocation-location-end.size());
+	return title;
 }
 
-void timeit::stop() {
-	times = (float(clock()-tclock)/CLOCKS_PER_SEC);
+//Functions to recover wikiPages from files
+void getFileHeaderTitle(ifstream &wikiFile, string &subject){
+	string colon = ":";
+	int size = colon.size();
+	string line;
+	getline(wikiFile, line);
+	size_t location = line.find(colon);
+	subject = line.substr(location+size+2, string::npos);
+	return;
+}
+void getFileHeader(ifstream &wikiFile, string &subject){
+	string colon = ":";
+	int size = colon.size();
+	string line;
+	getline(wikiFile, line);
+	size_t location = line.find(colon);
+	subject = line.substr(location+size+1, string::npos);
+	return;	
+}
+void getFileHeader(ifstream &wikiFile, int &subject){
+	string colon = ":";
+	int size = colon.size();
+	string line;
+	getline(wikiFile, line);
+	size_t location = line.find(colon);
+	line = line.substr(location+size+1, string::npos);
+	subject = std::stoi(line, nullptr);
+	return;
+}
+void getFileHeader(ifstream &wikiFile, short &subject){
+	string colon = ":";
+	int size = colon.size();
+	string line;
+	getline(wikiFile, line);
+	size_t location = line.find(colon);
+	line = line.substr(location+size+1, string::npos);
+	int temp = std::stoi(line, nullptr);
+	subject = short(temp);
+	return;
+}
+void getFileHeader(ifstream &wikiFile, bool &subject){
+	string colon = ":";
+	int size = colon.size();
+	string line;
+	getline(wikiFile, line);
+	size_t location = line.find(colon);
+	line = line.substr(location+size+1, string::npos);
+	int sub = std::stoi(line, nullptr);
+	subject=false;
+	if(sub==1){
+		subject=true;
+	}
+	return;
 }
 
 class wikiPage {
@@ -113,13 +185,17 @@ public:
 	string         text;         // Page wikimarkup
 	vector<string> categories;   // Page categories
 	bool           isRedirect;   // Page redirect status
-	int            quality;      // Page quality (0: stub, 1: other, 2: good/featured)
+	string 		   redirection;	 // Redirection location
+	int            quality;      // 0=Redirect, 1=Regular, 2=Good, 3=Bad
 	string         contrib;      // Revision contributor
 	string         timestamp;    // Revision timestamp
 	short          pic;          // Total picture count
-	vector<string> templates;	 // Cleanup templates (if any)
+	string         templates;	 // Cleanup template (if any)
+	short		   version;		 // Saved version
 	
 	wikiPage(string pagestr);    // Constructor
+	wikiPage(ifstream &wikiFile);// From file constructor
+	wikiPage(string pagestr, bool formatting);
 	void save(ofstream &file);
 	void removeJunk();
 	friend ostream& operator<<(ostream& os, wikiPage& wp);
@@ -141,13 +217,22 @@ wikiPage::wikiPage(string pagestr) {
 	timestamp = parse(pagestr, "<timestamp>", "</timestamp>");
 	// Categorize based on text
 	isRedirect = isWithin(text, "#REDIRECT");
-	quality = 0;
+	if(isRedirect){
+		quality=0;									//Quality=0 for redirect articles
+		redirection = getRedirect(text);
+	}
+	else{
+		quality=1;									//Quality=1 for stub
+	}
 	//Set the quality if a featured or good article
-	if (isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")) {
-		quality = 1;
+	if(isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")){
+		quality=2;									//Quality=2 for featured or good
 	}
 	//Get cleanup templates (if any)
-	//templates = getTemplates(text);
+	bool istemp = getTemplates(text, templates);
+	if(istemp){
+		quality=3;
+	}
 	//Count number of pictures present in article
 	pic = picCount(pagestr);
 	//Remove Junk from text
@@ -156,10 +241,86 @@ wikiPage::wikiPage(string pagestr) {
 	std::transform(text.begin(), text.end(), text.begin(), ::tolower);
 }
 
+// wikipage constructor
+wikiPage::wikiPage(string pagestr, bool formatting) {
+	//Set the title of the page
+	title = parse(pagestr, "<title>", "</title>");
+	//Set the namespace
+	ns = parse(pagestr, "<ns>", "</ns>");
+	//Grab the text portion of the page
+	text = parse(pagestr, "<text xml:space=\"preserve\">", "</text>");
+	//Grab the categories for the page
+	parse(pagestr, "[[Category:", "]]", categories);
+	//Grab the contributor for latest edit
+	contrib = parse(pagestr, "<username>", "</username>");
+	//Grab the latest timestamp on the page
+	timestamp = parse(pagestr, "<timestamp>", "</timestamp>");
+	// Categorize based on text
+	isRedirect = isWithin(text, "#REDIRECT");
+	if(isRedirect){
+		quality=0;									//Quality=0 for redirect articles
+		redirection = getRedirect(text);
+	}
+	else{
+		quality=1;									//Quality=1 for stub
+	}
+	//Set the quality if a featured or good article
+	if(isWithin(text, "{{Featured article}}") || isWithin(text, "{{Good article}}")){
+		quality=2;									//Quality=2 for featured or good
+	}
+	//Get cleanup templates (if any)
+	bool istemp = getTemplates(text, templates);
+	if(istemp){
+		quality=3;
+	}
+	//Count number of pictures present in article
+	pic = picCount(pagestr);
+	
+	if(!formatting){
+		removeJunk();
+		std::transform(text.begin(), text.end(), text.begin(), ::tolower);
+	}	
+}
+
+wikiPage::wikiPage(ifstream &wikiFile){
+	string versionOneTag = "---> VERSION 1.0";
+	string buffer;
+	getline(wikiFile, buffer);
+	if(buffer.find(versionOneTag)!=string::npos){
+		version=1;
+		getFileHeaderTitle(wikiFile, title);
+		getFileHeader(wikiFile, ns);
+		getline(wikiFile, buffer);
+		getFileHeader(wikiFile, isRedirect);
+		getFileHeader(wikiFile, redirection);
+		getFileHeader(wikiFile, quality);
+		getFileHeader(wikiFile, contrib);
+		getFileHeader(wikiFile, timestamp);
+		getFileHeader(wikiFile, pic);
+		getFileHeader(wikiFile, templates);
+		while(true){
+			getline(wikiFile, buffer);
+			text+=buffer;
+			if(wikiFile.eof()){
+				break;
+			}
+		}
+	}
+	else{
+		cout<<"Save version not recognized!\n";
+		return;
+	}
+}
 
 //Both begintarg & endtarg must be same length for function to work
-void nestedRemoval(string begintarg, string endtarg, string &text, size_t &current, size_t begin, int &openCt){
-	if(openCt==0){
+void nestedRemoval(string begintarg, string endtarg, string &text, size_t &current, size_t begin, int &openCt, int &ct){
+	ct++;
+	if(ct >= 1024000){
+		cout<<"\r\t--> Error in nested removal; page is junk; continuing...\t\t\t\n";
+		cout.flush();
+		return;
+	}
+	if(openCt<=0){
 		text.erase(begin, current+endtarg.size()-begin);
 		return;
 	}
@@ -180,7 +341,7 @@ void nestedRemoval(string begintarg, string endtarg, string &text, size_t &curre
 		}
 	}
 	openCt--;
-	return nestedRemoval(begintarg, endtarg, text, closeLocation, begin, openCt);
+	return nestedRemoval(begintarg, endtarg, text, closeLocation, begin, openCt, ct);
 }
 
 //Remove all formatting artifacts
@@ -208,7 +369,11 @@ void wikiPage::removeJunk() {
 		size_t location = temp.find(open);
 		if(location!=string::npos){
 			int openCt=1;
-			nestedRemoval(open, close, temp, location, location, openCt);
+			int ct=0;
+			nestedRemoval(open, close, temp, location, location, openCt, ct);
+			if(ct>=1023999){
+				condition=false;
+			}
 		}
 		else{
 			condition=false;
@@ -222,7 +387,11 @@ void wikiPage::removeJunk() {
 		size_t location = temp.find(open);
 		if(location!=string::npos){
 			int openCt=1;
-			nestedRemoval(open, close, temp, location, location, openCt);
+			int ct=0;
+			nestedRemoval(open, close, temp, location, location, openCt, ct);
+			if(ct>=1023999){
+				condition=false;
+			}
 		}
 		else{
 			condition=false;
@@ -241,21 +410,8 @@ void wikiPage::removeJunk() {
 			condition=false;
 		}
 	}
-	//Removing all category headers
-	condition=true;
-	both = "==";
-	while(condition){
-		size_t location = temp.find(both);
-		if(location!=string::npos){
-			size_t end = temp.find(both, location+both.size());
-			temp.erase(location, end+both.size()-location);
-		}
-		else{
-			condition=false;
-		}
-	}
 	//Adding junk formatting to the targets vector...
-	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",".",",","!",":","?",";","(",")","$","'","&","ampndash"};
+	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",".",",","!",":","?",";","(",")","$","'","&","ampndash","=="};
 	//Removing all instances of junk strings...
 	for(int i=0; i<targets.size(); i++){
 		target = targets[i];
@@ -306,243 +462,351 @@ void wikiPage::removeJunk() {
 void wikiPage::save(ofstream &file){
 	file<<"---> VERSION 1.0\n";
 	file<<(*this);
-	/*
-	file<<"CATEGORIES: ";
-	for(int i=0; i<categories.size(); i++){
-		file<<categories[i]<<" ";
-	}
-	file<<"\nTEMPLATES: ";
-	for(int i=0; i<categories.size(); i++){
-		file<<templates[i]<<" ";
-	}
-	*/
 	file<<"\n"<<text<<"\n";
 	file<<"---> EOA\n";
 }
 
 ostream& operator<<(ostream& os, wikiPage& wp)
 {
-    os <<"Title:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp<<"\nPic Count:\t"<<wp.pic<<"\n";
+    os <<"Title:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nRedirection:\t"<<wp.redirection<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp<<"\nPic Count:\t"<<wp.pic<<"\nTemplate:\t"<<wp.templates<<"\n";
     return os;
 }
 
-vector<string> getPages(string &filename, int numpages) {
-	/* Gets a vector of page strings */
+void getPage(ifstream &dataDump, bool &end, string &pagestr){
 
-	ifstream dataDump(filename);                    // Create filestream
+	unsigned short buffersize = 4096;
+	unsigned long blocksize = 1024000;
+	string block; 
+	char buffer[buffersize];
 	
-	unsigned short buffersize = 4096;               // Number of characters buffered at a time
-	unsigned blocksize = 1000000;                   // Size of string searched at a time; larger than largest article (apprx 800000)
-	string block; char buffer[buffersize];          // String objects for buffering
-	
-	vector<string> pages;                           // Initialize return value
-	unsigned long long fpos = 0;                    // Position in file
-	while(pages.size() < numpages) {                // While pages is below the specified size
-		// Load buffer into string
-		block = "";                                 // New string being searched
-		dataDump.seekg(fpos);                       // Seek to current file position (position after last match)
-		while (block.size() < blocksize) {          // While string size is less than the block size
-			dataDump.read(buffer, sizeof(buffer));
-			block.append(buffer, sizeof(buffer));
-		}
-		fpos += parse(block, "<page>", "</page>", pages);
-		
-	}
-	return pages;
-}
-
-void backup(unsigned long long &fpos, string filename){
-	
-	ofstream file(filename);
-	file<<fpos;
-	cout<<"File position data cached to: "<<filename<<" ("<<fpos<<")\n";
-}
-
-vector<string> getPages(int numpages, ifstream &dataDump, unsigned long long &fpos, bool &done) {
-	
-	unsigned short buffersize = 4096;               // Number of characters buffered at a time
-	unsigned blocksize = 1000000;                   // Size of string searched at a time; larger than largest article (apprx 800000)
-	string block; char buffer[buffersize];          // String objects for buffering
-	
-	vector<string> pages;                           // Initialize return value
-	while(pages.size()<numpages) {                  // While pages is below the specified size
-		// Load buffer into string
-		block = "";                                 // New string being searched
-		dataDump.seekg(fpos);                       // Seek to current file position (position after last match)
-		while (block.size() < blocksize) {          // While string size is less than the block size
-			dataDump.read(buffer, sizeof(buffer));
-			if(dataDump.eof()){
-				done = true;
-				return pages;
-			}
-			block.append(buffer, sizeof(buffer));
-		}
-		fpos += parse(block, "<page>", "</page>", pages);
-	}
-	return pages;
-}
-
-void flush(vector<wikiPage> &pages, int &numDone, ofstream &titleTable, timeit &timer){
-	//Saving the pages...
-	int num_articles = pages.size();
-
-
-	string saveFilePre = "Parsed_WikiPages/vol-";
-	string saveFileExt = ".txt";
-	titleTable<<"\n--> vol-"<<numDone<<".txt "<<num_articles<<" articles ...\n";
-	string filename = saveFilePre+std::to_string(numDone)+saveFileExt;
-
-	//Start filestream
-	ofstream file(filename);
-
-	//Cache the date & time
-	file<<"SAVE DATE: "<<std::asctime(std::localtime(std::time(nullptr)))<<"\n";
-	//Iterate & save every wikiPage
-	for(int i=0; i<pages.size(); i++){
-		pages[i].save(file);
-		titleTable<<pages[i].title<<"\n";
-	}
-	timer.stop();
-	cout<<"Saved "<<num_articles<<" articles to "<<filename<<" in "<<timer.times<<" seconds                          \n";
-	timer.start();
-	numDone++;
-	vector<wikiPage> newPage;
-	pages=newPage;
-}
-
-
-void fetch_and_save(int numpages, int articlesPerPage, ifstream &dataDump, int swap, unsigned long long &fpos, int &fileCt, ofstream &titleTable, bool &done){
-	timeit timer;
-	cout<<"Fetching "<<numpages<<" pages ("<<swap<<"/102) ...\n";
-	unsigned long long prior_fpos = fpos;
-	vector<string> raw_pages = getPages(numpages, dataDump, fpos, done);
-	backup(fpos,"Parsed_WikiPages/fpos_cached.txt");
-	backup(prior_fpos,"Parsed_WikiPages/prior_fpos_cached.txt");
-	float counter=0;
-	vector<wikiPage> pages;
-	timer.start();
-	for(string i : raw_pages){
-		counter++;
-		float percent = (counter/raw_pages.size())*100;
-		int percentInt = percent;
-		cout<<"\r"<<percentInt<<"% Complete ("<<swap<<"/102)\t[";
-		for(int j=0; j<50; j++){
-			if(percent/2>j){
-				cout<<"|";
-			}
-			else{
-				cout<<" ";
-			}
-		}
-		cout<<"]";
-		cout.flush();
-		wikiPage x(i);
-		if(x.ns == "0" and not x.isRedirect){
-			pages.push_back(x);
-			if(pages.size()>=articlesPerPage){
-				cout<<"\r";
-				flush(pages, fileCt, titleTable, timer);
+	string line;
+	bool condition=true;
+	while(condition){
+		getline(dataDump, line);
+		if(line.find("<page>") != string::npos){
+			while(true){
+				getline(dataDump, line);
+				if(line.find("</page>") != string::npos){
+					return;
+				}
+				pagestr.append(line);
 			}
 		}
 	}
-	cout<<"\r";
-	flush(pages, fileCt, titleTable, timer);
-	cout<<"\n";
 }
 
-void run(string filename){
-	//About 1GB per 50000 articles
-	int articles_per_swap = 50000;
-	int articles_per_page = 5000;
-	long total_articles = 5073000;
+void savePage(int &N, wikiPage &temp, ofstream &hash, vector<wikiPage> &redirBuffer, vector<wikiPage> &goodBuffer, vector<wikiPage> &badBuffer, vector<wikiPage> &regBuffer, unsigned long &goodCt, unsigned long &redirectCt, unsigned long &regCt, unsigned long &badCt){
+	string goodFolder = "good/vol-";
+	string regFolder = "regular/vol-";
+	string redirFolder = "redirect/vol-";
+	string badFolder = "bad/vol-";
+	string parent = "parsed/";
 
-	//Initializing ifstream
+	string file;
+	int fileNum;
+	string hashOutput;
+	bool save=false;
+	vector<wikiPage> outputBuffer;
+	switch(temp.quality){
+		case 1:
+		regBuffer.push_back(temp);
+		regCt++;
+		if(regBuffer.size()>=N){
+			fileNum = regCt/N;
+			hashOutput = regFolder+to_string(fileNum)+".txt";
+			file = parent+hashOutput;
+			outputBuffer=regBuffer;
+			regBuffer.clear();
+			save=true;
+		}
+		break;
+		case 0:
+		redirBuffer.push_back(temp);
+		redirectCt++;
+		if(redirBuffer.size()>=N){
+			fileNum = redirectCt/N;
+			hashOutput = redirFolder+to_string(fileNum)+".txt";
+			file = parent+hashOutput;
+			outputBuffer=redirBuffer;
+			redirBuffer.clear();
+			save=true;
+		}
+		break;
+		case 2:
+		goodBuffer.push_back(temp);
+		goodCt++;
+		if(goodBuffer.size()>=N){
+			fileNum = goodCt/N;
+			hashOutput = goodFolder+to_string(fileNum)+".txt";
+			file = parent+hashOutput;
+			outputBuffer=goodBuffer;
+			goodBuffer.clear();
+			save=true;
+		}
+		break;
+		case 3:
+		badBuffer.push_back(temp);
+		badCt++;
+		if(badBuffer.size()>=N){
+			fileNum = badCt/N;
+			hashOutput = badFolder+to_string(fileNum)+".txt";
+			file = parent+hashOutput;
+			outputBuffer=badBuffer;
+			badBuffer.clear();
+			save=true;
+		}
+	}
+	if(save){
+		ofstream output(file);
+		for(int i=0; i<N; i++){
+			hash<<"["<<outputBuffer[i].title<<"] "<<hashOutput<<"\n";
+			outputBuffer[i].save(output);
+		}
+	}
+}
+
+
+void savePage(wikiPage &temp, ofstream &hash, unsigned long &goodCt, unsigned long &redirectCt, unsigned long long &regCt, unsigned long &badCt){
+	string featFolder = "parsed/good/vol-";
+	//string goodFolder = "parsed/good/vol-";
+	string stubFolder = "parsed/regular/vol-";
+	string redirectFolder = "parsed/redirect/vol-";
+	string cleanupFolder = "parsed/bad/vol-";	
+	string file;
+	switch (temp.quality){
+		case 1:
+		hash<<"["<<temp.title<<"] regular/vol-"<<regCt<<".txt\n";
+		file = stubFolder+to_string(regCt)+".txt";
+		regCt++;
+		break;
+		case 0:
+		hash<<"["<<temp.title<<"] redirect/vol-"<<redirectCt<<".txt\n";
+		file = redirectFolder+to_string(redirectCt)+".txt";
+		redirectCt++;
+		break;
+		case 2:
+		hash<<"["<<temp.title<<"] good/vol-"<<goodCt<<".txt\n";
+		file = featFolder+to_string(goodCt)+".txt";
+		goodCt++;
+		break;
+		case 3:
+		hash<<"["<<temp.title<<"] bad/vol-"<<badCt<<".txt\n";
+		file = cleanupFolder+to_string(badCt)+".txt";
+		badCt++;
+	}
+	ofstream output(file);
+	temp.save(output);
+	return;
+}
+
+//Save remaining wikiPages left in the buffers after compile() is over
+void flush(ofstream &hash, vector<wikiPage> &buffer, unsigned long &ct, const int &N, string file, string hashOutput){
+	if(buffer.size()>0){
+		string file_ext = ".txt";
+		string file_num = to_string((ct/N)+1);
+		string file_full = file+file_num+file_ext;
+		ofstream flushed(file_full);
+		for(int i=0; i<buffer.size(); i++){
+			hash<<"["<<buffer[i].title<<"] "<<hashOutput<<file_num<<".txt\n";
+			buffer[i].save(flushed);
+		}
+	}
+}
+
+//N articles per file, formatting true = leaving formatting in files
+void compile(string filename, int N, bool &formatting){
+
+	string folder = "parsed/";
+	string hashfile = "hashfile.txt";
+
+	unsigned long goodCt = 0;
+	unsigned long redirectCt = 0;
+	unsigned long regCt = 0;
+	unsigned long badCt = 0;
+
+	ofstream hash(folder+hashfile);
 	ifstream dataDump(filename);
-	unsigned long long fpos=0;
 
-	//Start titleTable filestream
-	string tablefile = "Parsed_WikiPages/titleTable.txt";
-	ofstream titleTable(tablefile);
-	titleTable<<"SAVE DATE: "<<std::asctime(std::localtime(std::time(nullptr)))<<"\n";
+	time_t _tm = time(NULL);
+	struct tm* curtime = localtime(&_tm);
+	string cache_date = "Cache Date "+string(asctime(curtime))+"\n";
+	hash<<cache_date;
+	//hash<<"Cache Date: "<<asctime(curtime)<<"\n";
 
-	//Start iterating through
-	int fileCt=0;
-	bool done = false;
-	for(int i=0; i<102; i++){
-		fetch_and_save(articles_per_swap, articles_per_page, dataDump, i, fpos, fileCt, titleTable, done);
-		if(done){
-			cout<<"Done... See titleTable.txt for seaching\n";
-			return;
-		}
-	}
-	cout<<"Done... See titleTable.txt for seaching\n";
-}
+	unsigned long long pageCt = 0;
+	float pageCtFloat = 0;
+	bool end = false;
 
-unsigned long long get_max_fpos(string filename){
-	ifstream file(filename);
-	unsigned long long fpos=0;
-	cout<<"Finding the max fpos... ["<<fpos<<"]";
-	char buffer[5000];
-	while(true){
-		file.seekg(fpos);
-		file.read(buffer, sizeof(buffer));
-		if(file.eof()){
-			cout<<"Found max fpos: "<<fpos<<"\n";
-			return fpos;
-		}
-		cout<<"\rFinding the max fpos... ["<<fpos<<"]";
+	cout<<"Fetching, parsing, and saving...\n";
+	time_t start = clock();
+
+	vector<wikiPage> redirBuffer;
+	vector<wikiPage> goodBuffer;
+	vector<wikiPage> badBuffer;
+	vector<wikiPage> regBuffer;
+
+	while(dataDump.eof()==false){
+		string pagestr; 
+		getPage(dataDump, end, pagestr);
+		wikiPage temp(pagestr, formatting);
+		savePage(N, temp, hash, redirBuffer, goodBuffer, badBuffer, regBuffer, goodCt, redirectCt, regCt, badCt);
+		
+		pageCt++;
+		pageCtFloat = pageCt;
+
+		cout<<"\r                                                                                                                   ";
 		cout.flush();
-		fpos+=5000;
+		cout<<"\rGood: "<<goodCt<<"\tRedirect: "<<redirectCt<<"\tReg: "<<regCt<<"  \tBad: "<<badCt<<" \tTotal: "<<pageCt<<"\tProg: ~"<<(pageCtFloat/5100000)*100<<"%   \tArt/Second: "<<(pageCtFloat/((clock()-start)/CLOCKS_PER_SEC));
+		cout.flush();
 	}
+	cout<<"\n";
+	flush(hash, redirBuffer, redirectCt, N, "parsed/redirect/vol-", "redirect/vol-");
+	flush(hash, goodBuffer, goodCt, N, "parsed/good/vol-", "good/vol-");
+	flush(hash, regBuffer, regCt, N, "parsed/regular/vol-", "regular/vol-");
+	flush(hash, badBuffer, badCt, N, "parsed/bad/vol-", "bad/vol-");
+	return;
 }
+
 
 void setup(string &filename){
-	cout<<"\nSkip setup? [Y/n]: ";
+	bool bash=false;
+	cout<<"Skip setup? [y/n]: ";
 	string input;
 	cin>>input;
 	if(input=="Y" or input=="y"){
-		cout<<"--> Starting process...\n\n";
+		cout<<"Starting process...\n\n";
 		return;
 	}
-	string summary = "Summary: run() will begin creating a series of files called git-X.txt, \
-each of which will contain ~5000 wikiPage objects.  Throughout the process it will \
-write to the titleTable.txt file as well and update it will the relative locations \
-of every wikiPage object. Lastly, the function will also maintain two files: \
-fpos_cached.txt and prior_fpos_cached.txt which contain the current and previous \
-unsigned positons in the data dump file (that the program is currently working on). \
-Using these two files we can add some functionality that allows the user to save their \
-progress in indexing the entire data dump and return to their location the next time \
-they start up the program.\n";
-	cout<<"\n--> Is this the name of your data dump file: "<<filename<<" [Y/n]: ";
+	cout<<"\n--> Is this the name of your data dump file: "<<filename<<" (it should be in same folder) [y/n]: ";
 	cin>>input;
 	if(input=="n" or input=="N"){
 		cout<<"--> Enter the name of your data dump file: ";
 		cin>>filename;
 	}
-	cout<<"--> The parsed wikiPages will be held in a sub-directory named Parsed_WikiPages, have you created this? [Y/n]: ";
+	cout<<"--> The parsed wikiPages will be held in a sub-directory named parsed, have you created this? [y/n]: ";
 	cin>>input;
-	if(input=="Y" or input=="y"){
-		cout<<summary;
-		cout<<"--> Starting process...\n\n";
-		return;
-	}
-	else{
-		cout<<"--> Create the folder and input 'ready' when completed: ";
+	if(input=="N" or input=="n"){
+		cout<<"--> Are you running linux or osx (or have bash installed) [y/n]: ";
 		cin>>input;
-		if(input=="ready" or input=="Ready" or input=="READY"){
-			cout<<summary;
-			cout<<"--> Starting process...\n\n";
+		if(input=="y" or input=="Y"){
+			bash=true;
+			cout<<"--> Creating folder...\n";
+			create_directory("/parsed");
 		}
+		else{
+			cout<<"--> Create the folder and input 'ready' when completed: ";
+			cin>>input;
+		}
+	}
+	cout<<"--> Within /parsed you need the following 4 folders; good, bad, redirect & regular, do you have these? [y/n]: ";
+	cin>>input;
+	if(input=="n" or input=="N"){
+		if(bash){
+			cout<<"--> Creating folders...\n";
+			create_directory("/parsed/bad");
+			create_directory("/parsed/good");
+			create_directory("/parsed/redirect");
+			create_directory("/parsed/regular");
+		}
+		else{
+			cout<<"--> Create these 4 folders, input 'ready' when complete: ";
+			cin>>input;
+		}
+	}
+	cout<<"--> Starting process... \n\n";
+}
+
+void titleSearch(string &title){
+	cout<<"Searching...";
+	cout.flush();
+	ifstream hash("parsed/hashfile.txt");
+	string line;
+	string file;
+	time_t start = clock();
+	while(!hash.eof()){
+		getline(hash, line);
+		if(line.find(title)!=string::npos){
+			cout<<" exact article found in "<<(double(clock()-start)/CLOCKS_PER_SEC)<<" Seconds\n";
+			size_t location = line.find("]");
+			file = line.substr(location+2, string::npos);
+			cout<<"Would you like to view the article details? [y/n]: ";
+			string input;
+			cin>>input;
+			if(input=="y" or input=="Y"){
+				string folder = "parsed/";
+				string filename = folder+file;
+				ifstream wikiFile(filename);
+				wikiPage temp(wikiFile);
+				cout<<"\n"<<temp<<"\n";
+				if(temp.isRedirect){
+					string other = temp.redirection;
+					cout<<"Detected a redirect, would you like to search for the target artcle? [y/n]: ";
+					cin>>input;
+					if(input=="y" or input=="Y"){
+						return titleSearch(other);
+					}
+				}
+				cout<<"Would you like to view the article content? [y/n]: ";
+				cin>>input;
+				if(input=="y" or input=="Y"){
+					cout<<temp.text<<"\n";
+				}
+			}	
+			return menu();
+		}
+	}
+	cout<<" Exact match not found.\n";
+	cout.flush();
+	return menu();
+}
+
+void menu(){
+	cout<<"[1] Search for a title (already compiled database only)\n[2] Compile database\n[3]Resume previous compilation\n[4] Exit\n";
+	cout<<"Enter choice: ";
+	int in;
+	cin>>in;
+	if(in==1){
+		string input;
+		cout<<"Enter the title: ";
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::getline(cin, input);
+		titleSearch(input);
+	}
+	if(in==2){
+		cout<<"This will delete the prior database, are you sure [y/n]: ";
+		string temp;
+		cin>>temp;
+		if(temp=="n" or temp=="N"){
+			return;
+		}
+		bool formatting=false;
+		cout<<"Would you like to parse out all formatting? (much slower) [y/n]: ";
+		string in;
+		cin>>in;
+		if(in=="n" or in=="N"){
+			formatting = true;
+		}
+		cout<<"How many articles per file? ";
+		int N;
+		cin>>N;
+		string filename = "enwiki-20160113-pages-articles.xml";
+		setup(filename);
+		compile(filename, N, formatting);	
+	}
+	if(in==3){
+		//resume();
+	}
+	if(in==4){
+		cout<<"Closing program...\n";
 		return;
 	}
+	cout<<"Closing program...\n";
 }
 
 int main(){
-	//get_max_fpos("enwiki-20160113-pages-articles.xml");
-	string filename = "enwiki-20160113-pages-articles.xml";
-	setup(filename);
-	run(filename);
+	menu();
 }
+
 
 
 
