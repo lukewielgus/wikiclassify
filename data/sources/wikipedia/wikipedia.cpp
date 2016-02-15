@@ -197,6 +197,7 @@ public:
 	wikiPage(ifstream &wikiFile);// From file constructor
 	wikiPage(string pagestr, bool formatting);
 	void save(ofstream &file);
+	void saveHTML(ofstream &file);
 	void removeJunk();
 	friend ostream& operator<<(ostream& os, wikiPage& wp);
 };
@@ -427,7 +428,7 @@ void wikiPage::removeJunk() {
 		}
 	}
 	//Characters to be replaced by a space
-	vector<string> tobereplaced{"-","|","/","="};
+	vector<string> tobereplaced{"-","|","/","=","_"};
 	for(int i=0; i<tobereplaced.size(); i++){
 		target = tobereplaced[i];
 		condition=true;
@@ -466,6 +467,36 @@ void wikiPage::save(ofstream &file){
 	file<<"---> EOA\n";
 }
 
+void wikiPage::saveHTML(ofstream &file){
+	file<<"<!DOCTYPE html>\n";
+	file<<"<html>\n";
+	file<<"\t<head>\n";
+	file<<"\t\t<link rel=\"stylesheet\" href=\"../../../../../site/wikiclassify/styles/main.css\">\n";
+	file<<"\t\t<title>About</title>\n";
+	file<<"\t</head>\n";
+	file<<"\t<body>\n";
+	file<<"\t\t<div id=\"header\">\n";
+	file<<"\t\t\t<a href=\"../index.html\">\n";
+	file<<"\t\t\t\t<img id=\"logo\" class=\"center\" src=\"../../../../../site/wikiclassify/images/logo.svg\" alt=\"WikiClassify\" width=\"250px\"/>\n";
+	file<<"\t\t\t</a>\n";
+	file<<"\t\t\t<input type=\"text\" name=\"search\" placeholder=\"Search\" id=\"search\" class=\"center\" >\n";
+	file<<"\t\t</div>\n";
+	file<<"\t\t<div id=\"content\" class=\"center box\">\n";
+	file<<"\t\t\t<h1 class=\"pageTitle\">"<<title<<"</h1>\n";
+	file<<"\t\t\t<span class=\"label featured\">Featured</span>\n";
+	file<<"\t\t\t<span class=\"label stub\">Stub</span>\n";
+	file<<"\t\t\t<p>"<<text<<"</p>\n";
+	file<<"\t\t</div>\n";
+	file<<"\t\t<div id=\"footer\">\n";
+	file<<"\t\t\t<nav>\n";
+	file<<"\t\t\t\t<a href=\"../../../../../site/wikiclassify/about.html\">About</a>\n";
+	file<<"\t\t\t\t<a href=\"../../../../../site/wikiclassify/login.html\">Login</a>\n";
+	file<<"\t\t\t</nav>\n";
+	file<<"\t\t</div>\n";
+	file<<"\t</body>\n";
+	file<<"</html>\n";
+}
+
 ostream& operator<<(ostream& os, wikiPage& wp)
 {
     os <<"Title:\t\t"<<wp.title<<"\nNamespace:\t"<<wp.ns<<"\nArticle size:\t"<<wp.text.size()<<"\nRedirect:\t"<<wp.isRedirect<<"\nRedirection:\t"<<wp.redirection<<"\nQuality:\t"<<wp.quality<<"\nContributor:\t"<<wp.contrib<<"\nTimestamp:\t"<<wp.timestamp<<"\nPic Count:\t"<<wp.pic<<"\nTemplate:\t"<<wp.templates<<"\n";
@@ -495,6 +526,7 @@ void getPage(ifstream &dataDump, bool &end, string &pagestr){
 	}
 }
 
+//Save version for plaintext
 void savePage(int &N, wikiPage &temp, ofstream &hash, vector<wikiPage> &redirBuffer, vector<wikiPage> &goodBuffer, vector<wikiPage> &badBuffer, vector<wikiPage> &regBuffer, unsigned long &goodCt, unsigned long &redirectCt, unsigned long &regCt, unsigned long &badCt){
 	string goodFolder = "good/vol-";
 	string regFolder = "regular/vol-";
@@ -565,38 +597,75 @@ void savePage(int &N, wikiPage &temp, ofstream &hash, vector<wikiPage> &redirBuf
 	}
 }
 
+//Save version for HTML
+void savePageHTML(int &N, wikiPage &temp, ofstream &hash, vector<wikiPage> &redirBuffer, vector<wikiPage> &goodBuffer, vector<wikiPage> &badBuffer, vector<wikiPage> &regBuffer, unsigned long &goodCt, unsigned long &redirectCt, unsigned long &regCt, unsigned long &badCt){
+	string goodFolder = "good/vol-";
+	string regFolder = "regular/vol-";
+	string redirFolder = "redirect/vol-";
+	string badFolder = "bad/vol-";
+	string parent = "parsedHTML/";
 
-void savePage(wikiPage &temp, ofstream &hash, unsigned long &goodCt, unsigned long &redirectCt, unsigned long long &regCt, unsigned long &badCt){
-	string featFolder = "parsed/good/vol-";
-	//string goodFolder = "parsed/good/vol-";
-	string stubFolder = "parsed/regular/vol-";
-	string redirectFolder = "parsed/redirect/vol-";
-	string cleanupFolder = "parsed/bad/vol-";	
 	string file;
-	switch (temp.quality){
+	int fileNum;
+	string hashOutput;
+	bool save=false;
+	vector<wikiPage> outputBuffer;
+	switch(temp.quality){
 		case 1:
-		hash<<"["<<temp.title<<"] regular/vol-"<<regCt<<".txt\n";
-		file = stubFolder+to_string(regCt)+".txt";
+		regBuffer.push_back(temp);
 		regCt++;
+		if(regBuffer.size()>=N){
+			fileNum = regCt/N;
+			hashOutput = regFolder+to_string(fileNum)+".html";
+			file = parent+hashOutput;
+			outputBuffer=regBuffer;
+			regBuffer.clear();
+			save=true;
+		}
 		break;
 		case 0:
-		hash<<"["<<temp.title<<"] redirect/vol-"<<redirectCt<<".txt\n";
-		file = redirectFolder+to_string(redirectCt)+".txt";
+		redirBuffer.push_back(temp);
 		redirectCt++;
+		if(redirBuffer.size()>=N){
+			fileNum = redirectCt/N;
+			hashOutput = redirFolder+to_string(fileNum)+".html";
+			file = parent+hashOutput;
+			outputBuffer=redirBuffer;
+			redirBuffer.clear();
+			save=true;
+		}
 		break;
 		case 2:
-		hash<<"["<<temp.title<<"] good/vol-"<<goodCt<<".txt\n";
-		file = featFolder+to_string(goodCt)+".txt";
+		goodBuffer.push_back(temp);
 		goodCt++;
+		if(goodBuffer.size()>=N){
+			fileNum = goodCt/N;
+			hashOutput = goodFolder+to_string(fileNum)+".html";
+			file = parent+hashOutput;
+			outputBuffer=goodBuffer;
+			goodBuffer.clear();
+			save=true;
+		}
 		break;
 		case 3:
-		hash<<"["<<temp.title<<"] bad/vol-"<<badCt<<".txt\n";
-		file = cleanupFolder+to_string(badCt)+".txt";
+		badBuffer.push_back(temp);
 		badCt++;
+		if(badBuffer.size()>=N){
+			fileNum = badCt/N;
+			hashOutput = badFolder+to_string(fileNum)+".html";
+			file = parent+hashOutput;
+			outputBuffer=badBuffer;
+			badBuffer.clear();
+			save=true;
+		}
 	}
-	ofstream output(file);
-	temp.save(output);
-	return;
+	if(save){
+		ofstream output(file);
+		for(int i=0; i<N; i++){
+			hash<<"["<<outputBuffer[i].title<<"] "<<hashOutput<<"\n";
+			outputBuffer[i].saveHTML(output);
+		}
+	}
 }
 
 //Save remaining wikiPages left in the buffers after compile() is over
@@ -609,6 +678,20 @@ void flush(ofstream &hash, vector<wikiPage> &buffer, unsigned long &ct, const in
 		for(int i=0; i<buffer.size(); i++){
 			hash<<"["<<buffer[i].title<<"] "<<hashOutput<<file_num<<".txt\n";
 			buffer[i].save(flushed);
+		}
+	}
+}
+
+//Save remaining wikiPages left in the buffers after compile() is over
+void flushHTML(ofstream &hash, vector<wikiPage> &buffer, unsigned long &ct, const int &N, string file, string hashOutput){
+	if(buffer.size()>0){
+		string file_ext = ".html";
+		string file_num = to_string((ct/N)+1);
+		string file_full = file+file_num+file_ext;
+		ofstream flushed(file_full);
+		for(int i=0; i<buffer.size(); i++){
+			hash<<"["<<buffer[i].title<<"] "<<hashOutput<<file_num<<".txt\n";
+			buffer[i].saveHTML(flushed);
 		}
 	}
 }
@@ -667,8 +750,64 @@ void compile(string filename, int N, bool &formatting){
 	return;
 }
 
+//Compile articles 
+void compileHTML(string filename){
 
-void setup(string &filename){
+	int N = 1;
+	bool formatting=false;
+
+	string folder = "parsedHTML/";
+	string hashfile = "hashfile.txt";
+
+	unsigned long goodCt = 0;
+	unsigned long redirectCt = 0;
+	unsigned long regCt = 0;
+	unsigned long badCt = 0;
+
+	ofstream hash(folder+hashfile);
+	ifstream dataDump(filename);
+
+	time_t _tm = time(NULL);
+	struct tm* curtime = localtime(&_tm);
+	string cache_date = "Cache Date "+string(asctime(curtime))+"\n";
+	hash<<cache_date;
+	//hash<<"Cache Date: "<<asctime(curtime)<<"\n";
+
+	unsigned long long pageCt = 0;
+	float pageCtFloat = 0;
+	bool end = false;
+
+	cout<<"Fetching, parsing, and saving...\n";
+	time_t start = clock();
+
+	vector<wikiPage> redirBuffer;
+	vector<wikiPage> goodBuffer;
+	vector<wikiPage> badBuffer;
+	vector<wikiPage> regBuffer;
+
+	while(dataDump.eof()==false){
+		string pagestr; 
+		getPage(dataDump, end, pagestr);
+		wikiPage temp(pagestr, formatting);
+		savePageHTML(N, temp, hash, redirBuffer, goodBuffer, badBuffer, regBuffer, goodCt, redirectCt, regCt, badCt);
+		
+		pageCt++;
+		pageCtFloat = pageCt;
+
+		cout<<"\r                                                                                                                   ";
+		cout.flush();
+		cout<<"\rGood: "<<goodCt<<"\tRedirect: "<<redirectCt<<"\tReg: "<<regCt<<"  \tBad: "<<badCt<<" \tTotal: "<<pageCt<<"\tProg: ~"<<(pageCtFloat/5100000)*100<<"%   \tArt/Second: "<<(pageCtFloat/((clock()-start)/CLOCKS_PER_SEC));
+		cout.flush();
+	}
+	cout<<"\n";
+	//flushHTML(hash, redirBuffer, redirectCt, N, "parsedHTML/redirect/vol-", "redirect/vol-");
+	//flushHTML(hash, goodBuffer, goodCt, N, "parsedHTML/good/vol-", "good/vol-");
+	//flushHTML(hash, regBuffer, regCt, N, "parsedHTML/regular/vol-", "regular/vol-");
+	//flushHTML(hash, badBuffer, badCt, N, "parsedHTML/bad/vol-", "bad/vol-");
+	return;
+}
+
+void setup(string &filename, string parent){
 	bool bash=false;
 	cout<<"Skip setup? [y/n]: ";
 	string input;
@@ -683,7 +822,7 @@ void setup(string &filename){
 		cout<<"--> Enter the name of your data dump file: ";
 		cin>>filename;
 	}
-	cout<<"--> The parsed wikiPages will be held in a sub-directory named parsed, have you created this? [y/n]: ";
+	cout<<"--> The parsed wikiPages will be held in a sub-directory named "<<parent<<", have you created this? [y/n]: ";
 	cin>>input;
 	if(input=="N" or input=="n"){
 		cout<<"--> Are you running linux or osx (or have bash installed) [y/n]: ";
@@ -691,22 +830,26 @@ void setup(string &filename){
 		if(input=="y" or input=="Y"){
 			bash=true;
 			cout<<"--> Creating folder...\n";
-			create_directory("/parsed");
+			create_directory(parent);
 		}
 		else{
 			cout<<"--> Create the folder and input 'ready' when completed: ";
 			cin>>input;
 		}
 	}
-	cout<<"--> Within /parsed you need the following 4 folders; good, bad, redirect & regular, do you have these? [y/n]: ";
+	cout<<"--> Within "<<parent<<" you need the following 4 folders; good, bad, redirect & regular, do you have these? [y/n]: ";
 	cin>>input;
 	if(input=="n" or input=="N"){
 		if(bash){
 			cout<<"--> Creating folders...\n";
-			create_directory("/parsed/bad");
-			create_directory("/parsed/good");
-			create_directory("/parsed/redirect");
-			create_directory("/parsed/regular");
+			string bad = parent+"/bad";
+			create_directory(bad);
+			string good = parent+"/good";
+			create_directory(good);
+			string redirect = parent+"/redirect";
+			create_directory(redirect);
+			string reg = parent+"/regular";
+			create_directory(reg);
 		}
 		else{
 			cout<<"--> Create these 4 folders, input 'ready' when complete: ";
@@ -761,7 +904,7 @@ void titleSearch(string &title){
 }
 
 void menu(){
-	cout<<"[1] Search for a title (already compiled database only)\n[2] Compile database\n[3]Resume previous compilation\n[4] Exit\n";
+	cout<<"[1] Search for a title (already compiled database only)\n[2] Compile database\n[3] Resume previous compilation (not there yet haha)\n[4] Compile to html\n[5] Exit\n";
 	cout<<"Enter choice: ";
 	int in;
 	cin>>in;
@@ -771,9 +914,10 @@ void menu(){
 		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		std::getline(cin, input);
 		titleSearch(input);
+		return;
 	}
 	if(in==2){
-		cout<<"This will delete the prior database, are you sure [y/n]: ";
+		cout<<"This will delete the prior parsed database (if one), are you sure [y/n]: ";
 		string temp;
 		cin>>temp;
 		if(temp=="n" or temp=="N"){
@@ -790,21 +934,35 @@ void menu(){
 		int N;
 		cin>>N;
 		string filename = "enwiki-20160113-pages-articles.xml";
-		setup(filename);
-		compile(filename, N, formatting);	
+		setup(filename, "/parsed");
+		compile(filename, N, formatting);
+		return;	
 	}
 	if(in==3){
 		//resume();
-	}
-	if(in==4){
-		cout<<"Closing program...\n";
 		return;
 	}
-	cout<<"Closing program...\n";
+	if(in==4){
+		cout<<"This will delete the prior parsedHTML database (if one), are you sure [y/n]: ";
+		string temp;
+		cin>>temp;
+		if(temp=="N" or temp=="n"){
+			return;
+		}
+		string filename = "enwiki-20160113-pages-articles.xml";
+		setup(filename, "/parsedHTML");
+		compileHTML(filename);
+		return;
+	}
+	if(in==5){
+		return;
+	}
 }
 
 int main(){
 	menu();
+	cout<<"Closing program...\n";
+	return 1;
 }
 
 
