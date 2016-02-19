@@ -24,6 +24,16 @@ using std::to_string;
 
 #include <limits>
 
+//Interfacing with server
+#include <curl/curl.h>
+
+//For error reporting
+#include <stdio.h>
+
+//To get system info
+#include <sys/stat.h>
+
+
 void menu();
 
 //Get current directory
@@ -226,6 +236,7 @@ public:
 	
 	wikiPage(string pagestr);    // Constructor
 	wikiPage(ifstream &wikiFile);// From file constructor
+	wikiPage(ifstream &wikiFile)
 	wikiPage(string pagestr, bool formatting);
 	void save(ofstream &file);
 	void saveHTML(ofstream &file);
@@ -493,6 +504,10 @@ void wikiPage::removeJunk() {
 void wikiPage::save(ofstream &file){
 	file<<"---> VERSION 1.0\n";
 	file<<(*this);
+	file<<"Categories:\t";
+	for(int i=0; i<categories.size(); i++){
+		file<<categories[i]<<" ";
+	}
 	file<<"\n"<<text<<"\n";
 	file<<"---> EOA\n";
 }
@@ -787,7 +802,7 @@ void compile(string filename, int N, bool &formatting){
 //Compile articles 
 void compileHTML(string filename){
 
-	int N = 5;
+	int N = 1;
 	bool formatting=false;
 
 	string folder = "parsedHTML/";
@@ -842,6 +857,66 @@ void compileHTML(string filename){
 	//flushHTML(hash, badBuffer, badCt, N, "parsedHTML/bad/vol-", "bad/vol-");
 	return;
 }
+
+/*
+//Compile and index wikiPages on local solr server
+void curlWikiPages(unsigned long numPages, string filename){
+	int N = 1;
+	bool formatting=false;
+
+	string folder = "parsedHTML/";
+	string hashfile = "hashfile.txt";
+
+	create_readme(folder);
+
+	unsigned long goodCt = 0;
+	unsigned long redirectCt = 0;
+	unsigned long regCt = 0;
+	unsigned long badCt = 0;
+
+	ofstream hash(folder+hashfile);
+	ifstream dataDump(filename);
+
+	time_t _tm = time(NULL);
+	struct tm* curtime = localtime(&_tm);
+	string cache_date = "Cache Date "+string(asctime(curtime))+"\n";
+	hash<<cache_date;
+	//hash<<"Cache Date: "<<asctime(curtime)<<"\n";
+
+	unsigned long long pageCt = 0;
+	float pageCtFloat = 0;
+	bool end = false;
+
+	cout<<"Fetching, parsing, and saving...\n";
+	time_t start = clock();
+
+	vector<wikiPage> redirBuffer;
+	vector<wikiPage> goodBuffer;
+	vector<wikiPage> badBuffer;
+	vector<wikiPage> regBuffer;
+
+	while(dataDump.eof()==false){
+		string pagestr; 
+		getPage(dataDump, end, pagestr);
+		wikiPage temp(pagestr, formatting);
+		savePageHTML(N, temp, hash, redirBuffer, goodBuffer, badBuffer, regBuffer, goodCt, redirectCt, regCt, badCt);
+		
+		pageCt++;
+		pageCtFloat = pageCt;
+
+		cout<<"\r                                                                                                                   ";
+		cout.flush();
+		cout<<"\rGood: "<<goodCt<<"\tRedirect: "<<redirectCt<<"\tReg: "<<regCt<<"  \tBad: "<<badCt<<" \tTotal: "<<pageCt<<"\tProg: ~"<<(pageCtFloat/5100000)*100<<"%   \tArt/Second: "<<(pageCtFloat/((clock()-start)/CLOCKS_PER_SEC));
+		cout.flush();
+	}
+	cout<<"\n";
+	//flushHTML(hash, redirBuffer, redirectCt, N, "parsedHTML/redirect/vol-", "redirect/vol-");
+	//flushHTML(hash, goodBuffer, goodCt, N, "parsedHTML/good/vol-", "good/vol-");
+	//flushHTML(hash, regBuffer, regCt, N, "parsedHTML/regular/vol-", "regular/vol-");
+	//flushHTML(hash, badBuffer, badCt, N, "parsedHTML/bad/vol-", "bad/vol-");
+	return;
+}
+*/
 
 //Extended user interface
 void setup(string &filename, string parent){
@@ -940,7 +1015,7 @@ void titleSearch(string &title){
 
 //Basic user interface
 void menu(){
-	cout<<"[1] Search for a title (already compiled database only)\n[2] Compile database\n[3] Resume previous compilation (not there yet haha)\n[4] Compile to html\n[5] Exit\n";
+	cout<<"[1] Search for a title (already compiled database only)\n[2] Compile database (plaintext)\n[3] Compile database (html)\n[4] Compile database w/server\n[5] Exit\n";
 	cout<<"Enter choice: ";
 	int in;
 	cin>>in;
@@ -975,10 +1050,6 @@ void menu(){
 		return;	
 	}
 	if(in==3){
-		//resume();
-		return;
-	}
-	if(in==4){
 		cout<<"This will delete the prior parsedHTML database (if one), are you sure [y/n]: ";
 		string temp;
 		cin>>temp;
@@ -989,6 +1060,12 @@ void menu(){
 		setup(filename, "/parsedHTML");
 		compileHTML(filename);
 		return;
+	}
+	if(in==4){
+		unsigned long numPages;
+		cout<<"How many wikiPages would you like to index?: ";
+		cin>>numPages;
+		//curlWikiPages(numPages);
 	}
 	if(in==5){
 		return;
