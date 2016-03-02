@@ -1,12 +1,14 @@
+*.xml
+*.bz2
+*.pyc
 
-data/enwiki-20151201-pages-articles-multistream-index.txt
+docs/*
+!docs/*.pdf
+!docs/*.tex
 
-data/enwiki-20151201-pages-articles.xml
+*.txt
 
-data/enwiki-20160113-pages-articles.xml
-data/enwiki-20160113-pages-articles.xml.bz2
-data/parserTest
+data/sources/wikipedia/parsedHTML
 
-data/parserTest
+data/sources/wikipedia/parsed
 
-data/parser
