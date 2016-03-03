@@ -86,7 +86,7 @@ void remove_directory(string directory){
 	char *c = const_cast<char*>(command.c_str());
 	system(c);
 	return;
-}
+}fv
 
 //Check if string "tag1" is within string "str"
 bool isWithin(string &str, string tag1) {
@@ -236,9 +236,8 @@ public:
 	
 	wikiPage(string pagestr);    // Constructor
 	wikiPage(ifstream &wikiFile);// From file constructor
-	wikiPage(ifstream &wikiFile)
 	wikiPage(string pagestr, bool formatting);
-	void save(ofstream &file);
+	void save(ofstream &file
 	void saveHTML(ofstream &file);
 	void removeJunk();
 	friend ostream& operator<<(ostream& os, wikiPage& wp);
@@ -502,7 +501,7 @@ void wikiPage::removeJunk() {
 
 //Save function (save to file)
 void wikiPage::save(ofstream &file){
-	file<<"---> VERSION 1.0\n";
+w	file<<"---> VERSION 1.0\n";
 	file<<(*this);
 	file<<"Categories:\t";
 	for(int i=0; i<categories.size(); i++){
