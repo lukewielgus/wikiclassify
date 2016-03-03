@@ -236,7 +236,6 @@ public:
 	
 	wikiPage(string pagestr);    // Constructor
 	wikiPage(ifstream &wikiFile);// From file constructor
-	wikiPage(ifstream &wikiFile)
 	wikiPage(string pagestr, bool formatting);
 	void save(ofstream &file);
 	void saveHTML(ofstream &file);
