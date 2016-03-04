@@ -33,6 +33,9 @@ using std::to_string;
 //To get system info
 #include <sys/stat.h>
 
+//std::transform
+#include <algorithm>
+
 
 void menu();
 
@@ -181,7 +184,7 @@ void getFileHeader(ifstream &wikiFile, string &subject){
 	getline(wikiFile, line);
 	size_t location = line.find(colon);
 	subject = line.substr(location+size+1, string::npos);
-	return;	
+	return;
 }
 void getFileHeader(ifstream &wikiFile, int &subject){
 	string colon = ":";
@@ -233,7 +236,7 @@ public:
 	short          pic;          // Total picture count
 	string         templates;	 // Cleanup template (if any)
 	short		   version;		 // Saved version
-	
+
 	wikiPage(string pagestr);    // Constructor
 	wikiPage(ifstream &wikiFile);// From file constructor
 	wikiPage(string pagestr, bool formatting);
@@ -317,7 +320,7 @@ wikiPage::wikiPage(string pagestr, bool formatting) {
 	}
 	//Count number of pictures present in article
 	pic = picCount(pagestr);
-	
+
 	if(!formatting){
 		removeJunk();
 	}
@@ -553,9 +556,9 @@ void getPage(ifstream &dataDump, bool &end, string &pagestr){
 
 	unsigned short buffersize = 4096;
 	unsigned long blocksize = 1024000;
-	string block; 
+	string block;
 	char buffer[buffersize];
-	
+
 	string line;
 	bool condition=true;
 	while(condition){
@@ -777,11 +780,11 @@ void compile(string filename, int N, bool &formatting){
 	vector<wikiPage> regBuffer;
 
 	while(dataDump.eof()==false){
-		string pagestr; 
+		string pagestr;
 		getPage(dataDump, end, pagestr);
 		wikiPage temp(pagestr, formatting);
 		savePage(N, temp, hash, redirBuffer, goodBuffer, badBuffer, regBuffer, goodCt, redirectCt, regCt, badCt);
-		
+
 		pageCt++;
 		pageCtFloat = pageCt;
 
@@ -798,7 +801,7 @@ void compile(string filename, int N, bool &formatting){
 	return;
 }
 
-//Compile articles 
+//Compile articles
 void compileHTML(string filename){
 
 	int N = 1;
@@ -836,11 +839,11 @@ void compileHTML(string filename){
 	vector<wikiPage> regBuffer;
 
 	while(dataDump.eof()==false){
-		string pagestr; 
+		string pagestr;
 		getPage(dataDump, end, pagestr);
 		wikiPage temp(pagestr, formatting);
 		savePageHTML(N, temp, hash, redirBuffer, goodBuffer, badBuffer, regBuffer, goodCt, redirectCt, regCt, badCt);
-		
+
 		pageCt++;
 		pageCtFloat = pageCt;
 
@@ -895,11 +898,11 @@ void curlWikiPages(unsigned long numPages, string filename){
 	vector<wikiPage> regBuffer;
 
 	while(dataDump.eof()==false){
-		string pagestr; 
+		string pagestr;
 		getPage(dataDump, end, pagestr);
 		wikiPage temp(pagestr, formatting);
 		savePageHTML(N, temp, hash, redirBuffer, goodBuffer, badBuffer, regBuffer, goodCt, redirectCt, regCt, badCt);
-		
+
 		pageCt++;
 		pageCtFloat = pageCt;
 
@@ -1003,7 +1006,7 @@ void titleSearch(string &title){
 				if(input=="y" or input=="Y"){
 					cout<<temp.text<<"\n";
 				}
-			}	
+			}
 			return menu();
 		}
 	}
@@ -1046,7 +1049,7 @@ void menu(){
 		string filename = "enwiki-20160113-pages-articles.xml";
 		setup(filename, "/parsed");
 		compile(filename, N, formatting);
-		return;	
+		return;
 	}
 	if(in==3){
 		cout<<"This will delete the prior parsedHTML database (if one), are you sure [y/n]: ";
@@ -1076,9 +1079,3 @@ int main(){
 	cout<<"Closing program...\n";
 	return 1;
 }
-
-
-
-
-
-
