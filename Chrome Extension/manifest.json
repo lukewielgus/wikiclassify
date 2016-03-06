@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "WikiClassify",
-  "description": "Extends the functionality of WikiClassify.com to your browser.",
+  "description": "This extension shows a Google Image search result for the current page",
   "version": "1.0",
 
   "browser_action": {
