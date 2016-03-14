@@ -25,11 +25,15 @@ p {
 	line-height: 200%;
 }
 
+h1, h2 {
+	font-family: Arial;
+	font-weight:normal;
+}
+
 h1 {
 	padding:10px;
 	border-bottom:1px solid #CCC;
 	text-align:center;
-	font-weight:normal;
 }
 
 ul {
