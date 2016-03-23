@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="styles/main.css">
+	<title>Login/Register</title>
+</head>
+<body>
+	<div id="main">
+			<div id="header">
+				<a href="./index.html">
+					<img id="logo" class="center" src="images/logo.svg" alt="WikiClassify" width="250px"/>
+				</a>
+				<input type="text" name="search" placeholder="Search" id="search" class="center" >
+			</div>
+			<div id="content" class="center box">
+				<h1>Login/Sign Up</h1>
+				<p>When you sign up, you automatically join the mailing list to recieve updates and other news</p>
+				<h2>Login</h2>
+				<form name="login" action="index_submit" method="get" accept-charset="utf-8">
+					<ul>
+						<li><label for="usermail">Email</label></br>
+						<input type="email" name="usermail" placeholder="yourname@email.com" required></li></br>
+						<li><label for="password">Password</label></br>
+						<input type="password" name="password" placeholder="password" required></li></br>
+						<li>
+						<input type="submit" value="Login"></li>
+					</ul>
+				</form>
+				<h2>Sign up</h2>
+				<form name="register" action="index_submit" method="get" accept-charset="utf-8">
+					<ul>
+						<li><label for="username">Username</label></br>
+						<input type="username" name="username" placeholder="Username" required></li></br>
+						<li><label for="usermail"><a href="http://www.mailinator.com/">Email</a></label></br>
+						<input type="email" name="usermail" placeholder="yourname@email.com" required></li></br>
+						<li><label for="password">Password</label></br>
+						<input type="password" name="password" placeholder="password" required></li></br>
+						<li><label for="password">Confirm Password</label></br>
+						<input type="password" name="password" placeholder="confirm password" required></li></br>
+						<li>
+						<input type="submit" value="Sign Up"></li>
+					</ul>
+				</form>
+			</div>
+	</div>
+	<div id="footer">
+		<nav>
+			<a href="./about.html">About</a>
+			<a href="./login.html">Login</a>
+		</nav>
+	</div>
+</body>
+</html>
