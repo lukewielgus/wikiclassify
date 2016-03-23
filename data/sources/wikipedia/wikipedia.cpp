@@ -455,7 +455,7 @@ void wikiPage::removeJunk() {
 		}
 	}
 	//Adding junk formatting to the targets vector...
-	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",".",",","!",":","?",";","(",")","$","'","&","ampndash","=="};
+	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",",","!",":","?",";","(",")","$","'","&","ampndash","=="};
 	//Removing all instances of junk strings...
 	for(int i=0; i<targets.size(); i++){
 		target = targets[i];
@@ -540,8 +540,10 @@ void wikiPage::saveHTML(ofstream &file){
 	file<<"\t\t</div>\n";
 	file<<"\t\t<div id=\"content\" class=\"center box\">\n";
 	file<<"\t\t\t<h1>"<<title<<"</h1>\n";
-	file<<"\t\t\t<span class=\"label featured\">Featured</span>\n";
-	file<<"\t\t\t<span class=\"label stub\">Stub</span>\n";
+
+	if(quality==2){file<<"\t\t\t<span class=\"label featured\">Featured</span>\n";}
+	if(quality==1){file<<"\t\t\t<span class=\"label stub\">Stub</span>\n";}
+
 	file<<"\t\t\t<p>\n";
 
 	string period = ".";
@@ -842,7 +844,7 @@ void compileHTML(string filename, vector<string> titles){
 
 	string folder = "../../../site/wikiclassify/wiki/";
 	string hashfile = "hashfile.txt";
-	bool formatting = true;
+	bool formatting = false;
 
 	create_readme(folder);
 
