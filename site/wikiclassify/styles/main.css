@@ -25,11 +25,15 @@ p {
 	line-height: 200%;
 }
 
+h1, h2 {
+	font-family: Arial;
+	font-weight:normal;
+}
+
 h1 {
 	padding:10px;
-	border-bottom:1px solid #AAA;
+	border-bottom:1px solid #CCC;
 	text-align:center;
-	font-weight:normal;
 }
 
 ul {
@@ -67,29 +71,30 @@ input:focus {
 
 #header {
     background-color:#FFF;
-	position: absolute;
+	position: fixed;
+	border-bottom:1px solid #CCC;
     left: 0;
     top: 0;
     width: 100%;
     padding:10px;
-    height:60px;
+    height:40px;
 }
 
 #header #logo {
-	width:50px;
+	width:35px;
 }
 
 #header #search {
 	position:absolute;
 	top:20px;
 	right:40px;
-	font-size:18pt;
+	font-size:12pt;
 	width:300px;
-	height:40px;
+	height:20px;
 }
 
 #content {
-	margin-top:100px;
+	margin-top:80px;
 	width:80%;
 }
 
@@ -104,7 +109,7 @@ input:focus {
 .box {
 	border-radius:20px;
 	background-color:#FFF;
-	padding:20px 50px;
+	padding:10px 50px;
 }
 
 .center {
