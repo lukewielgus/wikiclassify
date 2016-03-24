@@ -948,66 +948,6 @@ void compileHTML(string filename){
 	return;
 }
 
-/*
-//Compile and index wikiPages on local solr server
-void curlWikiPages(unsigned long numPages, string filename){
-	int N = 1;
-	bool formatting=false;
-
-	string folder = "parsedHTML/";
-	string hashfile = "hashfile.txt";
-
-	create_readme(folder);
-
-	unsigned long goodCt = 0;
-	unsigned long redirectCt = 0;
-	unsigned long regCt = 0;
-	unsigned long badCt = 0;
-
-	ofstream hash(folder+hashfile);
-	ifstream dataDump(filename);
-
-	time_t _tm = time(NULL);
-	struct tm* curtime = localtime(&_tm);
-	string cache_date = "Cache Date "+string(asctime(curtime))+"\n";
-	hash<<cache_date;
-	//hash<<"Cache Date: "<<asctime(curtime)<<"\n";
-
-	unsigned long long pageCt = 0;
-	float pageCtFloat = 0;
-	bool end = false;
-
-	cout<<"Fetching, parsing, and saving...\n";
-	time_t start = clock();
-
-	vector<wikiPage> redirBuffer;
-	vector<wikiPage> goodBuffer;
-	vector<wikiPage> badBuffer;
-	vector<wikiPage> regBuffer;
-
-	while(dataDump.eof()==false){
-		string pagestr;
-		getPage(dataDump, end, pagestr);
-		wikiPage temp(pagestr, formatting);
-		savePageHTML(N, temp, hash, redirBuffer, goodBuffer, badBuffer, regBuffer, goodCt, redirectCt, regCt, badCt);
-
-		pageCt++;
-		pageCtFloat = pageCt;
-
-		cout<<"\r                                                                                                                   ";
-		cout.flush();
-		cout<<"\rGood: "<<goodCt<<"\tRedirect: "<<redirectCt<<"\tReg: "<<regCt<<"  \tBad: "<<badCt<<" \tTotal: "<<pageCt<<"\tProg: ~"<<(pageCtFloat/5100000)*100<<"%   \tArt/Second: "<<(pageCtFloat/((clock()-start)/CLOCKS_PER_SEC));
-		cout.flush();
-	}
-	cout<<"\n";
-	//flushHTML(hash, redirBuffer, redirectCt, N, "parsedHTML/redirect/vol-", "redirect/vol-");
-	//flushHTML(hash, goodBuffer, goodCt, N, "parsedHTML/good/vol-", "good/vol-");
-	//flushHTML(hash, regBuffer, regCt, N, "parsedHTML/regular/vol-", "regular/vol-");
-	//flushHTML(hash, badBuffer, badCt, N, "parsedHTML/bad/vol-", "bad/vol-");
-	return;
-}
-*/
-
 //Extended user interface
 void setup(string &filename, string parent){
 	bool bash=false;
