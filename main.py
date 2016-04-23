@@ -6,8 +6,8 @@ from __future__ import print_function
 import os
 
 # Local Libraries
-import classifier.classifier
-import data.data
+from classifier import classifier
+from data import data
 
 ###############################################################################
 
@@ -22,7 +22,7 @@ def main():
 
 	if next(os.walk(data_folder))[1]:
 		
-		retrain = False
+		retrain = True
 		if retrain:
 			input, target, classes = data.sample(data_folder)
 			model = classifier.build(input.shape, target.shape)

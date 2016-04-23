@@ -22,7 +22,7 @@ def backtest(result_dir, classes, input, output):
 			<head>
 				<link rel="stylesheet" href="../styles/main.css">
 				<title>Example</title>
-				<script src="../textfill.js"></script>
+				<script src="../js/textfill.js"></script>
 				<script src="%s_meta.js"></script>
 			</head>
 			<body onload="highlight();">
@@ -38,7 +38,7 @@ def backtest(result_dir, classes, input, output):
 					<input type="radio" name="cat_select" onclick="highlight();" checked>
 					%s
 					</form>
-					<p id="text">
+					<p id="content">
 					%s
 					</p>
 				</div>

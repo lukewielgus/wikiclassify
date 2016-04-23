@@ -5,7 +5,7 @@ function highlight() {
 			var cat=i;
 		}
 	}
-	var x=document.getElementById("text");
+	var x=document.getElementById("content");
 	var text=x.textContent||x.innerText;
 	var newText='';
 	for(var a=0; a<text.length; a++) {
@@ -16,7 +16,7 @@ function highlight() {
 		else {
 			var opac = 0.0;
 		}
-		newText += '<span style="background-color:rgba(255,255,0,' + opac + ')">' + letter + '</span>';
+		newText += '<span class="text" style="background-color:rgba(255,255,0,' + opac + ')">' + letter + '</span>';
 	}
 	x.innerHTML = newText;
 }
