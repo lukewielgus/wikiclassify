@@ -23,7 +23,7 @@ def save(dir, model, classes):
 	t = int(time.time())
 	os.makedirs(dir + '/%s' % t)
 	open(dir + '/%s/meta.json' % t, 'w').write(model.to_json())
-	model.save_weights(dir + 'models/%s/data.h5' % t, overwrite=True)
+	model.save_weights(dir + '/%s/data.h5' % t, overwrite=True)
 	open(dir + '/%s/classes.txt' % t, 'w').write(', '.join(classes))
 
 # Load model
@@ -39,8 +39,8 @@ def load(dir, name):
 # Use model
 def run(model, inMatrix):
 
-	window = 300
-	classes = 4
+	window = 400
+	classes = 2
 
 	print("Running Model...")
 	indices = range(0, inMatrix.shape[1], window//2)

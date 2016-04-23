@@ -33,10 +33,11 @@ def main():
 		
 		for root, dirs, files in os.walk(data_folder):
 			for file in files:
-				with open(root+'/'+file) as f:
-					input = data.str2mat(f.read())
-					output = classifier.run(model, input)
-					data.backtest(save_loc+'/'+file, classes, input, output)
+				if not file.startswith('.'):
+					with open(root+'/'+file) as f:
+						input = data.str2mat(f.read())
+						output = classifier.run(model, input)
+						data.backtest(save_loc, classes, input, output)
 	else:
 		print("""\nNo data found.\nPut subfolders of files by class, within the 'data' folder.""")
 

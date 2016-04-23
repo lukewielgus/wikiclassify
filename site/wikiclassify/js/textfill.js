@@ -5,7 +5,7 @@ function highlight() {
 			var cat=i;
 		}
 	}
-	var x=document.getElementById("content");
+	var x=document.getElementById("article_text");
 	var text=x.textContent||x.innerText;
 	var newText='';
 	for(var a=0; a<text.length; a++) {

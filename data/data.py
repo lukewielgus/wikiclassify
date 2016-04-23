@@ -38,7 +38,7 @@ def backtest(result_dir, classes, input, output):
 					<input type="radio" name="cat_select" onclick="highlight();" checked>
 					%s
 					</form>
-					<p id="content">
+					<p id="article_text">
 					%s
 					</p>
 				</div>
@@ -52,8 +52,8 @@ def backtest(result_dir, classes, input, output):
 		</html>""" % (name, cats, mat2str(input[sequence]))
 		form = '['+','.join(['%0.1f' for x in xrange(output.shape[-1])])+'],'
 		last_elem = '['+','.join(['0.0' for x in xrange(output.shape[-1])])+']'
-		np.savetxt('results/%s_meta.js' % name, output[sequence],fmt=form,delimiter=',',header='var colors=[',footer=last_elem+']',comments='')
-		with open('results/%s.html' % name, 'w+') as f:
+		np.savetxt(result_dir + '/%s_meta.js' % name, output[sequence],fmt=form,delimiter=',',header='var colors=[',footer=last_elem+']',comments='')
+		with open(result_dir + '/%s.html' % name, 'w+') as f:
 			f.write(doc)
 
 # Given a file string 's',
