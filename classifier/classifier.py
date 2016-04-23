@@ -17,22 +17,22 @@ from keras.callbacks import EarlyStopping
 ###############################################################################
 
 # Save model
-def save(model, classes):
+def save(dir, model, classes):
 
 	print("Saving Model...")
 	t = int(time.time())
-	os.makedirs('models/%s' % t)
-	open('models/%s/meta.json' % t, 'w').write(model.to_json())
-	model.save_weights('models/%s/data.h5' % t, overwrite=True)
-	open('models/%s/classes.txt' % t, 'w').write(', '.join(classes))
+	os.makedirs(dir + '/%s' % t)
+	open(dir + '/%s/meta.json' % t, 'w').write(model.to_json())
+	model.save_weights(dir + 'models/%s/data.h5' % t, overwrite=True)
+	open(dir + '/%s/classes.txt' % t, 'w').write(', '.join(classes))
 
 # Load model
-def load(name):
+def load(dir, name):
 
 	print("Loading Model...")
-	classes = open('models/%s/classes.txt' % name).read().split(', ')
-	model = model_from_json(open('models/%s/meta.json' % name).read())
-	model.load_weights('models/%s/data.h5' % name)
+	classes = open(dir + '/%s/classes.txt' % name).read().split(', ')
+	model = model_from_json(open(dir + '/%s/meta.json' % name).read())
+	model.load_weights(dir + '/%s/data.h5' % name)
 	model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
 	return model, classes
 

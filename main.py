@@ -22,14 +22,14 @@ def main():
 
 	if next(os.walk(data_folder))[1]:
 		
-		retrain = True
+		retrain = False
 		if retrain:
 			input, target, classes = data.sample(data_folder)
 			model = classifier.build(input.shape, target.shape)
 			classifier.train(model, input, target)
 			classifier.save(model, classes)
 		else:
-			model, classes = classifier.load(sorted(os.listdir(models_folder))[-1])
+			model, classes = classifier.load(models_folder, sorted(os.listdir(models_folder))[-1])
 		
 		for root, dirs, files in os.walk(data_folder):
 			for file in files:
