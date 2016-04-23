@@ -7,7 +7,6 @@ body {
 }
 
 span {
-	padding:4px;
 	border-radius:4px;
 	font-family:inherit;
 }
@@ -116,12 +115,4 @@ input:focus {
 	display: block; 
 	margin-left: auto; 
 	margin-right: auto;
-}
-
-.featured {
-	background-color: #FFD700;
-}
-
-.stub {
-	background-color: #CCC;
 }
