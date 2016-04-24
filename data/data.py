@@ -79,7 +79,8 @@ def clean(dname):
 				f.write(text)
 
 # Sample a directory and all subdirectories
-def sample(dname, window=300, size=20000):
+
+def sample(dname, window=300, size=30000):
 
 	print('Sampling...')
 	ncat = {dname:size}  # Samples per category, based on directory tree
@@ -102,8 +103,6 @@ def sample(dname, window=300, size=20000):
 			ntimes = int(round(ncat[root]*os.path.getsize(fpath)/float(catsize)))
 			if ntimes:
 				nfile.append((fpath, ntimes))
-
-	print(classes)
 
 	nsamples = sum(x[1] for x in nfile)
 	inMatrix = np.empty((nsamples, window, 256), dtype=np.dtype('float32'))

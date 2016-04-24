@@ -28,6 +28,7 @@ def main():
 			model = classifier.build(input.shape, target.shape)
 			classifier.train(model, input, target)
 			classifier.save(models_folder, model, classes)
+
 		else:
 			model, classes = classifier.load(models_folder, sorted(os.listdir(models_folder))[-1])
 		
