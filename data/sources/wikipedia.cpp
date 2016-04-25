@@ -33,6 +33,9 @@ using std::to_string;
 //To get system info
 #include <sys/stat.h>
 
+//std::transform
+#include <algorithm>
+
 
 void menu();
 
@@ -181,7 +184,7 @@ void getFileHeader(ifstream &wikiFile, string &subject){
 	getline(wikiFile, line);
 	size_t location = line.find(colon);
 	subject = line.substr(location+size+1, string::npos);
-	return;	
+	return;
 }
 void getFileHeader(ifstream &wikiFile, int &subject){
 	string colon = ":";
@@ -233,10 +236,9 @@ public:
 	short          pic;          // Total picture count
 	string         templates;	 // Cleanup template (if any)
 	short		   version;		 // Saved version
-	
+
 	wikiPage(string pagestr);    // Constructor
 	wikiPage(ifstream &wikiFile);// From file constructor
-	wikiPage(ifstream &wikiFile)
 	wikiPage(string pagestr, bool formatting);
 	void save(ofstream &file);
 	void saveHTML(ofstream &file);
@@ -318,7 +320,7 @@ wikiPage::wikiPage(string pagestr, bool formatting) {
 	}
 	//Count number of pictures present in article
 	pic = picCount(pagestr);
-	
+
 	if(!formatting){
 		removeJunk();
 	}
@@ -453,7 +455,7 @@ void wikiPage::removeJunk() {
 		}
 	}
 	//Adding junk formatting to the targets vector...
-	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",".",",","!",":","?",";","(",")","$","'","&","ampndash","=="};
+	vector<string> targets{"'''","&lt;","&quot;","''","*","[","]","&gt;","ref",",","!",":","?",";","(",")","$","'","&","ampndash","=="};
 	//Removing all instances of junk strings...
 	for(int i=0; i<targets.size(); i++){
 		target = targets[i];
@@ -517,26 +519,54 @@ void wikiPage::saveHTML(ofstream &file){
 	file<<"<!DOCTYPE html>\n";
 	file<<"<html>\n";
 	file<<"\t<head>\n";
-	file<<"\t\t<link rel=\"stylesheet\" href=\"../../../../../site/wikiclassify/styles/main.css\">\n";
-	file<<"\t\t<title>About</title>\n";
+	file<<"\t\t<link rel=\"stylesheet\" href=\"../styles/main.css\">\n";
+	file<<"\t\t<title>"<<title<<"</title>\n";
+	file<<"\t\t<script>\n";
+	file<<"\t\t\tfunction colorText() {\n";
+	file<<"\t\t\t\tvar p = document.getElementsByClassName('text')\";\n";
+	file<<"\t\t\t\tvar colors = [\"#FFD700\",\"#FFD700\",\"#CCC\", \"#CCC\"]\";\n";
+	file<<"\t\t\t\tfor(var i=0) \"; i < p.length\"; i++){\n";
+	file<<"\t\t\t\t\tp[i].style.background = colors[i];\n";
+	file<<"\t\t\t\t}\n";
+	file<<"\t\t\t}\n";
+	file<<"\t\t</script>\n";
 	file<<"\t</head>\n";
-	file<<"\t<body>\n";
+	file<<"\t<body onload=\"colorText()\">\n";
 	file<<"\t\t<div id=\"header\">\n";
 	file<<"\t\t\t<a href=\"../index.html\">\n";
-	file<<"\t\t\t\t<img id=\"logo\" class=\"center\" src=\"../../../../../site/wikiclassify/images/logo.svg\" alt=\"WikiClassify\" width=\"250px\"/>\n";
+	file<<"\t\t\t\t<img id=\"logo\" class=\"center\" src=\"../images/logo.svg\" alt=\"WikiClassify\" width=\"250px\"/>\n";
 	file<<"\t\t\t</a>\n";
 	file<<"\t\t\t<input type=\"text\" name=\"search\" placeholder=\"Search\" id=\"search\" class=\"center\" >\n";
 	file<<"\t\t</div>\n";
 	file<<"\t\t<div id=\"content\" class=\"center box\">\n";
-	file<<"\t\t\t<h1 class=\"pageTitle\">"<<title<<"</h1>\n";
-	file<<"\t\t\t<span class=\"label featured\">Featured</span>\n";
-	file<<"\t\t\t<span class=\"label stub\">Stub</span>\n";
-	file<<"\t\t\t<p>"<<text<<"</p>\n";
+	file<<"\t\t\t<h1>"<<title<<"</h1>\n";
+
+	if(quality==2){file<<"\t\t\t<span class=\"label featured\">Featured</span>\n";}
+	if(quality==1){file<<"\t\t\t<span class=\"label stub\">Stub</span>\n";}
+
+	file<<"\t\t\t<p>\n";
+
+	string period = ".";
+	size_t front = 0;
+	size_t back=0;
+	string temp;
+	while(true){
+		back = text.find(period, front);
+		if(back!=string::npos){
+			temp = text.substr(front,back-front);
+			file<<"\t\t\t\t<span class='text'>"<<temp<<"</span>\n";
+			front = back+2;
+		}
+		else{
+			break;
+		}
+	}
+
+	file<<"\t\t\t</p>\n";
 	file<<"\t\t</div>\n";
-	file<<"\t\t<div id=\"footer\">\n";
 	file<<"\t\t\t<nav>\n";
-	file<<"\t\t\t\t<a href=\"../../../../../site/wikiclassify/about.html\">About</a>\n";
-	file<<"\t\t\t\t<a href=\"../../../../../site/wikiclassify/login.html\">Login</a>\n";
+	file<<"\t\t\t\t<a href=\"../about.html\">About</a>\n";
+	file<<"\t\t\t\t<a href=\"../login.html\">Login</a>\n";
 	file<<"\t\t\t</nav>\n";
 	file<<"\t\t</div>\n";
 	file<<"\t</body>\n";
@@ -554,9 +584,9 @@ void getPage(ifstream &dataDump, bool &end, string &pagestr){
 
 	unsigned short buffersize = 4096;
 	unsigned long blocksize = 1024000;
-	string block; 
+	string block;
 	char buffer[buffersize];
-	
+
 	string line;
 	bool condition=true;
 	while(condition){
@@ -778,11 +808,11 @@ void compile(string filename, int N, bool &formatting){
 	vector<wikiPage> regBuffer;
 
 	while(dataDump.eof()==false){
-		string pagestr; 
+		string pagestr;
 		getPage(dataDump, end, pagestr);
 		wikiPage temp(pagestr, formatting);
 		savePage(N, temp, hash, redirBuffer, goodBuffer, badBuffer, regBuffer, goodCt, redirectCt, regCt, badCt);
-		
+
 		pageCt++;
 		pageCtFloat = pageCt;
 
@@ -799,13 +829,73 @@ void compile(string filename, int N, bool &formatting){
 	return;
 }
 
-//Compile articles 
+bool isRequired(wikiPage &temp, vector<string> &titles){
+	string title = temp.title;
+	for(int i=0; i<titles.size(); i++){
+		if(titles[i]==title){
+			return true;
+		}
+	}
+	return false;
+}
+
+//N articles per file, formatting true = leaving formatting in files
+void compileHTML(string filename, vector<string> titles){
+
+	string folder = "../../../site/wikiclassify/wiki/";
+	string hashfile = "hashfile.txt";
+	bool formatting = false;
+
+	create_readme(folder);
+
+	ofstream hash(folder+hashfile);
+	ifstream dataDump(filename);
+
+	time_t _tm = time(NULL);
+	struct tm* curtime = localtime(&_tm);
+	string cache_date = "Cache Date "+string(asctime(curtime))+"\n";
+	hash<<cache_date;
+	//hash<<"Cache Date: "<<asctime(curtime)<<"\n";
+
+	int num_done=0;
+	unsigned long num_read=0;
+	bool end = false;
+
+	cout<<"Fetching, parsing, and saving...\n";
+	time_t start = clock();
+
+	string hashOutput;
+
+	while(dataDump.eof()==false and num_done<titles.size()){
+		string pagestr;
+		getPage(dataDump, end, pagestr);
+		wikiPage temp(pagestr, formatting);
+		if(isRequired(temp, titles)){
+			string current = temp.title;
+			hashOutput = "art-"+to_string(num_done)+".html";
+			string fileLocation = folder+hashOutput;
+			ofstream htmlFile(fileLocation);
+			hash<<"["<<current<<"] "<<hashOutput<<"\n";
+			temp.saveHTML(htmlFile);
+			num_done++;
+		}
+		num_read++;
+		cout<<"\r                                                                                                                   ";
+		cout.flush();
+		cout<<"\rNumber Matched = "<<num_done<<"\tNumber Read = "<<num_read;
+		cout.flush();
+	}
+	cout<<"\n";
+	return;
+}
+
+//Compile articles
 void compileHTML(string filename){
 
 	int N = 1;
-	bool formatting=false;
+	bool formatting=true;
 
-	string folder = "parsedHTML/";
+	string folder = "../../../site/wikiclassify/wiki/";
 	string hashfile = "hashfile.txt";
 
 	create_readme(folder);
@@ -837,11 +927,11 @@ void compileHTML(string filename){
 	vector<wikiPage> regBuffer;
 
 	while(dataDump.eof()==false){
-		string pagestr; 
+		string pagestr;
 		getPage(dataDump, end, pagestr);
 		wikiPage temp(pagestr, formatting);
 		savePageHTML(N, temp, hash, redirBuffer, goodBuffer, badBuffer, regBuffer, goodCt, redirectCt, regCt, badCt);
-		
+
 		pageCt++;
 		pageCtFloat = pageCt;
 
@@ -857,66 +947,6 @@ void compileHTML(string filename){
 	//flushHTML(hash, badBuffer, badCt, N, "parsedHTML/bad/vol-", "bad/vol-");
 	return;
 }
-
-/*
-//Compile and index wikiPages on local solr server
-void curlWikiPages(unsigned long numPages, string filename){
-	int N = 1;
-	bool formatting=false;
-
-	string folder = "parsedHTML/";
-	string hashfile = "hashfile.txt";
-
-	create_readme(folder);
-
-	unsigned long goodCt = 0;
-	unsigned long redirectCt = 0;
-	unsigned long regCt = 0;
-	unsigned long badCt = 0;
-
-	ofstream hash(folder+hashfile);
-	ifstream dataDump(filename);
-
-	time_t _tm = time(NULL);
-	struct tm* curtime = localtime(&_tm);
-	string cache_date = "Cache Date "+string(asctime(curtime))+"\n";
-	hash<<cache_date;
-	//hash<<"Cache Date: "<<asctime(curtime)<<"\n";
-
-	unsigned long long pageCt = 0;
-	float pageCtFloat = 0;
-	bool end = false;
-
-	cout<<"Fetching, parsing, and saving...\n";
-	time_t start = clock();
-
-	vector<wikiPage> redirBuffer;
-	vector<wikiPage> goodBuffer;
-	vector<wikiPage> badBuffer;
-	vector<wikiPage> regBuffer;
-
-	while(dataDump.eof()==false){
-		string pagestr; 
-		getPage(dataDump, end, pagestr);
-		wikiPage temp(pagestr, formatting);
-		savePageHTML(N, temp, hash, redirBuffer, goodBuffer, badBuffer, regBuffer, goodCt, redirectCt, regCt, badCt);
-		
-		pageCt++;
-		pageCtFloat = pageCt;
-
-		cout<<"\r                                                                                                                   ";
-		cout.flush();
-		cout<<"\rGood: "<<goodCt<<"\tRedirect: "<<redirectCt<<"\tReg: "<<regCt<<"  \tBad: "<<badCt<<" \tTotal: "<<pageCt<<"\tProg: ~"<<(pageCtFloat/5100000)*100<<"%   \tArt/Second: "<<(pageCtFloat/((clock()-start)/CLOCKS_PER_SEC));
-		cout.flush();
-	}
-	cout<<"\n";
-	//flushHTML(hash, redirBuffer, redirectCt, N, "parsedHTML/redirect/vol-", "redirect/vol-");
-	//flushHTML(hash, goodBuffer, goodCt, N, "parsedHTML/good/vol-", "good/vol-");
-	//flushHTML(hash, regBuffer, regCt, N, "parsedHTML/regular/vol-", "regular/vol-");
-	//flushHTML(hash, badBuffer, badCt, N, "parsedHTML/bad/vol-", "bad/vol-");
-	return;
-}
-*/
 
 //Extended user interface
 void setup(string &filename, string parent){
@@ -1004,7 +1034,7 @@ void titleSearch(string &title){
 				if(input=="y" or input=="Y"){
 					cout<<temp.text<<"\n";
 				}
-			}	
+			}
 			return menu();
 		}
 	}
@@ -1013,9 +1043,22 @@ void titleSearch(string &title){
 	return menu();
 }
 
+//Function to compile vector of titles to match to
+void fetch_requested_titles(vector<string> &titles, string filename){
+	ifstream file(filename);
+	string title;
+	while(!file.eof()){
+		getline(file, title);
+		titles.push_back(title);
+		if(title=="Paulo Radmilovic"){
+			return;
+		}
+	}
+}
+
 //Basic user interface
 void menu(){
-	cout<<"[1] Search for a title (already compiled database only)\n[2] Compile database (plaintext)\n[3] Compile database (html)\n[4] Compile database w/server\n[5] Exit\n";
+	cout<<"[1] Search for a title (already compiled database only)\n[2] Compile database (plaintext)\n[3] Compile database (html)\n[4] Compile database w/server\n[5] Compile certain articles only\n[6] Exit\n";
 	cout<<"Enter choice: ";
 	int in;
 	cin>>in;
@@ -1047,7 +1090,7 @@ void menu(){
 		string filename = "enwiki-20160113-pages-articles.xml";
 		setup(filename, "/parsed");
 		compile(filename, N, formatting);
-		return;	
+		return;
 	}
 	if(in==3){
 		cout<<"This will delete the prior parsedHTML database (if one), are you sure [y/n]: ";
@@ -1068,6 +1111,14 @@ void menu(){
 		//curlWikiPages(numPages);
 	}
 	if(in==5){
+		string people = "people.txt";
+		vector<string> requested_titles;
+		fetch_requested_titles(requested_titles, people);
+		string filename = "enwiki-20160113-pages-articles.xml";
+		compileHTML(filename, requested_titles);
+		return;
+	}
+	if(in==6){
 		return;
 	}
 }
@@ -1077,9 +1128,3 @@ int main(){
 	cout<<"Closing program...\n";
 	return 1;
 }
-
-
-
-
-
-

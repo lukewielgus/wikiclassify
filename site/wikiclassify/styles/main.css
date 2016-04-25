@@ -1,9 +1,14 @@
 * {
-	font-family:"Arial";
+	font-family:"Georgia";
 }
 
 body {
 	background: #EEE url("http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/light_toast.png") repeat;
+}
+
+span {
+	border-radius:4px;
+	font-family:inherit;
 }
 
 a {
@@ -19,9 +24,15 @@ p {
 	line-height: 200%;
 }
 
-h1.pageTitle {
+h1, h2 {
+	font-family: Arial;
+	font-weight:normal;
+}
+
+h1 {
 	padding:10px;
-	border-bottom:1px solid #000;
+	border-bottom:1px solid #CCC;
+	text-align:center;
 }
 
 ul {
@@ -35,9 +46,8 @@ nav {
 nav a {
 	border-radius:5px;
 	background-color:#FFF;
-	margin:0px 60px 0px 60px;
-	padding:4px 12px 4px 12px;
-	border: 1px solid #CCC;
+	margin:0px 60px;
+	padding:4px 12px;
 }
 
 nav a:hover { 
@@ -59,37 +69,36 @@ input:focus {
 }
 
 #header {
-    background-color:rgba(255, 255, 255, 1);
-	position: absolute;
+    background-color:#FFF;
+	position: fixed;
+	border-bottom:1px solid #CCC;
     left: 0;
     top: 0;
-    border-bottom:1px solid #CCC;
     width: 100%;
     padding:10px;
-    height:60px;
+    height:40px;
 }
 
 #header #logo {
-	width:50px;
+	width:35px;
 }
 
 #header #search {
 	position:absolute;
 	top:20px;
 	right:40px;
-	font-size:18pt;
+	font-size:12pt;
 	width:300px;
-	height:40px;
+	height:20px;
 }
 
 #content {
-	margin-top:100px;
-	width:50%;
+	margin-top:80px;
+	width:80%;
 }
 
 #footer {
 	position:relative;
-	bottom:0;
 	width:100%;
 	height:30px;
 	margin-top:30px;
@@ -97,30 +106,13 @@ input:focus {
 }
 
 .box {
-	border:1px solid #CCC;
 	border-radius:20px;
 	background-color:#FFF;
-	padding:20px 50px;
+	padding:10px 50px;
 }
 
 .center {
 	display: block; 
 	margin-left: auto; 
 	margin-right: auto;
-}
-
-.label {
-	border:solid 1px #000;
-	border-radius:10px;
-	font-size:12px;
-	padding:5px;
-	margin:auto;
-}
-
-.featured {
-	background-color: #FFD700;
-}
-
-.stub {
-	background-color: #CCC;
 }

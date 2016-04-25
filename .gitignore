@@ -1,14 +1,3 @@
 *.xml
 *.bz2
 *.pyc
-
-docs/*
-!docs/*.pdf
-!docs/*.tex
-
-*.txt
-
-data/sources/wikipedia/parsedHTML
-
-data/sources/wikipedia/parsed
-

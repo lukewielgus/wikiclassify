@@ -1,21 +1,16 @@
 {
-  "name": "WikiClassify",
-  "version": "1.0.0",
   "manifest_version": 2,
-  "description": "View Wikipedia page classifications",
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+
+  "name": "WikiClassify",
+  "description": "This extension shows a Google Image search result for the current page",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
   },
-  "page_action" :
-  {
-    "default_icon" : "icon.png",
-    "default_title" : "WikiClassify",
-	"default_popup" : "popup.html"
-  },
-  "permissions" : [
-    "declarativeContent",
+  "permissions": [
     "activeTab",
-	"tabs"
+    "https://ajax.googleapis.com/"
   ]
 }
