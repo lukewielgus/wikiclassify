@@ -37,9 +37,11 @@ def backtest(save_loc, classes, input, output):
 				</div>
 				<div id="content" class="center box">
 					<h1>%s</h1>
+					Select a category:
 					<select id="cat_select" onchange="highlight();">
 					%s
-					</select>
+					</select><br/><br/>
+					<a href="https://en.wikipedia.org/wiki/%s">View on Wikipedia</a>
 					<p id="article_text">
 					%s
 					</p>
@@ -47,11 +49,12 @@ def backtest(save_loc, classes, input, output):
 				<div id="footer">
 					<nav>
 		  				<a href="../about.html">About</a>
+		  				<a href="../featured.html"><img height=12px; src="../images/star.svg"> Featured</a>
 						<a href="../login.html">Login</a>
 					</nav>
 				</div>
 			</body>
-		</html>""" % (name, fname, name, cats, mat2str(input[sequence]))
+		</html>""" % (name, fname, name, cats, fname, mat2str(input[sequence]))
 		form = '['+','.join(['%0.2f' for x in xrange(output.shape[-1])])+'],'
 		last_elem = '['+','.join(['0.0' for x in xrange(output.shape[-1])])+']'
 		np.savetxt(save_loc + '/%s_meta.js' % fname, output[sequence],fmt=form,delimiter=',',header='var colors=[',footer=last_elem+']',comments='')
