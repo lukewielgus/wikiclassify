@@ -12,16 +12,19 @@ np.random.seed(1)
 
 ###############################################################################
 
-def backtest(result_dir, classes, input, output):
+def backtest(save_loc, classes, input, output):
+
 	for sequence in xrange(input.shape[0]):
-		name = random.randint(100000,999999)
-		cats = '<input type="radio" name="cat_select" onclick="highlight();">\n'.join([x for x in classes])
+		fname = save_loc.split('/')[-1][:-4]
+		name = fname.replace('_', ' ')
+		save_loc = '/'.join(save_loc.split('/')[:-1])
+		cats = '\n'.join(['\t\t\t\t\t<option>'+x+'</option>' for x in classes])
 		doc = """
 		<!DOCTYPE html>
 		<html>
 			<head>
 				<link rel="stylesheet" href="../styles/main.css">
-				<title>Example</title>
+				<title>%s</title>
 				<script src="../js/textfill.js"></script>
 				<script src="%s_meta.js"></script>
 			</head>
@@ -33,11 +36,10 @@ def backtest(result_dir, classes, input, output):
 					<input type="text" name="search" placeholder="Search" id="search" class="center" >
 				</div>
 				<div id="content" class="center box">
-					<h1>Example Article Title</h1>
-					<form>
-					<input type="radio" name="cat_select" onclick="highlight();" checked>
+					<h1>%s</h1>
+					<select id="cat_select" onchange="highlight();">
 					%s
-					</form>
+					</select>
 					<p id="article_text">
 					%s
 					</p>
@@ -49,11 +51,11 @@ def backtest(result_dir, classes, input, output):
 					</nav>
 				</div>
 			</body>
-		</html>""" % (name, cats, mat2str(input[sequence]))
-		form = '['+','.join(['%0.1f' for x in xrange(output.shape[-1])])+'],'
+		</html>""" % (name, fname, name, cats, mat2str(input[sequence]))
+		form = '['+','.join(['%0.2f' for x in xrange(output.shape[-1])])+'],'
 		last_elem = '['+','.join(['0.0' for x in xrange(output.shape[-1])])+']'
-		np.savetxt(result_dir + '/%s_meta.js' % name, output[sequence],fmt=form,delimiter=',',header='var colors=[',footer=last_elem+']',comments='')
-		with open(result_dir + '/%s.html' % name, 'w+') as f:
+		np.savetxt(save_loc + '/%s_meta.js' % fname, output[sequence],fmt=form,delimiter=',',header='var colors=[',footer=last_elem+']',comments='')
+		with open(save_loc + '/%s.html' % fname, 'w+') as f:
 			f.write(doc)
 
 # Given a file string 's',

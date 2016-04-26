@@ -38,7 +38,7 @@ def main():
 					with open(root+'/'+file) as f:
 						input = data.str2mat(f.read())
 						output = classifier.run(model, input)
-						data.backtest(save_loc, classes, input, output)
+						data.backtest(save_loc+'/'+file, classes, input, output)
 	else:
 		print("""\nNo data found.\nPut subfolders of files by class, within the 'data' folder.""")
 
